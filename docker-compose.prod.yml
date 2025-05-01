@@ -1,0 +1,8 @@
+services:
+
+  grabber:
+    image: your-dockerhub/grabber:latest
+    container_name: grabber
+    env_file:
+      - ../snapbite/grabber/.env.prod
+    command: ["python", "main.py"]

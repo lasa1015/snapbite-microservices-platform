@@ -1,0 +1,8 @@
+/* 基础样式 */
+@tailwind base;
+
+/* 自定义组件样式 */
+@tailwind components;
+
+/* Tailwind 工具类 */
+@tailwind utilities;
