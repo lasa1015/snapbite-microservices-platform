@@ -1,4 +1,4 @@
-package com.shaluo.backend;
+package com.shaluo.snapbite;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
