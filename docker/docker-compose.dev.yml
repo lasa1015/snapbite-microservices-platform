@@ -1,0 +1,16 @@
+services:
+
+  mongo:
+    image: mongo:latest
+    container_name: snapbite-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongo-data:/data/db
+    networks:
+      - snapbite-net
+
+networks:
+  snapbite-net:
+    driver: bridge

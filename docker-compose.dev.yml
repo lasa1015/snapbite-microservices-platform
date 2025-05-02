@@ -1,9 +1,0 @@
-services:
-
-  grabber:
-    build:
-      context: ../snapbite/grabber
-    container_name: grabber
-    env_file:
-      - ../snapbite/grabber/.env.dev
-    command: ["python", "main.py"]
