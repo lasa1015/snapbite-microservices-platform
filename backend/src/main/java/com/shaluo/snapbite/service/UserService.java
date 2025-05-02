@@ -4,6 +4,7 @@ import com.shaluo.snapbite.dto.RegisterRequest;
 import com.shaluo.snapbite.model.Role;
 import com.shaluo.snapbite.model.User;
 import com.shaluo.snapbite.repository.UserRepository;
+import com.shaluo.snapbite.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,9 @@ public class UserService {
 
     @Autowired
     private PasswordEncoder passwordEncoder; // 自动注入加密
+
+    @Autowired
+    private JwtUtil jwtUtil; // 注入jwt
 
     // 用户注册
     public User register(RegisterRequest request) {
@@ -61,7 +65,7 @@ public class UserService {
     }
 
     // 用户登录
-    public User login(String username, String password) {
+    public String login(String username, String password) {
 
         // 查询用户
         User user = userRepository.findByUsername(username)
@@ -72,8 +76,8 @@ public class UserService {
             throw new RuntimeException("密码错误");
         }
 
-        // 登录成功，返回用户信息（后续可以改为返回 JWT）
-        return user;
+        // 登录成功，生成 JWT Token
+        return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
 
 }
