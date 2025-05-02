@@ -5,7 +5,8 @@ project_notes/
 
 .env
 .env.local
-.env.dev
+.env.dev-local
+.env.dev-docker
 .env.prod
 
 venv/
