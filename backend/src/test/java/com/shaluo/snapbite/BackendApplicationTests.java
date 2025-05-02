@@ -1,4 +1,4 @@
-package com.shaluo.backend;
+package com.shaluo.snapbite;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
