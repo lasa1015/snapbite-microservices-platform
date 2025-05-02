@@ -17,7 +17,12 @@ const RestaurantCard: React.FC<{ restaurant: Restaurant }> = ({ restaurant }) =>
   </p>
 )}
 
-        <button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`)}>查看详情</button>
+<button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
+  state: { name: restaurant.name }
+})}>
+  查看详情
+</button>
+
       </div>
     </div>
   );

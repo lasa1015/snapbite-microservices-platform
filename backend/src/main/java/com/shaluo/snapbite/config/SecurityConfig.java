@@ -31,23 +31,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        http.csrf(csrf -> csrf.disable())          // 先关闭 CSRF（前后端分离常见做法）
+        http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-
-                        // 放行的接口
                         .requestMatchers(
                                 "/api/users/register",
                                 "/api/users/login",
-                                "/api/users/me",
-                        "/api/restaurants/**"
-                         )
-                        .permitAll()
-
-                        // 其余接口必须认证
-                        .anyRequest().authenticated())
-
+                                "/api/restaurants/**",
+                                "/api/menu/**"
+                        ).permitAll()
+                        .anyRequest().authenticated()
+                )
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-                .httpBasic(Customizer.withDefaults());
+
+                // 关掉 httpBasic 认证
+                .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();
     }

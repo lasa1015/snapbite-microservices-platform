@@ -20,16 +20,21 @@ public class BackendApplication {
 					.load();
 
 			// 将变量设置到系统属性中，Spring Boot 才能识别 ${}
+
+			// postgres
 			System.setProperty("DB_HOST", dotenv.get("DB_HOST"));
 			System.setProperty("DB_PORT", dotenv.get("DB_PORT"));
 			System.setProperty("DB_NAME", dotenv.get("DB_NAME"));
 			System.setProperty("DB_USERNAME", dotenv.get("DB_USERNAME"));
 			System.setProperty("DB_PASSWORD", dotenv.get("DB_PASSWORD"));
 
-
+			// jwt secret
 			System.setProperty("JWT_SECRET", dotenv.get("JWT_SECRET"));
 
-
+			// mongo db
+			System.setProperty("MONGO_HOST", dotenv.get("MONGO_HOST"));
+			System.setProperty("MONGO_PORT", dotenv.get("MONGO_PORT"));
+			System.setProperty("MONGO_DB", dotenv.get("MONGO_DB"));
 		}
 
 		SpringApplication.run(BackendApplication.class, args);
