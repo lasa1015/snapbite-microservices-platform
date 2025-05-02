@@ -1,5 +1,6 @@
 package com.shaluo.snapbite.util;
 
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
@@ -23,6 +24,7 @@ public class JwtUtil {
     // Token 过期时间（单位：毫秒）例如 24 小时
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
 
+    // 生成jwt token
     public String generateToken(String username, String role) {
 
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
@@ -47,6 +49,16 @@ public class JwtUtil {
 
                 // 构造并返回 JWT 字符串
                 .compact();
+    }
+
+    // 解析token
+    public Claims parseToken(String token) {
+        Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+        return Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody(); // 解析成功后返回 Claims（主体内容）
     }
 
 }

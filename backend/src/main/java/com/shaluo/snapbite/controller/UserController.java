@@ -3,10 +3,13 @@ package com.shaluo.snapbite.controller;
 import com.shaluo.snapbite.dto.LoginRequest;
 import com.shaluo.snapbite.dto.RegisterRequest;
 import com.shaluo.snapbite.model.User;
+import com.shaluo.snapbite.repository.UserRepository;
 import com.shaluo.snapbite.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -18,6 +21,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepository userRepository;
 
     // 注册接口
     @PostMapping("/register")
@@ -41,6 +47,21 @@ public class UserController {
         // 返回前端 JSON 格式：{ "token": "xxx.yyy.zzz" }
         return response;
     }
+
+
+    @GetMapping("/me")
+    public User getCurrentUser() {
+        // 从 Spring Security 上下文中获取当前认证对象
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        // 提取用户名（token中保存的 subject）
+        String username = auth.getName();
+
+        // 根据用户名查找完整用户信息（不含密码）
+        return userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+    }
+
 
 
 }
