@@ -5,6 +5,7 @@ import com.shaluo.snapbite.model.Role;
 import com.shaluo.snapbite.model.User;
 import com.shaluo.snapbite.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,6 +13,9 @@ public class UserService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder; // 自动注入
 
     // 用户注册逻辑处理服务方法
     public User register(RegisterRequest request) {
@@ -33,8 +37,9 @@ public class UserService {
         //  设置用户名
         user.setUsername(request.getUsername());
 
-        // 设置密码（注意：实际开发中应使用加密方式保存密码）
-        user.setPassword(request.getPassword());
+        // 从request提取出密码，并使用passwordEncoder加密
+        String encodedPassword = passwordEncoder.encode(request.getPassword());
+        user.setPassword(encodedPassword);
 
         // 设置邮箱
         user.setEmail(request.getEmail());

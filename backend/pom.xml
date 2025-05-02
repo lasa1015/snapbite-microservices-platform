@@ -38,6 +38,11 @@
 			<version>2.2.0</version>
 		</dependency>
 
+<!--		给密码加密-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
 
 
 
