@@ -15,9 +15,9 @@ public class UserService {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // 自动注入
+    private PasswordEncoder passwordEncoder; // 自动注入加密
 
-    // 用户注册逻辑处理服务方法
+    // 用户注册
     public User register(RegisterRequest request) {
 
         // 检查用户名是否已存在，避免重复注册
@@ -59,4 +59,21 @@ public class UserService {
         // 保存用户实体到数据库，返回保存后的 User 对象（包含主键 id）
         return userRepository.save(user);
     }
+
+    // 用户登录
+    public User login(String username, String password) {
+
+        // 查询用户
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 比较密码（明文 vs 加密后）
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            throw new RuntimeException("密码错误");
+        }
+
+        // 登录成功，返回用户信息（后续可以改为返回 JWT）
+        return user;
+    }
+
 }
