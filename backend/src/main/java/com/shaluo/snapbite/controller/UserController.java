@@ -49,8 +49,11 @@ public class UserController {
     }
 
 
+
+    // 需要登录才能访问的接口。返回当前登录用户信息
     @GetMapping("/me")
     public User getCurrentUser() {
+
         // 从 Spring Security 上下文中获取当前认证对象
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 

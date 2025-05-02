@@ -51,14 +51,18 @@ public class JwtUtil {
                 .compact();
     }
 
-    // 解析token
+    // 解析 JWT 并返回用户信息（username、role 等）
     public Claims parseToken(String token) {
+
+        // 生成用于验证签名的密钥（要与生成 token 时的密钥保持一致）
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+
+        // 构建 JWT 解析器，设置签名密钥后解析并验证 token
         return Jwts.parserBuilder()
-                .setSigningKey(key)
+                .setSigningKey(key) // 设置用于校验签名的密钥
                 .build()
-                .parseClaimsJws(token)
-                .getBody(); // 解析成功后返回 Claims（主体内容）
+                .parseClaimsJws(token) // 解析并验证 token（签名 + 时间等）
+                .getBody(); // 如果成功，提取出 Payload 部分（就是 Claims）
     }
 
 }

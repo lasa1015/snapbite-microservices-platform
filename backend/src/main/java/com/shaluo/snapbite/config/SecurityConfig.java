@@ -19,6 +19,9 @@ public class SecurityConfig {
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
     // 密码加密
+    // BCrypt 是一种 哈希函数，专门用于加密密码。
+    // 不可逆（不是加密而是哈希）,就算数据库被黑客拿到了密码哈希值，也无法通过计算还原出明文密码。
+    // 它每次加密都会自动生成一个随机“盐值”，即使两次加密相同密码，结果也完全不同。这样可以有效防止“彩虹表攻击”。
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -35,8 +38,9 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/api/users/register",
                                 "/api/users/login",
-                                "/api/users/me"
-                        )
+                                "/api/users/me",
+                        "/api/restaurants/**"
+                         )
                         .permitAll()
 
                         // 其余接口必须认证

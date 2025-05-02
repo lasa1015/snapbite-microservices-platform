@@ -41,7 +41,7 @@ public class UserService {
         //  设置用户名
         user.setUsername(request.getUsername());
 
-        // 从request提取出密码，并使用passwordEncoder加密
+        // 从request提取出密码，并使用Spring Security 已经内置的 PasswordEncoder加密
         String encodedPassword = passwordEncoder.encode(request.getPassword());
         user.setPassword(encodedPassword);
 
