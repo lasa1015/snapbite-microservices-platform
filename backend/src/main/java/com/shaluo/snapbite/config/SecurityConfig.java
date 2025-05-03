@@ -1,15 +1,16 @@
 package com.shaluo.snapbite.config;
 
 import com.shaluo.snapbite.security.JwtAuthenticationFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 // 以后哪里需要 PasswordEncoder，就自动注入 BCryptPasswordEncoder
 @Configuration
@@ -31,19 +32,33 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
+        /* ---- 白名单路径 ---- */
+        String[] PUBLIC_API = {
+                "/api/users/register",
+                "/api/users/login",
+                "/api/restaurants/**",
+                "/api/menu/restaurant/**",
+                "/api/menu/dishes",
+                "/api/cart/**"
+        };
+
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(
-                                "/api/users/register",
-                                "/api/users/login",
-                                "/api/restaurants/**",
-                                "/api/menu/**"
-                        ).permitAll()
+                        .requestMatchers(PUBLIC_API).permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-
-                // 关掉 httpBasic 认证
+                /* 自定义过滤逻辑：白名单路径不做 JWT 校验 */
+                .addFilterBefore((request, response, chain) -> {
+                    HttpServletRequest req = (HttpServletRequest) request;
+                    for (String pattern : PUBLIC_API) {
+                        if (new AntPathRequestMatcher(pattern).matches(req)) {
+                            chain.doFilter(request, response);   // 直接放行
+                            return;
+                        }
+                    }
+                    // 其余请求再交给 JWT 过滤器
+                    jwtAuthenticationFilter.doFilter(request, response, chain);
+                }, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(httpBasic -> httpBasic.disable());
 
         return http.build();

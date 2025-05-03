@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import { useCart } from './CartContext';
 
 type Dish = {
   id: number;
@@ -17,13 +18,52 @@ const MenuPage = () => {
   const { restaurantId } = useParams();
   const navigate = useNavigate();
   const [menu, setMenu] = useState<Menu | null>(null);
+  const { triggerReload } = useCart();
+
+  // 👇 将 restaurantId 从 string | undefined 转成 number 或 null
+  const restId = restaurantId ? parseInt(restaurantId) : null;
 
   useEffect(() => {
-    fetch(`/api/menu/restaurant/${restaurantId}`)
+    if (!restId) {
+      console.error("餐厅 ID 无效");
+      return;
+    }
+
+    fetch(`/api/menu/restaurant/${restId}`)
       .then((res) => res.json())
       .then((data) => setMenu(data))
       .catch((err) => console.error("获取菜单失败：", err));
-  }, [restaurantId]);
+  }, [restId]);
+
+  const addToCart = async (dishId: number) => {
+    const token = localStorage.getItem("token");
+
+    if (!restId) {
+      alert("⚠️ 餐厅 ID 缺失，无法加入购物车");
+      return;
+    }
+
+    const res = await fetch("/api/cart/add", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify({
+        dishId: dishId.toString(),
+        restaurantId: restId.toString(), // ✅ 确保传的是 string 类型
+        quantity: 1
+      }),
+    });
+
+    if (res.ok) {
+      alert("✅ 已加入购物车");
+      triggerReload();
+    } else {
+      const text = await res.text();
+      alert("❌ 加入失败：" + text);
+    }
+  };
 
   if (!menu) return <p>加载中...</p>;
 
@@ -49,7 +89,7 @@ const MenuPage = () => {
       <ul style={{ listStyle: "none", padding: 0 }}>
         {menu.items.map((dish) => (
           <li
-            key={dish.id ?? dish.name}
+            key={dish.id}
             style={{
               display: "flex",
               justifyContent: "space-between",
@@ -72,10 +112,7 @@ const MenuPage = () => {
                 borderRadius: "5px",
                 cursor: "pointer"
               }}
-              onClick={() => {
-                // 暂不实现，后续做购物车功能时处理
-                alert("🛒 功能暂未实现");
-              }}
+              onClick={() => addToCart(dish.id)}
             >
               加入购物车
             </button>

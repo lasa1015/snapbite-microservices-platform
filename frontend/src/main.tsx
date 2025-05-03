@@ -2,13 +2,19 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import App from './App';
-import MenuPage from './MenuPage.tsx'; // 我们接下来会创建这个组件
+import MenuPage from './MenuPage';
+import MainLayout from './MainLayout';
+import { CartProvider } from './CartContext'; // 👈 新加
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/restaurant/:restaurantId/menu" element={<MenuPage />} />
-    </Routes>
+    <CartProvider>
+      <Routes>
+        <Route path="/" element={<MainLayout />}>
+          <Route index element={<App />} />
+          <Route path="restaurant/:restaurantId/menu" element={<MenuPage />} />
+        </Route>
+      </Routes>
+    </CartProvider>
   </BrowserRouter>
 );
