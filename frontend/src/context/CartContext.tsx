@@ -11,7 +11,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const [reloadFlag, setReloadFlag] = useState(0);
 
   const triggerReload = () => {
-    setReloadFlag((prev) => prev + 1);
+    setReloadFlag(prev => prev + 1);
   };
 
   return (
@@ -23,8 +23,6 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
 export function useCart() {
   const context = useContext(CartContext);
-  if (!context) {
-    throw new Error("useCart must be used within a CartProvider");
-  }
+  if (!context) throw new Error("useCart must be used within a CartProvider");
   return context;
 }

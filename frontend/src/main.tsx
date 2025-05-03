@@ -1,20 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App';
-import MenuPage from './MenuPage';
-import MainLayout from './MainLayout';
-import { CartProvider } from './CartContext'; // 👈 新加
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import { UserProvider } from './context/UserContext';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/HomePage';
+import MenuPage from './pages/MenuPage';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <CartProvider>
-      <Routes>
-        <Route path="/" element={<MainLayout />}>
-          <Route index element={<App />} />
-          <Route path="restaurant/:restaurantId/menu" element={<MenuPage />} />
-        </Route>
-      </Routes>
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="restaurant/:restaurantId/menu" element={<MenuPage />} />
+            <Route path="restaurant" element={<Navigate to="/" />} />
+          </Route>
+        </Routes>
+      </CartProvider>
+    </UserProvider>
   </BrowserRouter>
 );

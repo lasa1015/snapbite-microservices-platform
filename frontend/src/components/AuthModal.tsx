@@ -8,10 +8,9 @@ type Props = {
 };
 
 // 登录 / 注册 弹窗组件
-export default function AuthModal({ mode, onClose, onLoginSuccess }: Props) {
-
-  // 表单状态管理
-  const [username, setUsername] = useState("");
+export default function AuthModal({ mode, onClose }: Props) {
+  const { setUsername } = useUser();
+  const [username, setLocalUsername] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [role, setRole] = useState("USER");
@@ -85,7 +84,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess }: Props) {
         borderRadius: "10px", width: "300px"
       }}>
         <h2>{mode === "login" ? "登录" : "注册"}</h2>
-        <input value={username} onChange={e => setUsername(e.target.value)} placeholder="用户名" /><br />
+        <input value={username} onChange={e => setLocalUsername(e.target.value)} placeholder="用户名" /><br />
 
         <input value={password} onChange={e => setPassword(e.target.value)} placeholder="密码" type="password" /><br />
         
