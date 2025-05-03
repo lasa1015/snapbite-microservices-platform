@@ -16,7 +16,7 @@ import java.util.List;
 @RequestMapping("/api/restaurants") // 设置路由前缀：所有接口都以 /api/restaurants 开头
 public class RestaurantController {
 
-    @Autowired // 自动注入 RestaurantRepository 实例（由 Spring 管理）
+    @Autowired
     private RestaurantRepository restaurantRepository;
 
     @GetMapping // 对应 GET 请求（无参数），即 GET /api/restaurants

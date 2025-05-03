@@ -22,14 +22,17 @@ import java.util.Collections;
  * - 如果合法，则将认证信息存入 Spring Security 的上下文中
  * - 如果非法，则不设置上下文，Spring Security 会阻止访问受保护资源
  */
+
+// OncePerRequestFilter 是 Spring 提供的一个抽象类，保证每个请求只会经过一次这个过滤器。
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    // 注入 JWT 工具类，用于解析和验证 token
+    // 自己写的工具类，专门用来“解析和验证 token”
     @Autowired
     private JwtUtil jwtUtil;
 
     // 每次请求都会经过这个方法
+    // doFilter() 方法里面包含了doFilterInternal()的调用
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
@@ -39,18 +42,23 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 从请求头中获取名为 "Authorization" 的字段
         String authHeader = request.getHeader("Authorization");
 
-        // 检查是否以 "Bearer " 开头（符合 JWT 的规范）
+        // 检查请求头是不是null，是否以 "Bearer " 开头（符合 JWT 的规范）
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
 
-            // 去掉前缀，提取实际的 JWT 字符串
+            //  去掉 "Bearer " 这 7 个字符，拿到真正的 Token 内容
             String token = authHeader.substring(7);
 
             try {
 
-                // 调用工具类解析 token，返回 Claims（包含用户名、角色等）
+                // 用工具类 jwtUtil 去解析 token，验证token是否合法
+                // 如果合法会返回claims对象
                 Claims claims = jwtUtil.parseToken(token);
-                String username = claims.getSubject(); // subject 通常是用户名
-                String role = claims.get("role", String.class); // 自定义字段：角色
+
+                // claims.getSubject() 是你之前在登录时设置的用户名
+                String username = claims.getSubject();
+
+                // claims.get("role") 是你设置的角色（如果有）
+                String role = claims.get("role", String.class);
 
                 // 构建一个 Spring Security 的认证对象（这里只写用户名，权限留空）
                 UsernamePasswordAuthenticationToken authToken =
@@ -64,6 +72,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             }
 
             catch (Exception e) {
+
                 // 如果 token 不合法或已过期，就什么也不做（不设置认证上下文）
                 System.out.println("JWT Token 无效或已过期: " + e.getMessage());
             }

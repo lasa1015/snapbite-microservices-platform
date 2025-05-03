@@ -12,9 +12,10 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-// 以后哪里需要 PasswordEncoder，就自动注入 BCryptPasswordEncoder
+
 @Configuration
 public class SecurityConfig {
+
 
     @Autowired
     private JwtAuthenticationFilter jwtAuthenticationFilter;
@@ -28,11 +29,11 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 
-    // 基础的安全规则
+    // 核心安全配置
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
-        /* ---- 白名单路径 ---- */
+        // 白名单, 这些路径不需要登录就能访问
         String[] PUBLIC_API = {
                 "/api/users/register",
                 "/api/users/login",
@@ -44,19 +45,28 @@ public class SecurityConfig {
 
         http.csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(PUBLIC_API).permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers(PUBLIC_API).permitAll()   // 白名单直接放行
+                        .anyRequest().authenticated()        // 其他请求必须登录
                 )
-                /* 自定义过滤逻辑：白名单路径不做 JWT 校验 */
+
+                // JWT 拦截器逻辑
                 .addFilterBefore((request, response, chain) -> {
+
                     HttpServletRequest req = (HttpServletRequest) request;
+
+                    // 检查请求是不是在白名单
                     for (String pattern : PUBLIC_API) {
+
+                        //  如果是 → 放行，不做任何身份验证
                         if (new AntPathRequestMatcher(pattern).matches(req)) {
-                            chain.doFilter(request, response);   // 直接放行
+                            chain.doFilter(request, response);
                             return;
                         }
                     }
-                    // 其余请求再交给 JWT 过滤器
+
+                    // 如果不是（例如 /api/users/me） → 进入自定义的 JWT 过滤器 JwtAuthenticationFilter (被注入进来)
+                    // 调用过滤器中的方法 doFilterInternal()
+                    // doFilter()里包含了doFilterInternal()，因此写doFilter会自动调用doFilterInternal
                     jwtAuthenticationFilter.doFilter(request, response, chain);
                 }, UsernamePasswordAuthenticationFilter.class)
                 .httpBasic(httpBasic -> httpBasic.disable());

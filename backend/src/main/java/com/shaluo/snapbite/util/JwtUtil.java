@@ -11,7 +11,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.Key;
 import java.util.Date;
 
-// 生成和验证 Token什么？
+// 生成和验证 Token
 @Component
 public class JwtUtil {
 
@@ -50,6 +50,7 @@ public class JwtUtil {
                 // 构造并返回 JWT 字符串
                 .compact();
     }
+
 
     // 解析 JWT 并返回用户信息（username、role 等）
     public Claims parseToken(String token) {
