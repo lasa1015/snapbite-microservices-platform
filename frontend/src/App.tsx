@@ -30,8 +30,11 @@ export default function App() {
   const [categories, setCategories] = useState<string[]>([]);
   const [prices, setPrices] = useState<string[]>([]);
   const [meals, setMeals] = useState<string[]>([]);
+  const [sortOrder, setSortOrder] = useState<string>("desc"); // 默认按评分从高到低
 
-  const hasFilters = categories.length > 0 || prices.length > 0 || meals.length > 0;
+
+  const hasFilters = categories.length > 0 || prices.length > 0 || meals.length > 0 || sortOrder !== "desc";
+
 
   const toggle = (value: string, arr: string[], setArr: (v: string[]) => void) => {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
@@ -63,26 +66,21 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    if (!hasFilters) {
-      fetch("/api/restaurants")
-        .then(res => res.json())
-        .then(setRestaurants)
-        .catch(err => console.error("❌ 获取餐厅失败", err));
-    } else {
-      fetch("/api/restaurants/filter", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          categories: categories.length ? categories : null,
-          prices: prices.length ? prices : null,
-          meals: meals.length ? meals : null
-        })
+    fetch("/api/restaurants/filter", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        categories: categories.length ? categories : null,
+        prices: prices.length ? prices : null,
+        meals: meals.length ? meals : null,
+        sortOrder: sortOrder
       })
-        .then(res => res.json())
-        .then(setRestaurants)
-        .catch(err => console.error("❌ 筛选失败", err));
-    }
-  }, [categories, prices, meals, hasFilters]);
+    })
+      .then(res => res.json())
+      .then(setRestaurants)
+      .catch(err => console.error("❌ 获取餐厅失败", err));
+  }, [categories, prices, meals, sortOrder]);
+  
 
   return (
     <div style={{ display: "flex" }}>
@@ -175,6 +173,20 @@ export default function App() {
               </button>
             ))}
           </div>
+
+
+          <div style={{ marginBottom: "0.5rem" }}>
+  <strong>评分排序：</strong>
+  <select
+    value={sortOrder}
+    onChange={(e) => setSortOrder(e.target.value)}
+    style={{ padding: "4px 8px", marginLeft: "8px" }}
+  >
+    <option value="desc">从高到低</option>
+    <option value="asc">从低到高</option>
+  </select>
+</div>
+
 
           <button
             onClick={clearFilters}

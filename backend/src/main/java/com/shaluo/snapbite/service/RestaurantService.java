@@ -8,6 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+
 
 @Service
 public class RestaurantService {
@@ -22,17 +25,28 @@ public class RestaurantService {
 
     // 筛选餐厅
     public List<RestaurantResponse> filterRestaurants(RestaurantFilterRequest filter) {
-
         boolean mealFiltersEmpty = (filter.getMeals() == null || filter.getMeals().isEmpty());
-
-        List<Restaurant> list = restaurantRepository.filterRestaurants(
+        List<Restaurant> result = restaurantRepository.filterRestaurants(
                 filter.getCategories(),
                 filter.getPrices(),
                 filter.getMeals(),
                 mealFiltersEmpty
         );
-        return list.stream().map(this::toResponse).toList();
+
+        // 根据评分排序（前端传入 asc 或 desc）
+        if ("asc".equalsIgnoreCase(filter.getSortOrder())) {
+            result.sort(Comparator.comparingDouble(Restaurant::getRating));
+        } else if ("desc".equalsIgnoreCase(filter.getSortOrder())) {
+            result.sort(Comparator.comparingDouble(Restaurant::getRating).reversed());
+        }
+
+        return result.stream()
+                .map(this::toResponse)
+                .collect(Collectors.toList());
+
+
     }
+
 
     // 实体转 DTO RestaurantResponse
     private RestaurantResponse toResponse(Restaurant r) {
