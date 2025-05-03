@@ -88,4 +88,23 @@ public class UserService {
         return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
 
+
+    // 【根据用户名，获得用户信息，并转为DTO返回】
+    public UserResponse getUserProfile(String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 手动转换为 UserResponse（DTO）
+        UserResponse res = new UserResponse();
+        res.setId(user.getId());
+        res.setUsername(user.getUsername());
+        res.setEmail(user.getEmail());
+        res.setRole(user.getRole().name());
+        res.setCreatedAt(user.getCreatedAt());
+
+        return res;
+    }
+
+
 }

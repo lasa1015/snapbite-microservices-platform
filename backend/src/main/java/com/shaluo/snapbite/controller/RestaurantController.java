@@ -2,11 +2,13 @@ package com.shaluo.snapbite.controller;
 
 // 引入 Restaurant 实体类
 import com.shaluo.snapbite.dto.RestaurantFilterRequest;
+import com.shaluo.snapbite.dto.RestaurantResponse;
 import com.shaluo.snapbite.model.Restaurant;
 
 // 引入对应的 JPA 仓库接口
 import com.shaluo.snapbite.repository.RestaurantRepository;
 
+import com.shaluo.snapbite.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,24 +19,19 @@ import java.util.List;
 public class RestaurantController {
 
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
+    // 查询数据库中所有餐馆并返回（作为 JSON 返回到前端）
     @GetMapping // 对应 GET 请求（无参数），即 GET /api/restaurants
-    public List<Restaurant> getAllRestaurants() {
+    public List<RestaurantResponse> getAllRestaurants() {
 
-        // 查询数据库中所有餐馆并返回（作为 JSON 返回到前端）
-        return restaurantRepository.findAll();
+        return restaurantService.getAllRestaurants();
     }
 
-    // 筛选接口
+    // 根据前端传入的filter，筛选出符合条件的餐厅
     @PostMapping("/filter")
-    public List<Restaurant> filterRestaurants(@RequestBody RestaurantFilterRequest filter) {
-        boolean mealFiltersEmpty = (filter.getMeals() == null || filter.getMeals().isEmpty());
-        return restaurantRepository.filterRestaurants(
-                filter.getCategories(),
-                filter.getPrices(),
-                filter.getMeals(),
-                mealFiltersEmpty
-        );
+    public List<RestaurantResponse> filterRestaurants(@RequestBody RestaurantFilterRequest filter) {
+
+        return restaurantService.filterRestaurants(filter);
     }
 }

@@ -4,9 +4,8 @@ import lombok.Data;
 
 import java.util.List;
 
-/**
- * 用于前端发送的筛选条件请求体
- */
+// 请求 DTO：	前端发送筛选条件时用的
+// 这个 DTO 不含餐厅信息，它只是查询条件
 @Data
 public class RestaurantFilterRequest {
     private List<String> categories; // "Pizza", "Chinese"...

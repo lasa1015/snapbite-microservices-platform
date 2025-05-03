@@ -71,18 +71,9 @@ public class UserController {
         // 提取用户名（token中保存的 subject）
         String username = auth.getName();
 
-        User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("用户不存在"));
+        // 获取用户信息
+        return userService.getUserProfile(username);
 
-        // 手动转换为 UserResponse（DTO）
-        UserResponse res = new UserResponse();
-        res.setId(user.getId());
-        res.setUsername(user.getUsername());
-        res.setEmail(user.getEmail());
-        res.setRole(user.getRole().name());
-        res.setCreatedAt(user.getCreatedAt());
-
-        return res;
     }
 
 
