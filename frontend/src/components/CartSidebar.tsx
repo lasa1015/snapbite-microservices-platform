@@ -11,40 +11,88 @@ type CartItem = {
   quantity: number;
 };
 
+const LOCAL_KEY = "guest_cart";
+
 export default function CartSidebar() {
   const { reloadFlag } = useCart();
   const [cart, setCart] = useState<CartItem[]>([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
 
+  // ✅ 更新本地购物车并同步到 UI
+  const saveLocalCart = (items: CartItem[]) => {
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(items));
+    setCart(items);
+  };
+
+  // ✅ 根据登录状态读取购物车
   const fetchCart = () => {
     setLoading(true);
-    fetch("/api/cart", {
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    })
-      .then((r) => r.json())
-      .then(setCart)
-      .catch(() => alert("🛒 获取购物车失败"))
-      .finally(() => setLoading(false));
+
+    if (token) {
+      fetch("/api/cart", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((r) => r.json())
+        .then(setCart)
+        .catch(() => alert("🛒 获取购物车失败"))
+        .finally(() => setLoading(false));
+    } else {
+      try {
+        const local = localStorage.getItem(LOCAL_KEY);
+        if (local) {
+          const data: CartItem[] = JSON.parse(local);
+          setCart(data);
+        } else {
+          setCart([]);
+        }
+      } catch {
+        setCart([]);
+      } finally {
+        setLoading(false);
+      }
+    }
   };
 
   useEffect(fetchCart, [reloadFlag]);
 
+  // ✅ 更新数量
   const updateQuantity = async (id: string, q: number) => {
     if (q < 1) return;
-    await fetch(`/api/cart/${id}/quantity?quantity=${q}`, { method: "PUT" });
-    fetchCart();
+
+    if (token) {
+      await fetch(`/api/cart/${id}/quantity?quantity=${q}`, { method: "PUT" });
+      fetchCart();
+    } else {
+      const newCart = cart.map(item =>
+        item.id === id ? { ...item, quantity: q } : item
+      );
+      saveLocalCart(newCart);
+    }
   };
+
+  // ✅ 删除项
   const deleteItem = async (id: string) => {
-    await fetch(`/api/cart/${id}`, { method: "DELETE" });
-    fetchCart();
+    if (token) {
+      await fetch(`/api/cart/${id}`, { method: "DELETE" });
+      fetchCart();
+    } else {
+      const newCart = cart.filter(item => item.id !== id);
+      saveLocalCart(newCart);
+    }
   };
+
+  // ✅ 清空购物车
   const clearCart = async () => {
-    await fetch("/api/cart/clear", {
-      method: "DELETE",
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-    });
-    fetchCart();
+    if (token) {
+      await fetch("/api/cart/clear", {
+        method: "DELETE",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+      });
+      fetchCart();
+    } else {
+      saveLocalCart([]);
+    }
   };
 
   const grouped = cart.reduce((acc, c) => {

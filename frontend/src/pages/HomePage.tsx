@@ -9,6 +9,7 @@ const ALL_PRICES = ["€", "€€", "€€€"];
 const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 
 export default function HomePage() {
+  
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
   const { username, setUsername } = useUser();
   const [categories, setCategories] = useState<string[]>([]);

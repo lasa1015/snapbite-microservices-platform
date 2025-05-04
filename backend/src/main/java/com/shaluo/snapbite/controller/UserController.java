@@ -28,12 +28,15 @@ public class UserController {
 
     // 【注册接口】
     @PostMapping("/register")  // HTTP POST 请求接口，路径是 /register, 传的是 JSON 字符串
-    public UserResponse register(
+    public ResponseEntity<String> register(
             @RequestBody RegisterRequest request)  //请求体中的JSON数据要自动转换为Java对象RegisterRequest
     {
 
         // 调用 userService.register(...) 来真正执行注册逻辑
-        return userService.register(request);
+        userService.register(request);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("User registered successfully");
+
     }
 
 

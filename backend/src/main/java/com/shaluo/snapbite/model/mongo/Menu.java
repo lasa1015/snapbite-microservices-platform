@@ -7,7 +7,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.util.List;
 
 @Data
-@Document(collection = "menus") // 指定 MongoDB 中的集合名
+@Document(collection = "menus") // 这是 MongoDB 的文档对象,存在的集合（类似表）叫 menus
 public class Menu {
 
     @Id

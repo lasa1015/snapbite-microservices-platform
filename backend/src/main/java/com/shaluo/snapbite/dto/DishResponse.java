@@ -5,8 +5,10 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class DishSummary {
+public class DishResponse {
+
     private String id;
     private String name;
     private double price;
+
 }

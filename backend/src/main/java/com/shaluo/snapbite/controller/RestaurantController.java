@@ -21,8 +21,8 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    // 查询数据库中所有餐馆并返回（作为 JSON 返回到前端）
-    @GetMapping // 对应 GET 请求（无参数），即 GET /api/restaurants
+    // 获取所有餐馆
+    @GetMapping("/all") // 对应 GET 请求（无参数），即 GET /api/restaurants
     public List<RestaurantResponse> getAllRestaurants() {
 
         return restaurantService.getAllRestaurants();
@@ -34,4 +34,11 @@ public class RestaurantController {
 
         return restaurantService.filterRestaurants(filter);
     }
+
+    // 按照id查询单个餐厅
+    @PostMapping("/{id}")
+    public RestaurantResponse getRestaurantById(@PathVariable Long id) {
+        return restaurantService.getRestaurantById(id);
+    }
+
 }

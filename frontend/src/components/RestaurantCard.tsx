@@ -23,10 +23,14 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
         <h2>{restaurant.name}</h2>
         <p>{restaurant.displayAddress}</p>
         <p>⭐ {restaurant.rating} / 5 ({restaurant.reviewCount} reviews)</p>
+
         {restaurant.price && <p>💰 {restaurant.price}</p>}
+       
         {restaurant.description && (
           <p style={{ fontStyle: "italic", color: "#555" }}>{restaurant.description}</p>
         )}
+
+
         <button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
           state: { name: restaurant.name }
         })}>
