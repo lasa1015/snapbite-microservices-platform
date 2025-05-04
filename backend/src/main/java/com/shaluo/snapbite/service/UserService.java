@@ -1,6 +1,7 @@
 package com.shaluo.snapbite.service;
 
 import com.shaluo.snapbite.dto.RegisterRequest;
+import com.shaluo.snapbite.dto.UserResponse;
 import com.shaluo.snapbite.model.Role;
 import com.shaluo.snapbite.model.User;
 import com.shaluo.snapbite.repository.UserRepository;
@@ -21,8 +22,9 @@ public class UserService {
     @Autowired
     private JwtUtil jwtUtil; // 注入jwt
 
-    // 用户注册
-    public User register(RegisterRequest request) {
+    // 【用户注册】
+    // 接受的参数是一个DTO
+    public UserResponse  register(RegisterRequest request) {
 
         // 检查用户名是否已存在，避免重复注册
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -35,43 +37,49 @@ public class UserService {
         }
 
         // DTO 转实体类
-        // 创建空的实体对象
+        // 创建空的实体对象 User
         User user = new User();
 
-        //  设置用户名
+        //  从DTO读取用户名并设置给实体
         user.setUsername(request.getUsername());
 
-        // 从request提取出密码，并使用Spring Security 已经内置的 PasswordEncoder加密
+        // 从DTO提取出密码，并使用Spring Security 已经内置的 PasswordEncoder加密
         String encodedPassword = passwordEncoder.encode(request.getPassword());
+
+        // 给实体设置
         user.setPassword(encodedPassword);
 
         // 设置邮箱
         user.setEmail(request.getEmail());
 
-        try {
-            // 将字符串角色（如 "user" / "merchant"）转换为枚举类型 Role
-            // Role.valueOf(...) 是一个 Java 枚举类型（enum）的内置静态方法，用于将字符串转换成对应的枚举常量。
-            Role role = Role.valueOf(request.getRole().toUpperCase());
-            user.setRole(role);
-        }
+        // 将字符串角色（如 "user" / "merchant"）转换为枚举类型 Role
+        // Role.valueOf(...) 是一个 Java 枚举类型（enum）的内置静态方法，用于将字符串转换成对应的枚举常量。
+        user.setRole(Role.valueOf(request.getRole()));
 
-        // 若角色名称无法转换为枚举，抛出异常提示前端
-        catch (IllegalArgumentException e) {
-            throw new RuntimeException("无效的用户角色: " + request.getRole());
-        }
+        // 保存user进数据库
+        User saved = userRepository.save(user);
 
-        // 保存用户实体到数据库，返回保存后的 User 对象（包含主键 id）
-        return userRepository.save(user);
+        // 手动构造响应 DTO UserResponse（仅填充允许返回的字段）
+        UserResponse res = new UserResponse();
+        res.setId(saved.getId());
+        res.setUsername(saved.getUsername());
+        res.setEmail(saved.getEmail());
+        res.setRole(saved.getRole().name());
+        res.setCreatedAt(saved.getCreatedAt());
+
+        // 返回专门用于返回的DTO对象res
+        return res;
     }
 
-    // 用户登录
+
+    // 【用户登录】
     public String login(String username, String password) {
 
-        // 查询用户
+        // 查询找到用户
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
-        // 比较密码（明文 vs 加密后）
+        // 判断这个明文密码，经过加密后是否等于数据库里保存的加密版本
         if (!passwordEncoder.matches(password, user.getPassword())) {
             throw new RuntimeException("密码错误");
         }
@@ -79,5 +87,24 @@ public class UserService {
         // 登录成功，生成 JWT Token
         return jwtUtil.generateToken(user.getUsername(), user.getRole().name());
     }
+
+
+    // 【根据用户名，获得用户信息，并转为DTO返回】
+    public UserResponse getUserProfile(String username) {
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 手动转换为 UserResponse（DTO）
+        UserResponse res = new UserResponse();
+        res.setId(user.getId());
+        res.setUsername(user.getUsername());
+        res.setEmail(user.getEmail());
+        res.setRole(user.getRole().name());
+        res.setCreatedAt(user.getCreatedAt());
+
+        return res;
+    }
+
 
 }

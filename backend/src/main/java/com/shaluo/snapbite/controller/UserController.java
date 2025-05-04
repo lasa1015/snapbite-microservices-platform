@@ -2,6 +2,7 @@ package com.shaluo.snapbite.controller;
 
 import com.shaluo.snapbite.dto.LoginRequest;
 import com.shaluo.snapbite.dto.RegisterRequest;
+import com.shaluo.snapbite.dto.UserResponse;
 import com.shaluo.snapbite.model.User;
 import com.shaluo.snapbite.repository.UserRepository;
 import com.shaluo.snapbite.service.UserService;
@@ -15,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.Map;
 
-@RestController
+@RestController  // 所有返回给前端的对象（包括 Map、实体类、DTO）都会自动变成 JSON，除非你自己干预（比如返回视图、文件等）。
 @RequestMapping("/api/users")
 public class UserController {
 
@@ -25,16 +26,26 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
-    // 注册接口
-    @PostMapping("/register")
-    public User register(@RequestBody RegisterRequest request) {
+    // 【注册接口】
+    @PostMapping("/register")  // HTTP POST 请求接口，路径是 /register, 传的是 JSON 字符串
+    public UserResponse register(
+            @RequestBody RegisterRequest request)  //请求体中的JSON数据要自动转换为Java对象RegisterRequest
+    {
+
+        // 调用 userService.register(...) 来真正执行注册逻辑
         return userService.register(request);
     }
 
-    // 登录接口
-    // 用户登录成功后，后端会生成一个 JWT Token 并返回给前端
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody LoginRequest request) {
+
+
+    // 【登录接口】
+    // Map<String, String> ：用户登录成功后，后端会生成一个 JWT Token 并返回给前端
+    // Map<String, String> 会被 Spring Boot 的 Jackson 自动序列化为 JSON 对象返回给前端
+    // 前端最终拿到的是一个 JSON 对象，格式类似{ "token": "eyJhbGciOiJIUzI1NiIsInR5..." }
+    @PostMapping("/login")   // HTTP POST 请求接口
+    public Map<String, String> login(
+            @RequestBody LoginRequest request)  //把前端发来的 JSON 请求体，转换成 Java 对象 LoginRequest
+    {
 
         // 调用 UserService 的 login 方法，传入用户名和密码，返回生成的 token
         String token = userService.login(request.getUsername(), request.getPassword());
@@ -44,15 +55,15 @@ public class UserController {
 
         response.put("token", token);
 
-        // 返回前端 JSON 格式：{ "token": "xxx.yyy.zzz" }
+        // 返回前端 JSON 格式：{ "token": "eyJhbGciOiJIUzI1NiIsInR5..." }
         return response;
     }
 
 
-
-    // 需要登录才能访问的接口。返回当前登录用户信息
-    @GetMapping("/me")
-    public User getCurrentUser() {
+    // 【获取当前登录用户信息 接口】
+    // 当前端携带 JWT Token 访问 /me 接口时，后端会从请求头中解析 token，识别出用户身份，并返回该用户的完整信息（不含密码）。
+    @GetMapping("/me")   //  HTTP GET 请求
+    public UserResponse getCurrentUser() {
 
         // 从 Spring Security 上下文中获取当前认证对象
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -60,11 +71,10 @@ public class UserController {
         // 提取用户名（token中保存的 subject）
         String username = auth.getName();
 
-        // 根据用户名查找完整用户信息（不含密码）
-        return userRepository.findByUsername(username)
-                .orElseThrow(() -> new RuntimeException("用户不存在"));
-    }
+        // 获取用户信息
+        return userService.getUserProfile(username);
 
+    }
 
 
 }

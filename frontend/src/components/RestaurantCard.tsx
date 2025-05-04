@@ -1,6 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 
-const RestaurantCard: React.FC<{ restaurant: Restaurant }> = ({ restaurant }) => {
+type Props = {
+  restaurant: {
+    id: number;
+    name: string;
+    imgUrl: string;
+    displayAddress?: string;
+    rating: number;
+    reviewCount: number;
+    price?: string;
+    description?: string;
+  };
+};
+
+const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
   const navigate = useNavigate();
 
   return (
@@ -12,17 +25,13 @@ const RestaurantCard: React.FC<{ restaurant: Restaurant }> = ({ restaurant }) =>
         <p>⭐ {restaurant.rating} / 5 ({restaurant.reviewCount} reviews)</p>
         {restaurant.price && <p>💰 {restaurant.price}</p>}
         {restaurant.description && (
-  <p style={{ fontStyle: "italic", color: "#555" }}>
-    {restaurant.description}
-  </p>
-)}
-
-<button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
-  state: { name: restaurant.name }
-})}>
-  查看详情
-</button>
-
+          <p style={{ fontStyle: "italic", color: "#555" }}>{restaurant.description}</p>
+        )}
+        <button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
+          state: { name: restaurant.name }
+        })}>
+          查看详情
+        </button>
       </div>
     </div>
   );
@@ -51,6 +60,5 @@ const styles = {
     justifyContent: "space-between",
   },
 };
-
 
 export default RestaurantCard;

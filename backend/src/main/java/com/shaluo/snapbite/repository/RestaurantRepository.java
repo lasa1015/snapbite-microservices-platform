@@ -29,4 +29,7 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Long> {
             @Param("meals") List<String> meals,
             @Param("mealFiltersEmpty") boolean mealFiltersEmpty
     );
+
+
+
 }

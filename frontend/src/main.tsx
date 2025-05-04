@@ -1,14 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import App from './App';
-import MenuPage from './MenuPage.tsx'; // 我们接下来会创建这个组件
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { CartProvider } from './context/CartContext';
+import { UserProvider } from './context/UserContext';
+import MainLayout from './layouts/MainLayout';
+import HomePage from './pages/HomePage';
+import MenuPage from './pages/MenuPage';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} />
-      <Route path="/restaurant/:restaurantId/menu" element={<MenuPage />} />
-    </Routes>
+    <UserProvider>
+      <CartProvider>
+        <Routes>
+          <Route path="/" element={<MainLayout />}>
+            <Route index element={<HomePage />} />
+            <Route path="restaurant/:restaurantId/menu" element={<MenuPage />} />
+            <Route path="restaurant" element={<Navigate to="/" />} />
+          </Route>
+        </Routes>
+      </CartProvider>
+    </UserProvider>
   </BrowserRouter>
 );
