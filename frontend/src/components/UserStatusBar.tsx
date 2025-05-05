@@ -1,20 +1,18 @@
-// src/components/UserStatusBar.tsx
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
-import AuthModal from "./AuthModal"; // 👈 登录/注册弹窗
+import AuthModal from "./AuthModal";
 
 export default function UserStatusBar() {
-  const { username, setUsername } = useUser();
+  const { username, role, setUsername, setRole } = useUser(); // ✅ 增加 role 和 setRole
   const navigate = useNavigate();
-
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
-
 
   const handleLogout = () => {
     localStorage.clear();
     setUsername(null);
-    navigate("/"); // ✅ 登出后跳转首页
+    setRole(null); // ✅ 清空角色
+    navigate("/");
   };
 
   return (
@@ -24,13 +22,26 @@ export default function UserStatusBar() {
       </span>
 
       <div>
-        <button onClick={() => navigate("/")}>🏠 Home</button>
+        {/* 👇 商户就不显示 Home */}
+        {username && role !== "MERCHANT" && (
+          <button onClick={() => navigate("/")}>🏠 Home</button>
+        )}
 
         {username ? (
           <>
-            <button onClick={() => navigate("/my-orders")} style={{ marginLeft: "1rem" }}>
-              📦 My Orders
+            <button
+              onClick={() => {
+                if (role === "MERCHANT") {
+                  navigate("/merchant");
+                } else {
+                  navigate("/my-orders");
+                }
+              }}
+              style={{ marginLeft: "1rem" }}
+            >
+              📦 {role === "MERCHANT" ? "Merchant Orders" : "My Orders"}
             </button>
+
             <button onClick={handleLogout} style={{ marginLeft: "1rem" }}>
               Logout
             </button>

@@ -7,7 +7,8 @@ export default function MainLayout() {
   const location = useLocation();
 
   // 👇 根据路径判断是否隐藏购物车
-  const hideCart = location.pathname.startsWith("/merchant") || location.pathname.startsWith("/checkout");
+  const hideCart = location.pathname.startsWith("/merchant") || location.pathname.startsWith("/checkout")
+    || location.pathname.startsWith("/my-orders");
 
   return (
     <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
