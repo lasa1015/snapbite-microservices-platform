@@ -2,9 +2,9 @@ package com.shaluo.snapbite.service;
 
 import com.shaluo.snapbite.dto.RegisterRequest;
 import com.shaluo.snapbite.dto.UserResponse;
-import com.shaluo.snapbite.model.Role;
-import com.shaluo.snapbite.model.User;
-import com.shaluo.snapbite.repository.UserRepository;
+import com.shaluo.snapbite.model.postgres.Role;
+import com.shaluo.snapbite.model.postgres.User;
+import com.shaluo.snapbite.repository.postgres.UserRepository;
 import com.shaluo.snapbite.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

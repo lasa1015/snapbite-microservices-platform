@@ -1,4 +1,4 @@
-package com.shaluo.snapbite.model;
+package com.shaluo.snapbite.model.postgres;
 
 public enum Role {
     USER,       // 普通用户

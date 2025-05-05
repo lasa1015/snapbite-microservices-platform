@@ -2,8 +2,8 @@ package com.shaluo.snapbite.service;
 
 import com.shaluo.snapbite.dto.RestaurantFilterRequest;
 import com.shaluo.snapbite.dto.RestaurantResponse;
-import com.shaluo.snapbite.model.Restaurant;
-import com.shaluo.snapbite.repository.RestaurantRepository;
+import com.shaluo.snapbite.model.postgres.Restaurant;
+import com.shaluo.snapbite.repository.postgres.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

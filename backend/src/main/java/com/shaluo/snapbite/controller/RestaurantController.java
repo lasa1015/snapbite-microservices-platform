@@ -3,10 +3,8 @@ package com.shaluo.snapbite.controller;
 // 引入 Restaurant 实体类
 import com.shaluo.snapbite.dto.RestaurantFilterRequest;
 import com.shaluo.snapbite.dto.RestaurantResponse;
-import com.shaluo.snapbite.model.Restaurant;
 
 // 引入对应的 JPA 仓库接口
-import com.shaluo.snapbite.repository.RestaurantRepository;
 
 import com.shaluo.snapbite.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;

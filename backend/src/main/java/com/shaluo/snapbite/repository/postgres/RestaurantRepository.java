@@ -1,6 +1,6 @@
-package com.shaluo.snapbite.repository;
+package com.shaluo.snapbite.repository.postgres;
 
-import com.shaluo.snapbite.model.Restaurant;
+import com.shaluo.snapbite.model.postgres.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

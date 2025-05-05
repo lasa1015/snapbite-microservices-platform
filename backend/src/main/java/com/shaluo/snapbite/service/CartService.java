@@ -7,8 +7,8 @@ import com.shaluo.snapbite.model.mongo.Dish;
 import com.shaluo.snapbite.model.mongo.Menu;
 import com.shaluo.snapbite.repository.mongo.CartItemRepository;
 import com.shaluo.snapbite.repository.mongo.MenuRepository;
-import com.shaluo.snapbite.repository.RestaurantRepository;
-import com.shaluo.snapbite.model.Restaurant;
+import com.shaluo.snapbite.repository.postgres.RestaurantRepository;
+import com.shaluo.snapbite.model.postgres.Restaurant;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
