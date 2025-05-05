@@ -1,16 +1,8 @@
 import { useNavigate } from 'react-router-dom';
+import { Restaurant } from "../types/restaurant"; // ✅ 加了这行
 
 type Props = {
-  restaurant: {
-    id: number;
-    name: string;
-    imgUrl: string;
-    displayAddress?: string;
-    rating: number;
-    reviewCount: number;
-    price?: string;
-    description?: string;
-  };
+  restaurant: Restaurant; // ✅ 修改类型引用
 };
 
 const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
@@ -23,10 +15,13 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
         <h2>{restaurant.name}</h2>
         <p>{restaurant.displayAddress}</p>
         <p>⭐ {restaurant.rating} / 5 ({restaurant.reviewCount} reviews)</p>
+
         {restaurant.price && <p>💰 {restaurant.price}</p>}
+       
         {restaurant.description && (
           <p style={{ fontStyle: "italic", color: "#555" }}>{restaurant.description}</p>
         )}
+
         <button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
           state: { name: restaurant.name }
         })}>

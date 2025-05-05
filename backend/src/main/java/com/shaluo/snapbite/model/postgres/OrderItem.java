@@ -1,23 +1,26 @@
-package com.shaluo.snapbite.model;
+package com.shaluo.snapbite.model.postgres;
 
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
+@Data
 @Entity
 @Table(name = "order_items")
-@Data
 public class OrderItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "uuid", updatable = false)
+    private UUID id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
+    @ManyToOne
     private Order order;
 
+    private String restaurantId;
+
     private String dishId;
-    private String name;
+    private String dishName;
     private Double price;
     private Integer quantity;
 }

@@ -1,6 +1,6 @@
-package com.shaluo.snapbite.repository;
+package com.shaluo.snapbite.repository.postgres;
 
-import com.shaluo.snapbite.model.User;
+import com.shaluo.snapbite.model.postgres.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

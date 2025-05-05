@@ -1,30 +1,34 @@
 import { useState } from "react";
-import AuthModal from "../components/AuthModal";
+
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
-import { useUser } from "../context/UserContext";
+import { useUserStore } from "../stores/userStore";
+import { useFilterStore } from "../stores/filterStore";
+
 
 const ALL_CATEGORIES = [ "Burgers", "Pizza", "Thai", "Indian", "Chinese", "Japanese", "Korean", "Mexican", "Mediterranean", "Middle Eastern", "Vegan", "Vegetarian" ];
 const ALL_PRICES = ["€", "€€", "€€€"];
 const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 
 export default function HomePage() {
+  
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
-  const { username, setUsername } = useUser();
-  const [categories, setCategories] = useState<string[]>([]);
-  const [prices, setPrices] = useState<string[]>([]);
-  const [meals, setMeals] = useState<string[]>([]);
-  const [sortOrder, setSortOrder] = useState("desc");
+  const { username, setUsername } = useUserStore();
+
+
+  const {
+    categories, setCategories,
+    prices, setPrices,
+    meals, setMeals,
+    sortOrder, setSortOrder,
+    clear
+  } = useFilterStore();
+  
 
   const toggle = (value: string, arr: string[], setArr: (v: string[]) => void) => {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
   };
 
-  const clearFilters = () => {
-    setCategories([]);
-    setPrices([]);
-    setMeals([]);
-  };
 
   const restaurants = useRestaurants({
     categories,
@@ -36,24 +40,7 @@ export default function HomePage() {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginBottom: "1rem" }}>
-        {username ? (
-          <>
-            <div>👤 欢迎：{username}</div>
-            <button onClick={() => {
-              localStorage.clear();
-              setUsername(null);
-            }}>退出</button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => setAuthMode("login")}>登录</button>
-            <button onClick={() => setAuthMode("register")}>注册</button>
-          </>
-        )}
-      </div>
 
-      {authMode && <AuthModal mode={authMode} onClose={() => setAuthMode(null)} />}
 
       <h1>🍽️ Snapbite 餐厅推荐</h1>
 
@@ -98,7 +85,7 @@ export default function HomePage() {
           </select>
         </div>
 
-        <button onClick={clearFilters} style={{ marginTop: 8, padding: "6px 12px" }}>🔄 清除筛选</button>
+        <button onClick={clear} style={{ marginTop: 8, padding: "6px 12px" }}>🔄 清除筛选</button>
       </div>
 
       <p>共找到 <strong>{restaurants.length}</strong> 家餐厅</p>

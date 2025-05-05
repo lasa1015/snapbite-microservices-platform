@@ -1,24 +1,10 @@
-import React from 'react';
+
 import ReactDOM from 'react-dom/client';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { CartProvider } from './context/CartContext';
-import { UserProvider } from './context/UserContext';
-import MainLayout from './layouts/MainLayout';
-import HomePage from './pages/HomePage';
-import MenuPage from './pages/MenuPage';
+import { BrowserRouter } from 'react-router-dom';
+import App from './App'; // ✅ 引入刚创建的 App 组件
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
-    <UserProvider>
-      <CartProvider>
-        <Routes>
-          <Route path="/" element={<MainLayout />}>
-            <Route index element={<HomePage />} />
-            <Route path="restaurant/:restaurantId/menu" element={<MenuPage />} />
-            <Route path="restaurant" element={<Navigate to="/" />} />
-          </Route>
-        </Routes>
-      </CartProvider>
-    </UserProvider>
+    <App />
   </BrowserRouter>
 );

@@ -3,10 +3,8 @@ package com.shaluo.snapbite.controller;
 // 引入 Restaurant 实体类
 import com.shaluo.snapbite.dto.RestaurantFilterRequest;
 import com.shaluo.snapbite.dto.RestaurantResponse;
-import com.shaluo.snapbite.model.Restaurant;
 
 // 引入对应的 JPA 仓库接口
-import com.shaluo.snapbite.repository.RestaurantRepository;
 
 import com.shaluo.snapbite.service.RestaurantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +19,8 @@ public class RestaurantController {
     @Autowired
     private RestaurantService restaurantService;
 
-    // 查询数据库中所有餐馆并返回（作为 JSON 返回到前端）
-    @GetMapping // 对应 GET 请求（无参数），即 GET /api/restaurants
+    // 获取所有餐馆
+    @GetMapping("/all") // 对应 GET 请求（无参数），即 GET /api/restaurants
     public List<RestaurantResponse> getAllRestaurants() {
 
         return restaurantService.getAllRestaurants();
@@ -34,4 +32,17 @@ public class RestaurantController {
 
         return restaurantService.filterRestaurants(filter);
     }
+
+    // 按照id查询单个餐厅
+    @PostMapping("/{id}")
+    public RestaurantResponse getRestaurantById(@PathVariable Long id) {
+        return restaurantService.getRestaurantById(id);
+    }
+
+    @GetMapping("/by-user/{username}")
+    public RestaurantResponse getRestaurantByUsername(@PathVariable String username) {
+        return restaurantService.getRestaurantByUsername(username);
+    }
+
+
 }

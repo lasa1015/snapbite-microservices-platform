@@ -1,11 +1,10 @@
-package com.shaluo.snapbite.model;
+package com.shaluo.snapbite.model.postgres;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @Entity

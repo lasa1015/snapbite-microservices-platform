@@ -2,9 +2,9 @@ package com.shaluo.snapbite.service;
 
 import com.shaluo.snapbite.dto.RegisterRequest;
 import com.shaluo.snapbite.dto.UserResponse;
-import com.shaluo.snapbite.model.Role;
-import com.shaluo.snapbite.model.User;
-import com.shaluo.snapbite.repository.UserRepository;
+import com.shaluo.snapbite.model.postgres.Role;
+import com.shaluo.snapbite.model.postgres.User;
+import com.shaluo.snapbite.repository.postgres.UserRepository;
 import com.shaluo.snapbite.util.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,7 +24,7 @@ public class UserService {
 
     // 【用户注册】
     // 接受的参数是一个DTO
-    public UserResponse  register(RegisterRequest request) {
+    public void register(RegisterRequest request) {
 
         // 检查用户名是否已存在，避免重复注册
         if (userRepository.existsByUsername(request.getUsername())) {
@@ -58,17 +58,6 @@ public class UserService {
 
         // 保存user进数据库
         User saved = userRepository.save(user);
-
-        // 手动构造响应 DTO UserResponse（仅填充允许返回的字段）
-        UserResponse res = new UserResponse();
-        res.setId(saved.getId());
-        res.setUsername(saved.getUsername());
-        res.setEmail(saved.getEmail());
-        res.setRole(saved.getRole().name());
-        res.setCreatedAt(saved.getCreatedAt());
-
-        // 返回专门用于返回的DTO对象res
-        return res;
     }
 
 
