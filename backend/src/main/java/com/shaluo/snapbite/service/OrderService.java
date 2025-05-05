@@ -121,4 +121,21 @@ public class OrderService {
         }).toList();
     }
 
+    public void cancelOrder(String username, UUID orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("订单不存在"));
+
+        if (!order.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("无权限取消该订单");
+        }
+
+        if (order.getStatus() != OrderStatus.CREATED) {
+            throw new RuntimeException("该订单无法取消");
+        }
+
+        order.setStatus(OrderStatus.CANCELED);
+        orderRepository.save(order);
+    }
+
+
 }

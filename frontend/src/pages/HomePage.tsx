@@ -40,24 +40,7 @@ const {
 
   return (
     <div style={{ padding: "2rem" }}>
-      <div style={{ display: "flex", justifyContent: "flex-end", gap: "1rem", marginBottom: "1rem" }}>
-        {username ? (
-          <>
-            <div>👤 欢迎：{username}</div>
-            <button onClick={() => {
-              localStorage.clear();
-              setUsername(null);
-            }}>退出</button>
-          </>
-        ) : (
-          <>
-            <button onClick={() => setAuthMode("login")}>登录</button>
-            <button onClick={() => setAuthMode("register")}>注册</button>
-          </>
-        )}
-      </div>
 
-      {authMode && <AuthModal mode={authMode} onClose={() => setAuthMode(null)} />}
 
       <h1>🍽️ Snapbite 餐厅推荐</h1>
 

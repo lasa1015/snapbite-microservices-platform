@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
 @RestController
 @RequestMapping("/api/order")
 public class OrderController {
@@ -33,6 +35,14 @@ public class OrderController {
         String username = auth.getName();
         return ResponseEntity.ok(orderService.getUserOrders(username));
     }
+
+    @PatchMapping("/cancel/{orderId}")
+    public ResponseEntity<?> cancelOrder(@PathVariable UUID orderId, Authentication auth) {
+        String username = auth.getName();
+        orderService.cancelOrder(username, orderId);
+        return ResponseEntity.ok("订单已取消");
+    }
+
 
 
 }
