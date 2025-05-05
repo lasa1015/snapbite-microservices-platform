@@ -1,17 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUser } from "../context/UserContext";
+import { useUserStore } from "../stores/userStore"; // ✅ 替换原来的 context
 import AuthModal from "./AuthModal";
 
 export default function UserStatusBar() {
-  const { username, role, setUsername, setRole } = useUser(); // ✅ 增加 role 和 setRole
+  const { username, role, setUsername, setRole } = useUserStore(); // ✅ 使用 store 取代 context
   const navigate = useNavigate();
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
 
   const handleLogout = () => {
     localStorage.clear();
     setUsername(null);
-    setRole(null); // ✅ 清空角色
+    setRole(null);
     navigate("/");
   };
 
@@ -22,7 +22,6 @@ export default function UserStatusBar() {
       </span>
 
       <div>
-        {/* 👇 商户就不显示 Home */}
         {username && role !== "MERCHANT" && (
           <button onClick={() => navigate("/")}>🏠 Home</button>
         )}

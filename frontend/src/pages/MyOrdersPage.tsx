@@ -1,22 +1,7 @@
 import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
+import { Order } from "../types/Order";
 
-type OrderItem = {
-  dishName: string;
-  quantity: number;
-  price: number;
-};
-
-type Order = {
-  id: string;
-  createdAt: string;
-  status: string;
-  recipient: string;
-  phone: string;
-  address: string;
-  totalPrice: number;
-  items: OrderItem[];
-};
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);

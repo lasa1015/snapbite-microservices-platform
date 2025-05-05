@@ -1,27 +1,14 @@
-import React from "react";
 
-type OrderItem = {
-  dishName: string;
-  quantity: number;
-  price: number;
-};
+import { Order } from "../types/Order"; // ✅ 引入 Order 类型
 
-type Order = {
-  id: string;
-  createdAt: string;
-  status: string;
-  recipient: string;
-  phone: string;
-  address: string;
-  totalPrice: number;
-  items: OrderItem[];
-};
+
 
 type Props = {
   order: Order;
   onCancel: (id: string) => void;
   onConfirm: (id: string) => void; // ✅ 新增
 };
+
 
 export default function OrderCard({ order, onCancel, onConfirm }: Props) {
   const canCancel = order.status === "CREATED";

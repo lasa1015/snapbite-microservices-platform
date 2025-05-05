@@ -1,11 +1,16 @@
 // src/pages/CheckoutPage.tsx
-import { useCart } from "../context/CartContext";
+import { useCartStore } from "../stores/cartStore";
 import { useCartData } from "../hooks/useCartData";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function CheckoutPage() {
-  const { reloadFlag } = useCart();
+
+
+  const { reloadFlag } = useCartStore();
+
+
+
   const { cart } = useCartData(reloadFlag);
   const navigate = useNavigate();
 

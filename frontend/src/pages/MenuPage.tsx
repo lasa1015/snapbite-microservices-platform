@@ -1,45 +1,18 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { useCart } from "../context/CartContext";
 
-type Dish = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-};
+import { Restaurant } from "../types/restaurant";
+import { CartItem } from "../types/cart";
+import { Menu } from "../types/menu";
+import { useCartStore } from "../stores/cartStore";
 
-type Menu = {
-  restaurantId: number;
-  dishes: Dish[];
-};
-
-type Restaurant = {
-  id: number;
-  name: string;
-  imgUrl: string;
-  displayAddress: string;
-  rating: number;
-  price: string;
-  category: string;
-  description: string;
-};
-
-type CartItem = {
-  id: string;
-  restaurantId: string;
-  dishId: string;
-  dishName?: string;
-  price?: number;
-  quantity: number;
-};
 
 const LOCAL_KEY = "guest_cart";
 
 const MenuPage = () => {
   const { restaurantId } = useParams();
   const navigate = useNavigate();
-  const { triggerReload } = useCart();
+  const { reloadFlag, triggerReload } = useCartStore();
   const [menu, setMenu] = useState<Menu | null>(null);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
 

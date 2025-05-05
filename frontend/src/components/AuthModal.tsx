@@ -1,5 +1,7 @@
 import { useState } from "react";
-import { useUser } from "../context/UserContext";
+
+
+import { useUserStore } from "../stores/userStore";
 import { useAuth } from "../hooks/useAuth";
 
 type Props = {
@@ -9,7 +11,7 @@ type Props = {
 };
 
 export default function AuthModal({ mode, onClose, onLoginSuccess }: Props) {
-  const { setUsername, setRole } = useUser(); // ✅ 增加 setRole 支持
+  const { setUsername, setRole } = useUserStore(); // ✅ 替换 useUser
   const { login, register } = useAuth();
 
   const [username, setLocalUsername] = useState("");

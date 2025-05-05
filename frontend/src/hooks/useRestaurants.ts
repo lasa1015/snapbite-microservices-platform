@@ -1,23 +1,8 @@
+// src/hooks/useRestaurants.ts
 import { useEffect, useState } from "react";
-
-type Restaurant = {
-  id: number;
-  name: string;
-  imgUrl: string;
-  displayAddress?: string;
-  rating: number;
-  reviewCount: number;
-  price?: string;
-  category?: string;
-  description?: string;
-};
-
-type FilterOptions = {
-  categories: string[]; // 允许传空数组
-  prices: string[];
-  meals: string[];
-  sortOrder: string;
-};
+import axios from "axios";
+import { Restaurant } from "../types/Restaurant";
+import { FilterOptions } from "../types/FilterOptions";
 
 export default function useRestaurants({
   categories,
@@ -26,23 +11,29 @@ export default function useRestaurants({
   sortOrder,
 }: FilterOptions) {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const payload = {
-      categories: categories.length ? categories : null,
-      prices: prices.length ? prices : null,
-      meals: meals.length ? meals : null,
-      sortOrder,
+    const fetchRestaurants = async () => {
+      setLoading(true);
+      try {
+        const payload = {
+          categories: categories.length ? categories : null,
+          prices: prices.length ? prices : null,
+          meals: meals.length ? meals : null,
+          sortOrder,
+        };
+
+        const res = await axios.post("/api/restaurants/filter", payload);
+        setRestaurants(res.data);
+      } catch (err) {
+        console.error("❌ 获取餐厅失败", err);
+      } finally {
+        setLoading(false);
+      }
     };
 
-    fetch("/api/restaurants/filter", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    })
-      .then((res) => res.json())
-      .then(setRestaurants)
-      .catch((err) => console.error("❌ 获取餐厅失败", err));
+    fetchRestaurants();
   }, [JSON.stringify({ categories, prices, meals, sortOrder })]);
 
   return restaurants;

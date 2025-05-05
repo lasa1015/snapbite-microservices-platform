@@ -1,13 +1,22 @@
-import { useCart } from "../context/CartContext";
-import { useCartData, CartItem } from "../hooks/useCartData";
-import { useUser } from "../context/UserContext";
+
+import { useCartData } from "../hooks/useCartData";
+import { useUserStore } from "../stores/userStore";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AuthModal from "./AuthModal";
+import { CartItem } from "../types/cart";
+import { useCartStore } from "../stores/cartStore";
+
 
 export default function CartSidebar() {
-  const { reloadFlag, triggerReload } = useCart();
-  const { username, setUsername } = useUser();
+
+
+  const { reloadFlag, triggerReload } = useCartStore();
+  
+
+
+  const { username, setUsername } = useUserStore();
+
   const { cart, loading, updateQuantity, deleteItem, clearCart } = useCartData(reloadFlag);
 
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);

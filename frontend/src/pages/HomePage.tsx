@@ -1,9 +1,10 @@
 import { useState } from "react";
-import AuthModal from "../components/AuthModal";
+
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
-import { useUser } from "../context/UserContext";
-import { useFilter } from "../context/FilterContext";
+import { useUserStore } from "../stores/userStore";
+import { useFilterStore } from "../stores/filterStore";
+
 
 const ALL_CATEGORIES = [ "Burgers", "Pizza", "Thai", "Indian", "Chinese", "Japanese", "Korean", "Mexican", "Mediterranean", "Middle Eastern", "Vegan", "Vegetarian" ];
 const ALL_PRICES = ["€", "€€", "€€€"];
@@ -12,18 +13,17 @@ const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 export default function HomePage() {
   
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
+  const { username, setUsername } = useUserStore();
+
+
+  const {
+    categories, setCategories,
+    prices, setPrices,
+    meals, setMeals,
+    sortOrder, setSortOrder,
+    clear
+  } = useFilterStore();
   
-  const { username, setUsername } = useUser();
-
-
-const {
-  categories, setCategories,
-  prices, setPrices,
-  meals, setMeals,
-  sortOrder, setSortOrder,
-  clear
-} = useFilter();
-
 
   const toggle = (value: string, arr: string[], setArr: (v: string[]) => void) => {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
