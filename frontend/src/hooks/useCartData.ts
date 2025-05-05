@@ -1,5 +1,6 @@
 // hooks/useCartData.ts
 import { useEffect, useState } from "react";
+import axios from "axios"; // ✅ 引入 axios
 
 // 用于 localStorage 中游客购物车的 key
 const LOCAL_KEY = "guest_cart";
@@ -32,19 +33,14 @@ export function useCartData(reloadFlag: number) {
     setLoading(true);
 
     if (token) {
-
       // 登录用户：请求后端接口获取购物车
-      fetch("/api/cart", {
+      axios.get("/api/cart", {
         headers: { Authorization: `Bearer ${token}` },
       })
-        .then((r) => r.json())
-        .then(setCart)
+        .then((res) => setCart(res.data))
         .catch(() => alert("🛒 获取购物车失败"))
         .finally(() => setLoading(false));
-    } 
-    
-    else {
-     
+    } else {
       // 未登录用户：读取本地 localStorage
       try {
         const local = localStorage.getItem(LOCAL_KEY);
@@ -60,19 +56,21 @@ export function useCartData(reloadFlag: number) {
   // 监听 reloadFlag 变化时重新拉取购物车（外部触发刷新）
   useEffect(fetchCart, [reloadFlag]);
 
-  // 更新某项数量
+  // ✅ 更新某项数量
   const updateQuantity = async (id: string, q: number) => {
     if (q < 1) return;
 
     if (token) {
-      
-      // 登录用户：调用后端接口修改
-      await fetch(`/api/cart/${id}/quantity?quantity=${q}`, { method: "PUT" });
+      // 登录用户：调用后端接口修改（使用 axios）
+      await axios.put(`/api/cart/${id}/quantity`, null, {
+        params: { quantity: q },
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
+        }
+      });
       fetchCart();
-    } 
-    
-    else {
-      
+    } else {
       // 游客：更新 localStorage 中的记录
       const newCart = cart.map(item =>
         item.id === id ? { ...item, quantity: q } : item
@@ -84,7 +82,7 @@ export function useCartData(reloadFlag: number) {
   // 删除某项
   const deleteItem = async (id: string) => {
     if (token) {
-      await fetch(`/api/cart/${id}`, { method: "DELETE" });
+      await axios.delete(`/api/cart/${id}`);
       fetchCart();
     } else {
       const newCart = cart.filter(item => item.id !== id);
@@ -95,8 +93,7 @@ export function useCartData(reloadFlag: number) {
   // 清空购物车
   const clearCart = async () => {
     if (token) {
-      await fetch("/api/cart/clear", {
-        method: "DELETE",
+      await axios.delete("/api/cart/clear", {
         headers: { Authorization: `Bearer ${token}` },
       });
       fetchCart();

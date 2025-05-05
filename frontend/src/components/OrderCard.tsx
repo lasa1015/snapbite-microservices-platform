@@ -20,10 +20,12 @@ type Order = {
 type Props = {
   order: Order;
   onCancel: (id: string) => void;
+  onConfirm: (id: string) => void; // ✅ 新增
 };
 
-export default function OrderCard({ order, onCancel }: Props) {
+export default function OrderCard({ order, onCancel, onConfirm }: Props) {
   const canCancel = order.status === "CREATED";
+  const canConfirm = order.status === "SHIPPED";
 
   const handleCancel = () => {
     if (window.confirm("确定要取消该订单吗？")) {
@@ -31,11 +33,17 @@ export default function OrderCard({ order, onCancel }: Props) {
     }
   };
 
+  const handleConfirm = () => {
+    if (window.confirm("确认已经收到订单？")) {
+      onConfirm(order.id);
+    }
+  };
+
   const statusColor = {
     CREATED: "#007bff",
     SHIPPED: "#17a2b8",
     COMPLETED: "#28a745",
-    CANCELLED: "#dc3545",
+    CANCELED: "#dc3545",
   }[order.status] || "#6c757d";
 
   return (
@@ -78,6 +86,24 @@ export default function OrderCard({ order, onCancel }: Props) {
           }}
         >
           ❌ 取消订单
+        </button>
+      )}
+
+      {canConfirm && (
+        <button
+          onClick={handleConfirm}
+          style={{
+            marginTop: "1rem",
+            marginLeft: "0.5rem",
+            backgroundColor: "#28a745",
+            color: "#fff",
+            padding: "6px 12px",
+            border: "none",
+            borderRadius: "5px",
+            cursor: "pointer"
+          }}
+        >
+          ✅ 确认收货
         </button>
       )}
     </div>

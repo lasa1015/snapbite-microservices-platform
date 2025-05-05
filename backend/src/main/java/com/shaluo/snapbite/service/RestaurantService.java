@@ -97,4 +97,12 @@ public class RestaurantService {
         return toResponse(restaurant);
     }
 
+
+    public RestaurantResponse getRestaurantByUsername(String username) {
+        Restaurant r = restaurantRepository.findByOwnerUsername(username)
+                .orElseThrow(() -> new RuntimeException("未找到该商户对应的餐厅"));
+        return toResponse(r);
+    }
+
+
 }

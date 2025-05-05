@@ -39,4 +39,10 @@ public class RestaurantController {
         return restaurantService.getRestaurantById(id);
     }
 
+    @GetMapping("/by-user/{username}")
+    public RestaurantResponse getRestaurantByUsername(@PathVariable String username) {
+        return restaurantService.getRestaurantByUsername(username);
+    }
+
+
 }

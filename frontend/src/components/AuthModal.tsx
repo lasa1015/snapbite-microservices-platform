@@ -21,11 +21,16 @@ export default function AuthModal({ mode, onClose, onLoginSuccess }: Props) {
   const handleSubmit = async () => {
     try {
       if (mode === "login") {
-        const user = await login(username, password); // 调用 login 函数
-        setUsername(user.username); // 设置全局上下文
-        onLoginSuccess(user.username); // 通知父组件
+        const user = await login(username, password);
+        setUsername(user.username);
+        onLoginSuccess(user.username);
+        
+        // ⬇️ 角色判断跳转
+        if (user.role === "MERCHANT") {
+          window.location.href = "/merchant"; // 或使用 navigate("/merchant")
+        }
       } else {
-        await register({ username, password, email, role }); // 调用 register 函数
+        await register({ username, password, email, role });
         alert("注册成功，请登录");
         onClose();
       }
@@ -33,6 +38,9 @@ export default function AuthModal({ mode, onClose, onLoginSuccess }: Props) {
       setError(err.response?.data || "请求失败");
     }
   };
+  
+
+
 
   return (
     <div style={{

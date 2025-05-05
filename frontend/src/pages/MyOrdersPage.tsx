@@ -60,7 +60,6 @@ export default function MyOrdersPage() {
 
     if (res.ok) {
       alert("✅ 订单已取消");
-      // 更新状态为取消
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: "CANCELED" } : order
@@ -72,6 +71,30 @@ export default function MyOrdersPage() {
     }
   };
 
+  const handleConfirm = async (orderId: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) return alert("未登录");
+
+    const res = await fetch(`/api/order/confirm/${orderId}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (res.ok) {
+      alert("✅ 已确认收货");
+      setOrders(prev =>
+        prev.map(order =>
+          order.id === orderId ? { ...order, status: "COMPLETED" } : order
+        )
+      );
+    } else {
+      const errMsg = await res.text();
+      alert("❌ 确认失败：" + errMsg);
+    }
+  };
+
   if (loading) return <p>加载中...</p>;
   if (orders.length === 0) return <p>你还没有任何订单。</p>;
 
@@ -79,7 +102,12 @@ export default function MyOrdersPage() {
     <div style={{ padding: "2rem" }}>
       <h2>📦 我的订单</h2>
       {orders.map(order => (
-        <OrderCard key={order.id} order={order} onCancel={handleCancel} />
+        <OrderCard
+          key={order.id}
+          order={order}
+          onCancel={handleCancel}
+          onConfirm={handleConfirm} // ✅ 新增
+        />
       ))}
     </div>
   );

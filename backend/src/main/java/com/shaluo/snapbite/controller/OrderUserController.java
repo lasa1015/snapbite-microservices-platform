@@ -1,9 +1,7 @@
 package com.shaluo.snapbite.controller;
 
 import com.shaluo.snapbite.dto.CheckoutRequest;
-import com.shaluo.snapbite.model.postgres.User;
-import com.shaluo.snapbite.repository.postgres.UserRepository;
-import com.shaluo.snapbite.service.OrderService;
+import com.shaluo.snapbite.service.OrderUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,17 +11,17 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/order")
-public class OrderController {
+public class OrderUserController {
 
     @Autowired
-    private OrderService orderService;
+    private OrderUserService orderUserService;
 
     // 用户结算 → 生成订单
     @PostMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestBody CheckoutRequest req, Authentication auth) {
         String username = auth.getName(); // 只传 username，具体逻辑交给 service
 
-        orderService.checkout(username, req);
+        orderUserService.checkout(username, req);
 
         return ResponseEntity.ok("✅ 下单成功！");
     }
@@ -33,14 +31,22 @@ public class OrderController {
     @GetMapping("/my-orders")
     public ResponseEntity<?> getMyOrders(Authentication auth) {
         String username = auth.getName();
-        return ResponseEntity.ok(orderService.getUserOrders(username));
+        return ResponseEntity.ok(orderUserService.getUserOrders(username));
     }
 
     @PatchMapping("/cancel/{orderId}")
     public ResponseEntity<?> cancelOrder(@PathVariable UUID orderId, Authentication auth) {
         String username = auth.getName();
-        orderService.cancelOrder(username, orderId);
+        orderUserService.cancelOrder(username, orderId);
         return ResponseEntity.ok("订单已取消");
+    }
+
+
+    @PatchMapping("/confirm/{orderId}")
+    public ResponseEntity<?> confirmOrder(@PathVariable UUID orderId, Authentication auth) {
+        String username = auth.getName();
+        orderUserService.confirmOrder(username, orderId);
+        return ResponseEntity.ok("订单已确认收货");
     }
 
 

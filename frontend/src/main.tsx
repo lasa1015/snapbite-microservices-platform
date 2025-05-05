@@ -9,6 +9,7 @@ import MenuPage from './pages/MenuPage';
 import { FilterProvider } from './context/FilterContext';
 import CheckoutPage from "./pages/CheckoutPage"; // ← 引入
 import MyOrdersPage from './pages/MyOrdersPage';
+import MerchantDashboard from './pages/MerchantDashboard';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
@@ -22,6 +23,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="restaurant" element={<Navigate to="/" />} />
             <Route path="checkout" element={<CheckoutPage />} />
             <Route path="my-orders" element={<MyOrdersPage />} />
+            <Route path="/merchant" element={<MerchantDashboard />} />
           </Route>
         </Routes>
         </FilterProvider>

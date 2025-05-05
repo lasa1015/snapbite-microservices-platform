@@ -18,9 +18,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
-public class OrderService {
+public class OrderUserService {
 
     @Autowired
     private CartItemRepository cartItemRepository;
@@ -35,54 +36,69 @@ public class OrderService {
     private UserRepository userRepository;
 
     public void checkout(String username, CheckoutRequest request) {
-        // 查询用户
+        // 1. 查询用户
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("用户不存在"));
 
-        // 查购物车
+        // 2. 查询购物车
         List<CartItem> cart = cartItemRepository.findByUsername(username);
-        if (cart.isEmpty()) throw new RuntimeException("购物车为空，无法下单");
+        if (cart.isEmpty()) throw new RuntimeException("购物车为空");
 
-        // 创建订单
-        Order order = new Order();
-        order.setId(UUID.randomUUID());  // 👈 新增这句
-        order.setUser(user); // 用对象设置外键
-        order.setRecipient(request.getRecipient());
-        order.setPhone(request.getPhone());
-        order.setAddress(request.getAddress());
-        order.setStatus(OrderStatus.CREATED);
+        // 3. 按 restaurantId 分组
+        Map<String, List<CartItem>> groupedByRestaurant = cart.stream()
+                .collect(Collectors.groupingBy(CartItem::getRestaurantId));
 
-        List<OrderItem> items = new ArrayList<>();
-        for (CartItem cartItem : cart) {
-            Menu menu = menuRepository.findByRestaurantId(Integer.parseInt(cartItem.getRestaurantId()));
+        for (Map.Entry<String, List<CartItem>> entry : groupedByRestaurant.entrySet()) {
+            String restaurantId = entry.getKey();
+            List<CartItem> items = entry.getValue();
+
+            // 4. 创建一个订单
+            Order order = new Order();
+            order.setId(UUID.randomUUID());
+            order.setUser(user);
+            order.setRecipient(request.getRecipient());
+            order.setPhone(request.getPhone());
+            order.setAddress(request.getAddress());
+            order.setStatus(OrderStatus.CREATED);
+
+            // 5. 查询菜单
+            Menu menu = menuRepository.findByRestaurantId(Integer.parseInt(restaurantId));
             if (menu == null) continue;
 
-            Optional<Dish> dishOpt = menu.getItems().stream()
-                    .filter(d -> cartItem.getDishId().equals(d.getId().toString()))
-                    .findFirst();
+            List<OrderItem> orderItems = new ArrayList<>();
+            for (CartItem cartItem : items) {
+                Optional<Dish> dishOpt = menu.getItems().stream()
+                        .filter(d -> d.getId().toString().equals(cartItem.getDishId()))
+                        .findFirst();
 
-            if (dishOpt.isEmpty()) continue;
+                if (dishOpt.isEmpty()) continue;
 
-            Dish dish = dishOpt.get();
+                Dish dish = dishOpt.get();
 
-            OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
-            orderItem.setRestaurantId(cartItem.getRestaurantId());
-            orderItem.setDishId(cartItem.getDishId());
-            orderItem.setDishName(dish.getName());
-            orderItem.setPrice(dish.getPrice());
-            orderItem.setQuantity(cartItem.getQuantity());
+                OrderItem orderItem = new OrderItem();
+                orderItem.setId(UUID.randomUUID());  //
+                orderItem.setOrder(order);
+                orderItem.setRestaurantId(restaurantId);
+                orderItem.setDishId(cartItem.getDishId());
+                orderItem.setDishName(dish.getName());
+                orderItem.setPrice(dish.getPrice());
+                orderItem.setQuantity(cartItem.getQuantity());
 
-            items.add(orderItem);
+                orderItems.add(orderItem);
+            }
+
+            if (!orderItems.isEmpty()) {
+                order.setItems(orderItems);
+                order.setTotalPrice(calculateTotalAmount(orderItems));
+                orderRepository.save(order);
+            }
         }
 
-        if (items.isEmpty()) throw new RuntimeException("菜品信息异常，无法创建订单");
-
-        order.setItems(items);
-        order.setTotalPrice(calculateTotalAmount(items)); // 设置总价
-        orderRepository.save(order);
+        // 6. 清空购物车
         cartItemRepository.deleteByUsername(username);
     }
+
+
 
     private double calculateTotalAmount(List<OrderItem> items) {
         return items.stream()
@@ -136,6 +152,23 @@ public class OrderService {
         order.setStatus(OrderStatus.CANCELED);
         orderRepository.save(order);
     }
+
+    public void confirmOrder(String username, UUID orderId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("订单不存在"));
+
+        if (!order.getUser().getUsername().equals(username)) {
+            throw new RuntimeException("无权限确认该订单");
+        }
+
+        if (order.getStatus() != OrderStatus.SHIPPED) {
+            throw new RuntimeException("当前状态无法确认收货");
+        }
+
+        order.setStatus(OrderStatus.COMPLETED);
+        orderRepository.save(order);
+    }
+
 
 
 }

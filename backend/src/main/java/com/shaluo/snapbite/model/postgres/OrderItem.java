@@ -3,14 +3,16 @@ package com.shaluo.snapbite.model.postgres;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 @Entity
 @Table(name = "order_items")
 public class OrderItem {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @Column(columnDefinition = "uuid", updatable = false)
+    private UUID id;
 
     @ManyToOne
     private Order order;
