@@ -27,4 +27,12 @@ public class OrderController {
     }
 
 
+    // 获取用户所有订单
+    @GetMapping("/my-orders")
+    public ResponseEntity<?> getMyOrders(Authentication auth) {
+        String username = auth.getName();
+        return ResponseEntity.ok(orderService.getUserOrders(username));
+    }
+
+
 }

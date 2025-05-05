@@ -1,6 +1,8 @@
 package com.shaluo.snapbite.service;
 
 import com.shaluo.snapbite.dto.CheckoutRequest;
+import com.shaluo.snapbite.dto.OrderItemResponse;
+import com.shaluo.snapbite.dto.OrderResponse;
 import com.shaluo.snapbite.model.mongo.CartItem;
 import com.shaluo.snapbite.model.mongo.Dish;
 import com.shaluo.snapbite.model.mongo.Menu;
@@ -87,4 +89,36 @@ public class OrderService {
                 .mapToDouble(item -> item.getPrice() * item.getQuantity())
                 .sum();
     }
+
+
+    public List<OrderResponse> getUserOrders(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        List<Order> orders = orderRepository.findByUserOrderByCreatedAtDesc(user);
+
+        return orders.stream().map(order -> {
+            OrderResponse response = new OrderResponse();
+            response.setId(order.getId().toString());
+            response.setAddress(order.getAddress());
+            response.setRecipient(order.getRecipient());
+            response.setPhone(order.getPhone());
+            response.setStatus(order.getStatus().name());
+            response.setTotalPrice(order.getTotalPrice());
+            response.setCreatedAt(order.getCreatedAt());
+
+            List<OrderItemResponse> itemResponses = order.getItems().stream().map(item -> {
+                OrderItemResponse i = new OrderItemResponse();
+                i.setDishName(item.getDishName());
+                i.setPrice(item.getPrice());
+                i.setQuantity(item.getQuantity());
+                i.setRestaurantId(item.getRestaurantId());
+                return i;
+            }).toList();
+
+            response.setItems(itemResponses);
+            return response;
+        }).toList();
+    }
+
 }
