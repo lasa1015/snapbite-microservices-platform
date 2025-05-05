@@ -6,13 +6,15 @@ import com.shaluo.snapbite.model.mongo.Dish;
 import com.shaluo.snapbite.model.mongo.Menu;
 import com.shaluo.snapbite.model.postgres.Order;
 import com.shaluo.snapbite.model.postgres.OrderItem;
+import com.shaluo.snapbite.model.postgres.OrderStatus;
+import com.shaluo.snapbite.model.postgres.User;
 import com.shaluo.snapbite.repository.mongo.CartItemRepository;
 import com.shaluo.snapbite.repository.mongo.MenuRepository;
 import com.shaluo.snapbite.repository.postgres.OrderRepository;
+import com.shaluo.snapbite.repository.postgres.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -27,27 +29,29 @@ public class OrderService {
     @Autowired
     private OrderRepository orderRepository;
 
-    public void checkout(String username, CheckoutRequest request)
- {
-        // 1. 查找购物车
-        List<CartItem> cart = cartItemRepository.findByUsername(username);
-        if (cart.isEmpty()) {
-            throw new RuntimeException("购物车为空，无法下单");
-        }
+    @Autowired
+    private UserRepository userRepository;
 
-        // 2. 构造订单
+    public void checkout(String username, CheckoutRequest request) {
+        // 查询用户
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("用户不存在"));
+
+        // 查购物车
+        List<CartItem> cart = cartItemRepository.findByUsername(username);
+        if (cart.isEmpty()) throw new RuntimeException("购物车为空，无法下单");
+
+        // 创建订单
         Order order = new Order();
-        order.setUsername(username);
+        order.setId(UUID.randomUUID());  // 👈 新增这句
+        order.setUser(user); // 用对象设置外键
         order.setRecipient(request.getRecipient());
         order.setPhone(request.getPhone());
         order.setAddress(request.getAddress());
-
-
+        order.setStatus(OrderStatus.CREATED);
 
         List<OrderItem> items = new ArrayList<>();
-
         for (CartItem cartItem : cart) {
-            // 通过 restaurantId 查找菜单
             Menu menu = menuRepository.findByRestaurantId(Integer.parseInt(cartItem.getRestaurantId()));
             if (menu == null) continue;
 
@@ -59,28 +63,28 @@ public class OrderService {
 
             Dish dish = dishOpt.get();
 
-            // 构造 OrderItem
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(order);
+            orderItem.setRestaurantId(cartItem.getRestaurantId());
             orderItem.setDishId(cartItem.getDishId());
             orderItem.setDishName(dish.getName());
             orderItem.setPrice(dish.getPrice());
             orderItem.setQuantity(cartItem.getQuantity());
-            orderItem.setRestaurantId(cartItem.getRestaurantId());
 
             items.add(orderItem);
         }
 
-        if (items.isEmpty()) {
-            throw new RuntimeException("菜品信息异常，无法创建订单");
-        }
+        if (items.isEmpty()) throw new RuntimeException("菜品信息异常，无法创建订单");
 
         order.setItems(items);
-
-        // 3. 保存订单
+        order.setTotalPrice(calculateTotalAmount(items)); // 设置总价
         orderRepository.save(order);
-
-        // 4. 清空购物车
         cartItemRepository.deleteByUsername(username);
+    }
+
+    private double calculateTotalAmount(List<OrderItem> items) {
+        return items.stream()
+                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .sum();
     }
 }

@@ -1,6 +1,8 @@
 package com.shaluo.snapbite.controller;
 
 import com.shaluo.snapbite.dto.CheckoutRequest;
+import com.shaluo.snapbite.model.postgres.User;
+import com.shaluo.snapbite.repository.postgres.UserRepository;
 import com.shaluo.snapbite.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,9 +19,12 @@ public class OrderController {
     // 用户结算 → 生成订单
     @PostMapping("/checkout")
     public ResponseEntity<?> checkout(@RequestBody CheckoutRequest req, Authentication auth) {
-        String username = auth.getName();
+        String username = auth.getName(); // 只传 username，具体逻辑交给 service
+
         orderService.checkout(username, req);
+
         return ResponseEntity.ok("✅ 下单成功！");
     }
+
 
 }
