@@ -3,6 +3,7 @@ import AuthModal from "../components/AuthModal";
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
 import { useUser } from "../context/UserContext";
+import { useFilter } from "../context/FilterContext";
 
 const ALL_CATEGORIES = [ "Burgers", "Pizza", "Thai", "Indian", "Chinese", "Japanese", "Korean", "Mexican", "Mediterranean", "Middle Eastern", "Vegan", "Vegetarian" ];
 const ALL_PRICES = ["€", "€€", "€€€"];
@@ -11,21 +12,23 @@ const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 export default function HomePage() {
   
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
+  
   const { username, setUsername } = useUser();
-  const [categories, setCategories] = useState<string[]>([]);
-  const [prices, setPrices] = useState<string[]>([]);
-  const [meals, setMeals] = useState<string[]>([]);
-  const [sortOrder, setSortOrder] = useState("desc");
+
+
+const {
+  categories, setCategories,
+  prices, setPrices,
+  meals, setMeals,
+  sortOrder, setSortOrder,
+  clear
+} = useFilter();
+
 
   const toggle = (value: string, arr: string[], setArr: (v: string[]) => void) => {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
   };
 
-  const clearFilters = () => {
-    setCategories([]);
-    setPrices([]);
-    setMeals([]);
-  };
 
   const restaurants = useRestaurants({
     categories,
@@ -99,7 +102,7 @@ export default function HomePage() {
           </select>
         </div>
 
-        <button onClick={clearFilters} style={{ marginTop: 8, padding: "6px 12px" }}>🔄 清除筛选</button>
+        <button onClick={clear} style={{ marginTop: 8, padding: "6px 12px" }}>🔄 清除筛选</button>
       </div>
 
       <p>共找到 <strong>{restaurants.length}</strong> 家餐厅</p>

@@ -6,11 +6,13 @@ import { UserProvider } from './context/UserContext';
 import MainLayout from './layouts/MainLayout';
 import HomePage from './pages/HomePage';
 import MenuPage from './pages/MenuPage';
+import { FilterProvider } from './context/FilterContext';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <UserProvider>
       <CartProvider>
+      <FilterProvider>
         <Routes>
           <Route path="/" element={<MainLayout />}>
             <Route index element={<HomePage />} />
@@ -18,6 +20,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             <Route path="restaurant" element={<Navigate to="/" />} />
           </Route>
         </Routes>
+        </FilterProvider>
       </CartProvider>
     </UserProvider>
   </BrowserRouter>

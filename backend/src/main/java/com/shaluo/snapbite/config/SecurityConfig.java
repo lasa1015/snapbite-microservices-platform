@@ -38,8 +38,8 @@ public class SecurityConfig {
                 "/api/users/register",
                 "/api/users/login",
                 "/api/restaurants/**",
-                "/api/menu/**",
-                "/api/cart/**"
+                "/api/menu/**"
+
         };
 
         http.csrf(csrf -> csrf.disable())

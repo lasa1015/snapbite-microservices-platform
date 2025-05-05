@@ -8,20 +8,14 @@ import java.util.Optional;
 
 public interface CartItemRepository extends MongoRepository<CartItem, String> {
 
-    /* 查询购物车 */
+    // 查询某个用户的所有购物车项
     List<CartItem> findByUsername(String username);
-    List<CartItem> findBySessionId(String sessionId);
 
-    /* === 关键：同时用 restaurantId + dishId === */
+    // 根据用户名 + 餐厅ID + 菜品ID 查询用户的某个具体商品
+    // 用于添加商品时判断是否已有
     Optional<CartItem> findByUsernameAndRestaurantIdAndDishId(String username,
                                                               String restaurantId,
                                                               String dishId);
-
-    Optional<CartItem> findBySessionIdAndRestaurantIdAndDishId(String sessionId,
-                                                               String restaurantId,
-                                                               String dishId);
-
-    /* 批量删除 */
+    // 清空某个用户的购物车
     void deleteByUsername(String username);
-    void deleteBySessionId(String sessionId);
 }
