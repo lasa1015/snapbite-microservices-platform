@@ -6,3 +6,25 @@
 
 /* Tailwind 工具类 */
 @tailwind utilities;
+
+
+@font-face {
+  font-family: 'CalSans';
+  src: url('/images/CalSans-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900; /* 支持从 Thin 到 Black 的粗细 */
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'OpenSans';
+  src: url('/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+  font-weight: 100 900;
+  font-style: italic;
+}

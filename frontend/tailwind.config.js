@@ -1,4 +1,9 @@
 /** @type {import('tailwindcss').Config} */
+
+import defaultTheme from 'tailwindcss/defaultTheme';
+
+
+
 export default {
   // 指定哪些文件中会使用到 Tailwind 的类名
   content: [
@@ -7,12 +12,12 @@ export default {
   ],
   theme: {
     extend: {
-      // 你可以在这里扩展自己的颜色、字体、间距等自定义主题
-      // 例如：
-      // colors: {
-      //   brand: '#1e40af',
-      // },
-    },
+      fontFamily: {
+        calsans: ['"CalSans"', ...defaultTheme.fontFamily.sans],
+        opensans: ['OpenSans', ...defaultTheme.fontFamily.sans],
+      }
+    }    
+
   },
   plugins: [
     // 这里可以添加插件，例如：
