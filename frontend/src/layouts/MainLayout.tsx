@@ -2,23 +2,28 @@
 import { Outlet, useLocation } from "react-router-dom";
 import CartSidebar from "../components/CartSidebar";
 import UserStatusBar from "../components/UserStatusBar";
+import { useCartStore } from "../stores/cartStore"; // ✅ 新增
+
 
 export default function MainLayout() {
   const location = useLocation();
+  const { cartOpen } = useCartStore(); // ✅ 新增
 
-  // 👇 根据路径判断是否隐藏购物车
-  const hideCart = location.pathname.startsWith("/merchant") || location.pathname.startsWith("/checkout")
-    || location.pathname.startsWith("/my-orders");
+  const hideCart =
+    location.pathname.startsWith("/merchant") ||
+    location.pathname.startsWith("/checkout") ||
+    location.pathname.startsWith("/my-orders");
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
+    <div className="relative min-h-screen flex flex-col">
       <UserStatusBar />
-      <div style={{ display: "flex", flex: 1 }}>
-        <div style={{ flex: 1 }}>
-          <Outlet />
-        </div>
-        {!hideCart && <CartSidebar />} {/* ✅ 条件渲染购物车 */}
+      <div className="flex flex-1">
+        <Outlet />
       </div>
+
+      {/* ✅ 购物车脱离布局，浮动在最右侧 */}
+      {!hideCart && cartOpen && <CartSidebar />}
     </div>
   );
 }
+

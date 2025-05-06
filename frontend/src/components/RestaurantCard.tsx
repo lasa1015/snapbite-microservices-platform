@@ -1,59 +1,62 @@
+// src/components/RestaurantCard.tsx
 import { useNavigate } from 'react-router-dom';
-import { Restaurant } from "../types/restaurant"; // ✅ 加了这行
+import { Restaurant } from "../types/restaurant";
+
+// 根据评分返回标签
+function getRatingLabel(rating: number) {
+  if (rating >= 4.5) return "Excellent";
+  if (rating >= 4.2) return "Good";
+  if (rating >= 3.8) return "Average";
+  return "Poor";
+}
 
 type Props = {
-  restaurant: Restaurant; // ✅ 修改类型引用
+  restaurant: Restaurant;
 };
 
 const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
   const navigate = useNavigate();
 
   return (
-    <div style={styles.card}>
-      <img src={restaurant.imgUrl} alt={restaurant.name} style={styles.image} />
-      <div style={styles.info}>
-        <h2>{restaurant.name}</h2>
-        <p>{restaurant.displayAddress}</p>
-        <p>⭐ {restaurant.rating} / 5 ({restaurant.reviewCount} reviews)</p>
+    <div
+      onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
+        state: { name: restaurant.name }
+      })}
+      className="cursor-pointer group relative"
+    >
+      {/* 图片 */}
+      <div className="w-full h-[190px] overflow-hidden rounded-xl relative">
+        <img
+          src={restaurant.imgUrl}
+          alt={restaurant.name}
+          className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
 
-        {restaurant.price && <p>💰 {restaurant.price}</p>}
-       
+        {/* 悬浮遮罩层 */}
+        <div className="absolute inset-0 bg-red-900 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl">
+        <span className="text-white text-2xl font-light">View Details</span>
+
+        </div>
+      </div>
+
+      {/* 文字信息区域 */}
+      <div className="mt-2 space-y-0.5 px-1">
+        <h2 className="text-base font-semibold text-gray-900">{restaurant.name}</h2>
+
+        <p className="text-sm text-gray-800">
+          ⭐ {restaurant.rating.toFixed(1)}{" "}
+          <span className="text-gray-500 ml-1">{getRatingLabel(restaurant.rating)}</span>
+          <span className="text-gray-400 ml-1">(500+)</span>
+        </p>
+
         {restaurant.description && (
-          <p style={{ fontStyle: "italic", color: "#555" }}>{restaurant.description}</p>
+          <p className="text-sm text-gray-500 truncate italic">
+            {restaurant.description}
+          </p>
         )}
-
-        <button onClick={() => navigate(`/restaurant/${restaurant.id}/menu`, {
-          state: { name: restaurant.name }
-        })}>
-          查看详情
-        </button>
       </div>
     </div>
   );
-};
-
-const styles = {
-  card: {
-    display: "flex",
-    gap: "1rem",
-    padding: "1rem",
-    marginBottom: "1rem",
-    border: "1px solid #ccc",
-    borderRadius: "10px",
-    boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
-    backgroundColor: "#fff",
-  },
-  image: {
-    width: "120px",
-    height: "120px",
-    objectFit: "cover",
-    borderRadius: "8px",
-  },
-  info: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "space-between",
-  },
 };
 
 export default RestaurantCard;

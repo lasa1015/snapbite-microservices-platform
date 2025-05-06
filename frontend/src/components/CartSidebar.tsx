@@ -8,9 +8,10 @@ import { CartItem } from "../types/cart";
 import { useCartStore } from "../stores/cartStore";
 
 
+
 export default function CartSidebar() {
 
-
+  const { closeCart } = useCartStore(); // ✅ 获取关闭函数
   const { reloadFlag, triggerReload } = useCartStore();
   
 
@@ -81,10 +82,20 @@ export default function CartSidebar() {
   const total = cart.reduce((s, c) => s + (c.price ?? 0) * c.quantity, 0);
 
   return (
-    <div style={{
-      width: 300, background: "#f9f9f9", borderLeft: "1px solid #ccc",
-      padding: "1rem", height: "100vh", overflowY: "auto", position: "sticky", top: 0
-    }}>
+    <div
+    className="fixed top-0 right-0 w-[300px] h-screen bg-white border-l shadow-lg z-50 p-4 overflow-y-auto"
+  >
+    {/* 顶部栏 + 关闭按钮 */}
+    <div className="flex justify-between items-center mb-4">
+      <h3 className="text-lg font-semibold">🛒 我的购物车</h3>
+      <button
+        onClick={closeCart}
+        className="text-lg text-gray-600 hover:text-black"
+      >
+        ❌
+      </button>
+    </div>
+
       <h3>🛒 我的购物车</h3>
       {loading ? <p>加载中…</p> :
         cart.length === 0 ? <p>暂无商品</p> :
