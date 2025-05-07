@@ -34,7 +34,7 @@ export default function UserStatusBar() {
   {/* logo */} 
 
   <img
-  src="/images/logo.png"
+  src="/images/logo2.png"
   alt="App Logo"
   onClick={() => navigate("/")}
   className="h-10 cursor-pointer object-contain"

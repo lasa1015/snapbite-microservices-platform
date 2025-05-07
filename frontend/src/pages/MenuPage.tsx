@@ -1,11 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
 import { Restaurant } from "../types/restaurant";
-import { CartItem } from "../types/cart";
 import { Menu } from "../types/menu";
 import { useCartStore } from "../stores/cartStore";
-
+import DishCard from "../components/DishCard";
+import RestaurantMap from "../components/RestaurantMap";
 
 const LOCAL_KEY = "guest_cart";
 
@@ -21,29 +20,17 @@ const MenuPage = () => {
 
   useEffect(() => {
     if (!restId) return;
-
-    // 获取菜单
-    fetch(`/api/menu/restaurant/${restId}`)
-      .then(res => res.json())
-      .then(setMenu)
-      .catch(err => console.error("获取菜单失败：", err));
-
-    // 获取餐厅信息
-    fetch(`/api/restaurants/${restId}`, {
-      method: "POST"
-    })
-      .then(res => res.json())
-      .then(setRestaurant)
-      .catch(err => console.error("获取餐厅信息失败：", err));
+    fetch(`/api/menu/restaurant/${restId}`).then(res => res.json()).then(setMenu);
+    fetch(`/api/restaurants/${restId}`, { method: "POST" }).then(res => res.json()).then(setRestaurant);
   }, [restId]);
 
+
+
   const addToCart = async (dishId: number) => {
-    if (!restId || !menu) return alert("⚠️ 餐厅或菜单数据缺失");
-
+    if (!restId || !menu) return;
     const dish = menu.dishes.find(d => d.id === dishId);
-    if (!dish) return alert("⚠️ 找不到该菜品");
+    if (!dish) return;
 
-    // ✅ 登录用户：发请求给后端
     if (token) {
       const res = await fetch("/api/cart/add", {
         method: "POST",
@@ -57,36 +44,20 @@ const MenuPage = () => {
           quantity: 1
         }),
       });
-
       if (res.ok) {
         alert("✅ 已加入购物车");
         triggerReload();
       } else {
         alert("❌ 加入失败：" + await res.text());
       }
-
     } else {
-      // ❌ 未登录用户：操作 localStorage
       const local = localStorage.getItem(LOCAL_KEY);
-      let cart: CartItem[] = local ? JSON.parse(local) : [];
-
-      const existing = cart.find(
-        item => item.dishId === dishId.toString() && item.restaurantId === restId.toString()
-      );
-
-      if (existing) {
-        existing.quantity += 1;
-      } else {
-        cart.push({
-          id: crypto.randomUUID(),
-          dishId: dishId.toString(),
-          restaurantId: restId.toString(),
-          dishName: dish.name,
-          price: dish.price,
-          quantity: 1,
-        });
-      }
-
+      let cart = local ? JSON.parse(local) : [];
+      const existing = cart.find(i => i.dishId === dishId.toString());
+      if (existing) existing.quantity += 1;
+      else 
+      cart.push({ id: crypto.randomUUID(), dishId: dishId.toString(), restaurantId: restId.toString(), dishName: dish.name, price: dish.price, quantity: 1 });
+    
       localStorage.setItem(LOCAL_KEY, JSON.stringify(cart));
       alert("✅ 已加入购物车（未登录）");
       triggerReload();
@@ -96,30 +67,40 @@ const MenuPage = () => {
   if (!menu || !restaurant) return <p>加载中...</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <button onClick={() => navigate(-1)} style={{ marginBottom: "1.5rem" }}>← 返回</button>
+    <div className="max-w-screen-xl mx-auto p-6 space-y-6">
+      <button onClick={() => navigate(-1)} className="text-2xl text-red-600 mb-0 font-outfit">← back</button>
 
-      {/* 餐厅信息展示部分 */}
-      <div style={{ marginBottom: "2rem" }}>
-        <img src={restaurant.imgUrl} alt={restaurant.name} style={{ width: "100%", maxHeight: "300px", objectFit: "cover", borderRadius: "10px" }} />
-        <h1>{restaurant.name}</h1>
-        <p>{restaurant.displayAddress}</p>
-        <p>⭐ {restaurant.rating} / 5 · {restaurant.price} · {restaurant.category}</p>
-        <p style={{ fontStyle: "italic", color: "#555" }}>{restaurant.description}</p>
+      {/* 顶部：餐厅信息 */}
+      <div >
+        
+        <img src={restaurant.imgUrl} alt={restaurant.name} className="w-full max-h-[200px] object-cover rounded-lg" />
+        
+        
+        <h1 className="text-4xl font-[550]  font-outfit mt-6 mb-2">{restaurant.name}</h1>
+
+        <p className="text-gray-700 text-[15px]">{restaurant.displayAddress}</p>
+
+        <p className="text-gray-600 text-[15px]">★ {restaurant.rating} / 5 · {restaurant.price} · {restaurant.category}</p>
+        
+        {/* {restaurant.description && <p className="italic text-gray-500">{restaurant.description}</p>} */}
       </div>
 
-      {/* 菜单展示部分 */}
-      <ul style={{ listStyle: "none", padding: 0 }}>
-        {menu.dishes.map(dish => (
-          <li key={dish.id} style={{ display: "flex", justifyContent: "space-between", padding: "1rem", borderBottom: "1px solid #ccc" }}>
-            <div>
-              <strong>{dish.name}</strong> - €{dish.price.toFixed(2)}<br />
-              <em>{dish.description}</em>
-            </div>
-            <button onClick={() => addToCart(dish.id)}>加入购物车</button>
-          </li>
-        ))}
-      </ul>
+      {/* 主区域：左菜单 / 右地图 */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 pt-2">
+
+      <div className="md:col-span-2 min-w-[730px] mx-auto">
+
+  {menu.dishes.map(dish => (
+      <DishCard key={dish.id} dish={dish} restaurantId={restaurant.id} onAdd={addToCart} />
+  ))}
+</div>
+
+
+<div className="md:col-span-1">
+  <RestaurantMap lat={restaurant.latitude} lng={restaurant.longitude} />
+</div>
+
+      </div>
     </div>
   );
 };

@@ -31,6 +31,8 @@ public class RestaurantService {
         res.setCategory(r.getCategory());
         res.setDescription(r.getDescription());
         res.setDisplayAddress(r.getAddress());
+        res.setLatitude(r.getLatitude());
+        res.setLongitude(r.getLongitude());
         return res;
     }
 

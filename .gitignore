@@ -2,6 +2,8 @@ project_notes/
 docs/ui_design/references
 docs/ui_design/
 
+*.iodraw
+
 .git
 
 .env

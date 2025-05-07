@@ -13,4 +13,7 @@ public class RestaurantResponse {
     private String price;
     private String category;
     private String description;
+
+    private Double latitude;
+    private Double longitude;
 }

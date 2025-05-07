@@ -41,10 +41,10 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
 
       {/* 文字信息区域 */}
       <div className="mt-2 space-y-0.5 px-1">
-        <h2 className="text-base font-semibold text-gray-900">{restaurant.name}</h2>
+        <h2 className="text-[20px] font-[450] text-gray-900 font-outfit">{restaurant.name}</h2>
 
-        <p className="text-sm text-gray-800">
-          ⭐ {restaurant.rating.toFixed(1)}{" "}
+        <p className="text-sm text-gray-800">        
+★ {restaurant.rating.toFixed(1)}{" "}
           <span className="text-gray-500 ml-1">{getRatingLabel(restaurant.rating)}</span>
           <span className="text-gray-400 ml-1">(500+)</span>
         </p>

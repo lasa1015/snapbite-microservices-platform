@@ -4,7 +4,7 @@ import { useUserStore } from "./stores/userStore";
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import MainLayout from "./layouts/MainLayout";
-import HomePage from "./pages/HomePage";
+import HomePage from "./pages/RestaurantsPage";
 import MenuPage from "./pages/MenuPage";
 import CheckoutPage from "./pages/CheckoutPage";
 import MyOrdersPage from "./pages/MyOrdersPage";

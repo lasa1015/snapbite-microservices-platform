@@ -10,4 +10,6 @@ export type Restaurant = {
   price?: string;
   category?: string;
   description?: string;
+  latitude?: number;
+  longitude?: number;
 };

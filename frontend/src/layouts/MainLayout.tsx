@@ -17,11 +17,13 @@ export default function MainLayout() {
   return (
     <div className="relative min-h-screen flex flex-col">
       <UserStatusBar />
+
       <div className="flex flex-1">
         <Outlet />
+      
       </div>
 
-      {/* ✅ 购物车脱离布局，浮动在最右侧 */}
+      {/* 购物车脱离布局，浮动在最右侧 */}
       {!hideCart && cartOpen && <CartSidebar />}
     </div>
   );

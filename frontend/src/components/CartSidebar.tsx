@@ -1,4 +1,3 @@
-
 import { useCartData } from "../hooks/useCartData";
 import { useUserStore } from "../stores/userStore";
 import { useNavigate } from "react-router-dom";
@@ -6,35 +5,25 @@ import { useState } from "react";
 import AuthModal from "./AuthModal";
 import { CartItem } from "../types/cart";
 import { useCartStore } from "../stores/cartStore";
-
+import { Trash2 } from "lucide-react";
 
 
 export default function CartSidebar() {
-
-  const { closeCart } = useCartStore(); // ✅ 获取关闭函数
+  const { closeCart } = useCartStore();
   const { reloadFlag, triggerReload } = useCartStore();
-  
-
-
   const { username, setUsername } = useUserStore();
-
   const { cart, loading, updateQuantity, deleteItem, clearCart } = useCartData(reloadFlag);
-
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
   const navigate = useNavigate();
 
   const LOCAL_KEY = "guest_cart";
 
-  // 🧠 登录成功后，把 localStorage 中的购物车同步到后端
   const syncCart = async () => {
     const token = localStorage.getItem("token");
     if (!token) return;
-
     const local = localStorage.getItem(LOCAL_KEY);
     if (!local) return;
-
     const guestItems: CartItem[] = JSON.parse(local);
-
     for (const item of guestItems) {
       await fetch("/api/cart/add", {
         method: "POST",
@@ -49,86 +38,130 @@ export default function CartSidebar() {
         })
       });
     }
-
-    // 同步完成，清空本地购物车
     localStorage.removeItem(LOCAL_KEY);
     triggerReload();
   };
 
-  // 🛒 结算按钮点击逻辑
   const handleCheckout = async () => {
     if (!username) {
-      setAuthMode("login"); // 未登录 → 弹出登录框
+      setAuthMode("login");
     } else {
-      navigate("/checkout"); // 已登录 → 进入确认订单页
+      navigate("/checkout");
     }
   };
 
-  // 登录成功后的回调逻辑
   const onLoginSuccess = async (username: string) => {
     setUsername(username);
-    await syncCart();      // 同步游客购物车
-    setAuthMode(null);     // 关闭登录框
-    navigate("/checkout"); // 跳转到结算页
+    await syncCart();
+    setAuthMode(null);
+    navigate("/checkout");
   };
 
   const grouped = cart.reduce((acc, c) => {
     const key = c.restaurantId;
-    (acc[key] ||= { name: c.restaurantName ?? `餐厅 ${key}`, items: [] });
+    (acc[key] ||= {
+      name: c.restaurantName ?? `Restaurant ${key}`,
+      restaurantId: c.restaurantId,
+      items: []
+    });
     acc[key].items.push(c);
     return acc;
-  }, {} as Record<string, { name: string; items: CartItem[] }>);
+  }, {} as Record<string, { name: string; restaurantId: number; items: CartItem[] }>);
 
   const total = cart.reduce((s, c) => s + (c.price ?? 0) * c.quantity, 0);
 
   return (
-    <div
-    className="fixed top-0 right-0 w-[300px] h-screen bg-white border-l shadow-lg z-50 p-4 overflow-y-auto"
-  >
-    {/* 顶部栏 + 关闭按钮 */}
-    <div className="flex justify-between items-center mb-4">
-      <h3 className="text-lg font-semibold">🛒 我的购物车</h3>
-      <button
-        onClick={closeCart}
-        className="text-lg text-gray-600 hover:text-black"
-      >
-        ❌
-      </button>
-    </div>
+    <div className="fixed top-0 right-0 w-[420px] h-screen bg-white border-l shadow-xl z-50 p-6 flex flex-col">
+      {/* Header */}
+      <div className="flex justify-between items-center mb-6">
 
-      <h3>🛒 我的购物车</h3>
-      {loading ? <p>加载中…</p> :
-        cart.length === 0 ? <p>暂无商品</p> :
-          Object.values(grouped).map(g => (
-            <div key={g.name} style={{ marginBottom: 18 }}>
-              <h4 style={{ borderBottom: "1px solid #ddd", paddingBottom: 4 }}>{g.name}</h4>
-              <ul style={{ listStyle: "none", padding: 0 }}>
-                {g.items.map(it => (
-                  <li key={it.id} style={{ marginBottom: 12 }}>
-                    <div>
-                      <strong>{it.dishName ?? "未知菜品"}</strong>{" "}
-                      €{(it.price ?? 0).toFixed(2)} × {it.quantity}
-                    </div>
-                    <div style={{ display: "flex", gap: 6, marginTop: 6 }}>
-                      <button onClick={() => updateQuantity(it.id, it.quantity - 1)}>-</button>
-                      <button onClick={() => updateQuantity(it.id, it.quantity + 1)}>+</button>
-                      <button onClick={() => deleteItem(it.id)}>删除</button>
-                    </div>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-      <hr />
-      <p><strong>总计：</strong> €{total.toFixed(2)}</p>
-      <div style={{ display: "flex", justifyContent: "space-between" }}>
-        <button onClick={clearCart}>清空</button>
         <button
-          onClick={handleCheckout}
-          style={{ background: "#007bff", color: "#fff" }}
-        >结算</button>
+          onClick={closeCart}
+          className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-300 flex items-center justify-center text-[28px]"
+        >
+          ×
+        </button>
       </div>
 
+      {/* Cart content */}
+      <div className="flex-1 overflow-y-auto space-y-6">
+        {loading ? (
+          <p>Loading…</p>
+        ) : cart.length === 0 ? (
+          <p>No items in cart.</p>
+        ) : (
+          Object.values(grouped).map(group => (
+
+            <div key={group.restaurantId} className="border-b pb-4 mb-4">
+              {/* Restaurant title */}
+              <div className="flex items-center mb-3">
+  
+                <h3 className="text-[20px] font-[600] font-outfit">Restaurant {group.restaurantId}</h3>
+              </div>
+
+              {/* Dish list */}
+              {group.items.map(item => (
+                <div key={item.id} className="flex items-center mb-3">
+                  <img
+                    src={`/images/dish_images/${item.restaurantId}/${item.dishId}.jpg`}
+                    alt={item.dishName}
+                    className="w-16 h-16 rounded-md object-cover"
+                  />
+                  <div className="ml-3 flex-1">
+                    <div className="font-[500] text-[18px] font-outfit">{item.dishName}</div>
+                    <div className="text-sm text-gray-500">€{(item.price ?? 0).toFixed(2)}</div>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                      className="w-8 h-8 border rounded text-lg"
+                    >-</button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                      className="w-8 h-8 border rounded text-lg"
+                    >+</button>
+      <button onClick={() => deleteItem(item.id)} className="text-gray-500 ml-2 hover:text-red-700">
+  <Trash2 className="w-5 h-5" />
+</button>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ))
+        )}
+
+        {/* Subtotal & Clear */}
+        {cart.length > 0 && (
+          <div className="space-y-2 pt-2">
+            <div className="flex justify-between font-[400] text-[20px] font-outfit">
+              <span>Subtotal</span>
+              <span>€{total.toFixed(2)}</span>
+            </div>
+
+            {/* <div className="flex justify-end">
+              <button onClick={clearCart} className="text-sm text-gray-600 hover:text-black underline">
+                Clear all
+              </button>
+            </div> */}
+
+          </div>
+        )}
+      </div>
+
+      {/* Checkout */}
+      {cart.length > 0 && (
+        <div className="pt-4">
+          <button
+            onClick={handleCheckout}
+            className="w-full bg-primary hover:bg-red-700 text-white font-[500] py-2 rounded font-outfit text-[18px] "
+          >
+            Go to checkout
+          </button>
+        </div>
+      )}
+
+      {/* Auth Modal */}
       {authMode && (
         <AuthModal
           mode={authMode}

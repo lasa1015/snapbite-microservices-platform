@@ -29,19 +29,27 @@ export default function HomePage() {
   const restaurants = useRestaurants({ categories, prices, meals, sortOrder });
 
   const buttonClass = (active: boolean) =>
-    `px-4 py-2 rounded-full text-sm ${active ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700'}`;
+    `px-4 py-2 min-w-[80px] text-center rounded-full text-sm ${
+      active ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700'
+    }`;
+  
+  
 
-  const tagClass = "bg-[#ffffff] text-red-700 font-regular px-0 py-2.5 rounded-xl text-r uppercase font-calsans";
+  const tagClass = "bg-[#ffffff] text-red-700 font-[500] px-0 py-2.5 rounded-xl text-sm uppercase font-outfit";
 
   return (
-    <div className="mx-auto px-[9vw] py-8">
+    <div className="mx-auto px-0 py-6 max-w-screen-xl">
+
 
 
       {/* 筛选区域 */}
       <div className="mb-6 space-y-6">
+
+
         {/* 分类按钮组 */}
         <div className="space-y-3">
-          <div className="flex flex-wrap items-center gap-3 w-full">
+          
+          <div className="flex flex-wrap items-center gap-2 w-full">
             <span className={tagClass}>cuisine</span>
             {ALL_CATEGORIES.map(c => (
               <button
@@ -90,11 +98,18 @@ export default function HomePage() {
 
       {/* 顶部信息 + Reset */}
       <div className="flex justify-between items-center mb-4">
-        <p className="text-2xl  text-gray-800 font-calsans">Found <strong>{restaurants.length}</strong> restaurants</p>
+      <p className="text-[26px] text-gray-800 font-outfit font-[350]">
+  Found <span className="font-[600]">{restaurants.length}</span> restaurants
+</p>
+
         <button
-          onClick={clear}
-          className="bg-gray-300 text-sm px-6 py-2 rounded-full hover:bg-gray-400 text-gray-800 font-semibold"
-        >Reset</button>
+  onClick={clear}
+  className="w-16 h-9 rounded-full bg-gray-100  hover:bg-gray-400 flex items-center justify-center text-sm "
+>
+  Reset
+</button>
+
+      
       </div>
 
 
