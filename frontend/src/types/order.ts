@@ -1,6 +1,8 @@
 // src/types/order.ts
 
 export type OrderItem = {
+  dishId: number;
+  restaurantId: number;
   dishName: string;
   quantity: number;
   price: number;

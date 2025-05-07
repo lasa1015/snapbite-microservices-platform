@@ -129,6 +129,8 @@ public class OrderUserService {
                 i.setPrice(item.getPrice());
                 i.setQuantity(item.getQuantity());
                 i.setRestaurantId(item.getRestaurantId());
+                i.setDishId(item.getDishId());
+
                 return i;
             }).toList();
 

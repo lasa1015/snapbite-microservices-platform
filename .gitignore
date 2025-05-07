@@ -5,7 +5,7 @@ docs/ui_design/
 *.iodraw
 
 .git
-
+*.py
 .env
 .env.local
 .env.dev-local
@@ -73,3 +73,4 @@ docker/redis-data/
 **/*.tar
 **/*.jar
 **/docker-compose.override.yml
+/docs/restaurant_category_map.json
