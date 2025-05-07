@@ -9,6 +9,7 @@ import java.util.List;
 @Data
 public class OrderResponse {
     private String id;
+    private String restaurantId;
     private String address;
     private String recipient;
     private String phone;

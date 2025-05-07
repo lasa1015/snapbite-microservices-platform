@@ -15,6 +15,11 @@ export default {
       fontFamily: {
         calsans: ['"CalSans"', ...defaultTheme.fontFamily.sans],
         opensans: ['OpenSans', ...defaultTheme.fontFamily.sans],
+        outfit: ['Outfit', ...defaultTheme.fontFamily.sans],
+      },
+      colors: {
+        primary: '#cd0e30',   // 你想统一的红色，例如深红
+        'primary-hover': '#9e0b23',
       }
     }    
 

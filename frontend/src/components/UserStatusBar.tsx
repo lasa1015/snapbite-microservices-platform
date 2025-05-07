@@ -1,26 +1,17 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useUserStore } from "../stores/userStore"; //  使用 Zustand 管理用户状态
-import AuthModal from "./AuthModal"; // 登录/注册弹窗组件
-import { ShoppingCart } from "lucide-react";
-import { useCartStore } from "../stores/cartStore"; // ✅ 新增
+import { useUserStore } from "../stores/userStore";
+import { useCartStore } from "../stores/cartStore";
+import AuthModal from "./AuthModal";
+import { ShoppingCart, User } from "lucide-react";
 
-
-// 用户状态栏组件（页面顶部导航区域）
 export default function UserStatusBar() {
-
-  const { openCart } = useCartStore(); // ✅ 获取打开函数
-
-  // 从全局状态（Zustand）中获取用户名、角色，以及修改函数
+  const { openCart } = useCartStore();
   const { username, role, setUsername, setRole } = useUserStore();
-
-  // 路由跳转函数
+  const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
   const navigate = useNavigate();
 
-  // 控制登录/注册弹窗的模式（null 表示不显示）
-  const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
-
-  // 退出登录逻辑：清除本地缓存 + 重置状态 + 回到首页
   const handleLogout = () => {
     localStorage.clear();
     setUsername(null);
@@ -29,76 +20,90 @@ export default function UserStatusBar() {
   };
 
   return (
-    <div className="px-20 py-3 flex justify-between items-center shadow-sm">
+    <div className="px-20 py-3 flex justify-between items-center shadow-sm relative">
+      
+      {/* Logo */}
+      <img
+        src="/images/logo2.png"
+        alt="App Logo"
+        onClick={() => navigate("/")}
+        className="h-10 cursor-pointer object-contain"
+      />
 
-  {/* logo */} 
-
-  <img
-  src="/images/logo.png"
-  alt="App Logo"
-  onClick={() => navigate("/")}
-  className="h-10 cursor-pointer object-contain"
-/>
-
-
-      {/* 右边：根据是否登录显示不同按钮 */}
+      {/* 右上角区域 */}
       <div className="flex items-center space-x-4">
-
-        {/* 登录后显示“订单” + “登出”按钮 */}
+        
         {username ? (
-          <>
+          // 登录状态下的用户菜单
+          <div className="relative">
             <button
-              onClick={() =>
-                navigate(role === "MERCHANT" ? "/merchant" : "/my-orders")
-              }
-              className="btn"
+              onClick={() => setShowDropdown((prev) => !prev)}
+              className="bg-gray-100 text-gray-800 px-4 py-1.5 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition text-sm"
             >
-              📦 {role === "MERCHANT" ? "Merchant Orders" : "My Orders"}
+              <User className="w-4 h-4" />
+              <span>{username}</span>
             </button>
 
-            <button onClick={handleLogout} className="btn">Logout</button>
-          </>
+            {showDropdown && (
+          <div className="absolute right-0 mt-2 bg-white rounded-[8px] py-2 z-50 
+          border border-gray-200 drop-shadow-[0_1px_2px_rgba(0,0,0,0.15)]">
+
+                <button
+                  onClick={() => {
+                    navigate(role === "MERCHANT" ? "/merchant" : "/my-orders");
+                    setShowDropdown(false);
+                  }}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm whitespace-nowrap"
+                >
+                  {role === "MERCHANT" ? "Shop Orders" : "My Orders"}
+                </button>
+                <button
+                  onClick={handleLogout}
+                  className="block w-full text-left px-4 py-2 hover:bg-gray-100 text-sm"
+                >
+                  Logout
+                </button>
+              </div>
+            )}
+          </div>
         ) : (
-          
-          // 未登录时显示“登录 / 注册”按钮
-          <>
-            
-            <button
-             onClick={() => setAuthMode("login")}
-             className="bg-pink-100 
-             text-gray-800 
-             px-6 py-1.5 
-             rounded-full 
-             font-medium hover:bg-pink-200 transition text-sm "
-            >
-              LOGIN
-            </button>
-
-            <button
-onClick={openCart}
-  className="bg-red-700 text-white rounded-full p-1.5 hover:bg-red-800 transition"
->
-  <ShoppingCart className="w-5 h-5" />
-</button>
-          </>
+          // 未登录显示 Login 按钮
+          <button
+          onClick={() => setAuthMode("login")}
+          className="bg-gray-100 text-gray-800 px-4 py-1.5 rounded-full flex items-center space-x-2 hover:bg-gray-200 transition text-sm"
+        >
+          <User className="w-4 h-4" />
+          <span>Login</span>
+        </button>
         )}
+
+        {/* 所有人都能看到购物车按钮 */}
+        <button
+          onClick={openCart}
+          className="bg-red-700 text-white rounded-full p-1.5 hover:bg-red-800 transition"
+        >
+          <ShoppingCart className="w-5 h-5" />
+        </button>
       </div>
 
-
-
-      {/* 登录/注册弹窗，根据 authMode 决定显示与否 */}
+      {/* 登录/注册弹窗 */}
       {authMode && (
-  <AuthModal
-    mode={authMode}
-    setMode={setAuthMode} // ✅ 加上这个
-    onClose={() => setAuthMode(null)}
-    onLoginSuccess={(name) => {
-      setUsername(name);
-      setAuthMode(null);
-    }}
-  />
-)}
+        <AuthModal
+          mode={authMode}
+          setMode={setAuthMode}
+          onClose={() => setAuthMode(null)}
+          onLoginSuccess={(name) => {
+            setUsername(name);
+            setAuthMode(null);
 
+            // ✅ 可选：同步购物车（如果你需要）
+            const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
+            if (Array.isArray(localCart)) {
+              useCartStore.getState().setCartItems(localCart);
+            }
+          }}
+        />
+      )}
     </div>
   );
 }

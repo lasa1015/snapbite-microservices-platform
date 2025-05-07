@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
 import { Order } from "../types/Order";
 
-
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
@@ -22,11 +21,11 @@ export default function MyOrdersPage() {
         },
       });
 
-      if (!res.ok) throw new Error("获取失败");
+      if (!res.ok) throw new Error("Failed to fetch orders");
       const data = await res.json();
       setOrders(data);
     } catch (err) {
-      console.error("获取订单失败", err);
+      console.error("Failed to fetch orders", err);
     } finally {
       setLoading(false);
     }
@@ -34,7 +33,7 @@ export default function MyOrdersPage() {
 
   const handleCancel = async (orderId: string) => {
     const token = localStorage.getItem("token");
-    if (!token) return alert("未登录");
+    if (!token) return alert("Not logged in");
 
     const res = await fetch(`/api/order/cancel/${orderId}`, {
       method: "PATCH",
@@ -44,7 +43,7 @@ export default function MyOrdersPage() {
     });
 
     if (res.ok) {
-      alert("✅ 订单已取消");
+      alert("✅ Order cancelled");
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: "CANCELED" } : order
@@ -52,13 +51,13 @@ export default function MyOrdersPage() {
       );
     } else {
       const errMsg = await res.text();
-      alert("❌ 取消失败：" + errMsg);
+      alert("❌ Cancel failed: " + errMsg);
     }
   };
 
   const handleConfirm = async (orderId: string) => {
     const token = localStorage.getItem("token");
-    if (!token) return alert("未登录");
+    if (!token) return alert("Not logged in");
 
     const res = await fetch(`/api/order/confirm/${orderId}`, {
       method: "PATCH",
@@ -68,7 +67,7 @@ export default function MyOrdersPage() {
     });
 
     if (res.ok) {
-      alert("✅ 已确认收货");
+      alert("✅ Order confirmed");
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: "COMPLETED" } : order
@@ -76,24 +75,31 @@ export default function MyOrdersPage() {
       );
     } else {
       const errMsg = await res.text();
-      alert("❌ 确认失败：" + errMsg);
+      alert("❌ Confirmation failed: " + errMsg);
     }
   };
 
-  if (loading) return <p>加载中...</p>;
-  if (orders.length === 0) return <p>你还没有任何订单。</p>;
+  if (loading) return <p>Loading…</p>;
+  if (orders.length === 0) return <p>You don’t have any orders yet.</p>;
 
   return (
-    <div style={{ padding: "2rem" }}>
-      <h2>📦 我的订单</h2>
-      {orders.map(order => (
-        <OrderCard
-          key={order.id}
-          order={order}
-          onCancel={handleCancel}
-          onConfirm={handleConfirm} // ✅ 新增
-        />
-      ))}
+    <div className="max-w-screen-xl mx-auto px-4 py-10">
+
+<div className="max-w-[800px] mx-auto px-4">
+  <h2 className="text-[28px] font-[600] font-outfit mb-4">My Orders</h2>
+</div>
+
+
+      <div className="space-y-6">
+        {orders.map(order => (
+          <OrderCard
+            key={order.id}
+            order={order}
+            onCancel={handleCancel}
+            onConfirm={handleConfirm}
+          />
+        ))}
+      </div>
     </div>
   );
 }

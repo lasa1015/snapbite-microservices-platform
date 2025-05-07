@@ -59,7 +59,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
         </button>
 
         {/* 标题 */}
-        <h2 className="text-2xl font-bold text-gray-900 mb-6 font-opensans">
+        <h2 className="text-2xl font-[500] text-gray-900 mb-6 font-outfit">
           {mode === "login" ? "Login" : "Register"}
         </h2>
 
@@ -68,7 +68,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
           value={username}
           onChange={(e) => setLocalUsername(e.target.value)}
           placeholder="Username *"
-          className="w-full border border-gray-300 rounded-md px-4 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
+          className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
         />
 
         {/* 密码 */}
@@ -78,7 +78,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password *"
             type={showPassword ? "text" : "password"}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
+            className="w-full border border-gray-300 rounded-[4px] px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
           />
           <button
             onClick={() => setShowPassword((v) => !v)}
@@ -96,12 +96,12 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email *"
-              className="w-full border border-gray-300 rounded-md px-4 py-2 mb-6 text-sm"
+              className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 text-sm"
             />
             <select
               value={role}
               onChange={(e) => setLocalRole(e.target.value)}
-              className="w-full border border-gray-300 rounded-md px-4 py-2 mb-6 text-sm"
+              className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 text-sm"
             >
               <option value="USER">普通用户</option>
               <option value="MERCHANT">商户</option>
@@ -115,7 +115,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
         {/* 提交按钮 */}
         <button
           onClick={handleSubmit}
-          className="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 rounded-md transition"
+          className="w-full bg-primary hover:bg-red-700 text-white font-[500] font-outfit py-2 rounded-[4px] transition"
         >
           {mode === "login" ? "LOGIN" : "SIGN UP"}
         </button>
@@ -124,7 +124,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
         <p className="text-center text-sm text-gray-600 mt-6">
           {mode === "login" ? "New Member?" : "Already have an account?"}{" "}
           <button
-            className="text-red-500  hover:underline"
+            className="text-primary  hover:underline"
             onClick={() => setMode(mode === "login" ? "register" : "login")}
           >
             {mode === "login" ? "SIGN UP" : "LOGIN"}

@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Data
 public class OrderItemResponse {
+    private String dishId;
     private String dishName;
     private Double price;
     private Integer quantity;

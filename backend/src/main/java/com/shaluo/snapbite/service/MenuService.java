@@ -34,8 +34,9 @@ public class MenuService {
             String id = dish.getId().toString();
             String name = dish.getName();
             Double price = dish.getPrice();
+            String description = dish.getDescription();
 
-            DishResponse dto = new DishResponse(id, name, price);
+            DishResponse dto = new DishResponse(id, name, price, description);
             dishes.add(dto);
         }
 
