@@ -1,0 +1,48 @@
+// src/main/java/com/shaluo/snapbite/service/MenuService.java
+package com.shaluo.restaurantservice.service;
+
+import com.shaluo.restaurantservice.dto.DishResponse;
+import com.shaluo.restaurantservice.dto.MenuResponse;
+import com.shaluo.restaurantservice.model.mongo.Dish;
+import com.shaluo.restaurantservice.model.mongo.Menu;
+import com.shaluo.restaurantservice.repository.mongo.MenuRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+public class MenuService {
+
+    @Autowired
+    private MenuRepository menuRepository;
+
+
+    // 根据餐厅id，返回餐厅的 MenuResponse 给前端
+    public MenuResponse getMenuResponseByRestaurantId(Integer restaurantId) {
+
+        // 找到对应餐厅的菜单实体
+        Menu menu = menuRepository.findByRestaurantId(restaurantId);
+
+        // 准备一个空的菜品响应列表
+        List<DishResponse> dishes = new ArrayList<>();
+
+        // 遍历原始菜品，逐个转换为 DishResponse 并加入列表
+        for (Dish dish : menu.getItems()) {
+            String id = dish.getId().toString();
+            String name = dish.getName();
+            Double price = dish.getPrice();
+            String description = dish.getDescription();
+
+            DishResponse dto = new DishResponse(id, name, price, description);
+            dishes.add(dto);
+        }
+
+        // 构造并 返回对象 MenuResponse
+        return new MenuResponse(restaurantId, dishes);
+    }
+
+
+
+}
