@@ -1,8 +1,8 @@
 //package com.shaluo.orderservice.service;
 //
 //import com.shaluo.orderservice.client.RestaurantClient;
-//import com.shaluo.orderservice.dto.OrderItemResponse;
-//import com.shaluo.orderservice.dto.OrderResponse;
+//import com.shaluo.orderservice.dto.response.OrderItemResponse;
+//import com.shaluo.orderservice.dto.response.OrderResponse;
 //import com.shaluo.orderservice.model.postgres.Order;
 //import com.shaluo.orderservice.model.postgres.OrderStatus;
 //import com.shaluo.orderservice.repository.postgres.OrderRepository;

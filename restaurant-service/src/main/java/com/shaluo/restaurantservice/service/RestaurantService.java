@@ -1,7 +1,7 @@
 package com.shaluo.restaurantservice.service;
 
-import com.shaluo.restaurantservice.dto.RestaurantFilterRequest;
-import com.shaluo.restaurantservice.dto.RestaurantResponse;
+import com.shaluo.restaurantservice.dto.request.RestaurantFilterRequest;
+import com.shaluo.restaurantservice.dto.response.RestaurantResponse;
 import com.shaluo.restaurantservice.model.postgres.Restaurant;
 import com.shaluo.restaurantservice.repository.postgres.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;

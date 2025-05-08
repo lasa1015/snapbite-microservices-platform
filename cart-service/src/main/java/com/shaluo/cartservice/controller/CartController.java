@@ -1,9 +1,9 @@
 package com.shaluo.cartservice.controller;
 
-import com.shaluo.cartservice.dto.RestaurantCartGroup;
+import com.shaluo.cartservice.dto.response.RestaurantCartGroup;
 import com.shaluo.cartservice.model.mongo.CartItem;
 import com.shaluo.cartservice.service.CartService;
-import com.shaluo.cartservice.dto.AddCartItemRequest;
+import com.shaluo.cartservice.dto.request.AddCartItemRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;

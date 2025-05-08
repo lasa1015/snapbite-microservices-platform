@@ -1,11 +1,11 @@
 package com.shaluo.orderservice.service;
 
-import com.shaluo.orderservice.dto.CheckoutRequest;
-import com.shaluo.orderservice.dto.OrderItemResponse;
-import com.shaluo.orderservice.dto.OrderResponse;
+import com.shaluo.orderservice.dto.request.CheckoutRequest;
+import com.shaluo.orderservice.dto.response.OrderItemResponse;
+import com.shaluo.orderservice.dto.response.OrderResponse;
 import com.shaluo.orderservice.client.CartClient;
 import com.shaluo.orderservice.client.UserClient;
-import com.shaluo.orderservice.dto.RestaurantCartGroup;
+import com.shaluo.orderservice.dto.external.RestaurantCartGroup;
 import com.shaluo.orderservice.model.postgres.Order;
 import com.shaluo.orderservice.model.postgres.OrderItem;
 import com.shaluo.orderservice.model.postgres.OrderStatus;

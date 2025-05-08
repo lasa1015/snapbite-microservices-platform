@@ -1,8 +1,8 @@
 package com.shaluo.cartservice.service;
 
-import com.shaluo.cartservice.dto.AddCartItemRequest;
-import com.shaluo.cartservice.dto.CartItemResponse;
-import com.shaluo.cartservice.dto.RestaurantCartGroup;
+import com.shaluo.cartservice.dto.request.AddCartItemRequest;
+import com.shaluo.cartservice.dto.response.CartItemResponse;
+import com.shaluo.cartservice.dto.response.RestaurantCartGroup;
 import com.shaluo.cartservice.model.mongo.CartItem;
 
 import com.shaluo.cartservice.repository.mongo.CartItemRepository;

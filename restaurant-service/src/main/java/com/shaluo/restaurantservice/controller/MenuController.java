@@ -1,7 +1,7 @@
 package com.shaluo.restaurantservice.controller;
 
 import com.shaluo.restaurantservice.service.MenuService;
-import com.shaluo.restaurantservice.dto.MenuResponse;
+import com.shaluo.restaurantservice.dto.response.MenuResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

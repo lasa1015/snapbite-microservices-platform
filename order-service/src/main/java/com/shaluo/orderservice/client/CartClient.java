@@ -1,6 +1,6 @@
 package com.shaluo.orderservice.client;
 
-import com.shaluo.orderservice.dto.RestaurantCartGroup;
+import com.shaluo.orderservice.dto.external.RestaurantCartGroup;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;

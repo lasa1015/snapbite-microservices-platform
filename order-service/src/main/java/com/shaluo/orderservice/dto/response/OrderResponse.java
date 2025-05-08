@@ -1,4 +1,4 @@
-package com.shaluo.orderservice.dto;
+package com.shaluo.orderservice.dto.response;
 
 import lombok.Data;
 

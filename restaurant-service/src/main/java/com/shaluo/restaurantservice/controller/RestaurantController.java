@@ -1,8 +1,8 @@
 package com.shaluo.restaurantservice.controller;
 
 // 引入 Restaurant 实体类
-import com.shaluo.restaurantservice.dto.RestaurantFilterRequest;
-import com.shaluo.restaurantservice.dto.RestaurantResponse;
+import com.shaluo.restaurantservice.dto.request.RestaurantFilterRequest;
+import com.shaluo.restaurantservice.dto.response.RestaurantResponse;
 
 // 引入对应的 JPA 仓库接口
 

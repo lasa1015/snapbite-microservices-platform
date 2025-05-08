@@ -1,5 +1,5 @@
 // dto/RestaurantCartGroup.java
-package com.shaluo.cartservice.dto;
+package com.shaluo.cartservice.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

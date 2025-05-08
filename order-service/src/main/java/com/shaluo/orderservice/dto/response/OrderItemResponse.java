@@ -1,4 +1,4 @@
-package com.shaluo.orderservice.dto;
+package com.shaluo.orderservice.dto.response;
 
 import lombok.Data;
 
@@ -9,5 +9,5 @@ public class OrderItemResponse {
     private Double price;
     private Integer quantity;
     private String restaurantId;
-    private Double subtotal; // ✅ 新增：小计
+    private Double subtotal;
 }

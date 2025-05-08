@@ -1,6 +1,6 @@
 package com.shaluo.orderservice.controller;
 
-import com.shaluo.orderservice.dto.CheckoutRequest;
+import com.shaluo.orderservice.dto.request.CheckoutRequest;
 import com.shaluo.orderservice.service.OrderUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

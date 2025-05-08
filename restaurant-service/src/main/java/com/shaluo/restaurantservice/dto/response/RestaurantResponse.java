@@ -1,4 +1,4 @@
-package com.shaluo.restaurantservice.dto;
+package com.shaluo.restaurantservice.dto.response;
 
 import lombok.Data;
 

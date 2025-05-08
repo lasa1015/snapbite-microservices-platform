@@ -1,8 +1,8 @@
 package com.shaluo.userservice.controller;
 
-import com.shaluo.userservice.dto.LoginRequest;
-import com.shaluo.userservice.dto.RegisterRequest;
-import com.shaluo.userservice.dto.UserResponse;
+import com.shaluo.userservice.dto.request.LoginRequest;
+import com.shaluo.userservice.dto.request.RegisterRequest;
+import com.shaluo.userservice.dto.response.UserResponse;
 import com.shaluo.userservice.model.postgres.User;
 import com.shaluo.userservice.repository.postgres.UserRepository;
 import com.shaluo.userservice.service.UserService;

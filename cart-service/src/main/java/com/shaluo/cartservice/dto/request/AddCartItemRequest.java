@@ -1,4 +1,4 @@
-package com.shaluo.cartservice.dto;
+package com.shaluo.cartservice.dto.request;
 
 import lombok.Data;
 

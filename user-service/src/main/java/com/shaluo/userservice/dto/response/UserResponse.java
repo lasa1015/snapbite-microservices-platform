@@ -1,4 +1,4 @@
-package com.shaluo.userservice.dto;
+package com.shaluo.userservice.dto.response;
 
 import lombok.Data;
 import java.time.LocalDateTime;

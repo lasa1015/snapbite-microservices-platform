@@ -1,8 +1,8 @@
 // src/main/java/com/shaluo/snapbite/service/MenuService.java
 package com.shaluo.restaurantservice.service;
 
-import com.shaluo.restaurantservice.dto.DishResponse;
-import com.shaluo.restaurantservice.dto.MenuResponse;
+import com.shaluo.restaurantservice.dto.response.DishResponse;
+import com.shaluo.restaurantservice.dto.response.MenuResponse;
 import com.shaluo.restaurantservice.model.mongo.Dish;
 import com.shaluo.restaurantservice.model.mongo.Menu;
 import com.shaluo.restaurantservice.repository.mongo.MenuRepository;
