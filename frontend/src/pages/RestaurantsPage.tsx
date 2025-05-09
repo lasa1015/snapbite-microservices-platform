@@ -1,9 +1,7 @@
-// src/pages/HomePage.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// src/pages/RestaurantsPage.tsx
+
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
-import { useUserStore } from "../stores/userStore";
 import { useFilterStore } from "../stores/filterStore";
 
 const ALL_CATEGORIES = ["Burgers", "Pizza", "Thai", "Indian", "Chinese", "Japanese", "Korean", "Mexican", "Mediterranean", "Middle Eastern", "Vegan", "Vegetarian"];
@@ -11,8 +9,7 @@ const ALL_PRICES = ["€", "€€", "€€€"];
 const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 
 export default function HomePage() {
-  const { username, setUsername } = useUserStore();
-  const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
+
 
   const {
     categories, setCategories,
@@ -26,8 +23,12 @@ export default function HomePage() {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
   };
 
+  // 调用自定义 Hook 获取餐厅数据
+  // 传入筛选条件：分类、价格、用餐时间和排序方式
   const restaurants = useRestaurants({ categories, prices, meals, sortOrder });
 
+
+  
   const buttonClass = (active: boolean) =>
     `px-4 py-2 min-w-[80px] text-center rounded-full text-sm ${
       active ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700'
@@ -38,6 +39,7 @@ export default function HomePage() {
   const tagClass = "bg-[#ffffff] text-red-700 font-[500] px-0 py-2.5 rounded-xl text-sm uppercase font-outfit";
 
   return (
+
     <div className="mx-auto px-0 py-6 max-w-screen-xl">
 
 

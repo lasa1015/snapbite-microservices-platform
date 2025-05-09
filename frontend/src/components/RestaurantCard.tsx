@@ -4,17 +4,26 @@ import { Restaurant } from "../types/restaurant";
 
 // 根据评分返回标签
 function getRatingLabel(rating: number) {
+
+  
   if (rating >= 4.5) return "Excellent";
   if (rating >= 4.2) return "Good";
   if (rating >= 3.8) return "Average";
   return "Poor";
 }
 
+
+// 使用在types中写好的餐厅类型数据
+// 只能访问该类型中声明的字段
 type Props = {
   restaurant: Restaurant;
 };
 
+
+
 const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
+
+
   const navigate = useNavigate();
 
   return (
@@ -49,11 +58,6 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
           <span className="text-gray-400 ml-1">(500+)</span>
         </p>
 
-        {restaurant.description && (
-          <p className="text-sm text-gray-500 truncate italic">
-            {restaurant.description}
-          </p>
-        )}
       </div>
     </div>
   );

@@ -1,19 +1,33 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
+// Vite 的 dev server 会自动拦截 /api/xxx 请求并转发到你指定的 Spring Boot 服务；
 
-// 浏览器原本会拦截你从 5173 发请求到 8080 的行为（CORS 问题）；
-// 但 Vite 的 dev server 会把 /api/xxx 请求直接转发给你的后端（绕过浏览器）；
-
+// 多个后端服务（每个服务一个端口），Vite 代理自动分发
 export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api': {
-        target: 'http://localhost:8080', // 你的 Spring Boot 后端地址
+      '/api/users': {
+        target: 'http://localhost:8081', // user-service
+        changeOrigin: true,
+      },
+      '/api/restaurants': {
+        target: 'http://localhost:8082', // restaurant-service
+        changeOrigin: true,
+      },
+      '/api/menu': {
+        target: 'http://localhost:8082', // 也是 restaurant-service
+        changeOrigin: true,
+      },
+      '/api/cart': {
+        target: 'http://localhost:8083', // cart-service
+        changeOrigin: true,
+      },
+      '/api/order': {
+        target: 'http://localhost:8084', // order-service
         changeOrigin: true,
       },
     },
   },
-})
-
+});
