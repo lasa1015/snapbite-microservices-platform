@@ -1,6 +1,7 @@
 package com.shaluo.restaurantservice.controller;
 
 // 引入 Restaurant 实体类
+import com.shaluo.restaurantservice.client.UserClient;
 import com.shaluo.restaurantservice.dto.request.RestaurantFilterRequest;
 import com.shaluo.restaurantservice.dto.response.RestaurantResponse;
 
@@ -22,6 +23,9 @@ public class RestaurantController {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UserClient userClient; // ✅ 注入你刚刚定义的 FeignClient
 
 
     // 获取所有餐馆
@@ -45,10 +49,14 @@ public class RestaurantController {
     }
 
     // 根据商家的username，查询对应餐厅的 id
-    @GetMapping("/api/restaurant/owner/{username}")
+    @GetMapping("/merchant/{username}")
     public String getRestaurantIdByOwnerUsername(@PathVariable String username) {
 
-        return restaurantRepository.findByName(username)
+        //  调用 user-service 拿 userId
+        Long userId = userClient.getUserId(username);
+
+        // 查找 ownerId == userId 的餐厅
+        return restaurantRepository.findByOwnerId(userId)
                 .orElseThrow(() -> new RuntimeException("该商户未绑定餐厅"))
                 .getId().toString();
     }

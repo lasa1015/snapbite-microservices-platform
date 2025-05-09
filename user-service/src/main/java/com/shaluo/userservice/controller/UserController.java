@@ -80,7 +80,7 @@ public class UserController {
     }
 
 
-    //【 供其他服务通过 username 获取 userId（例如 order-service）】
+    //【 供其他服务通过 username 获取 userId(例如 order-service，restaurant-service)】
     @GetMapping("/id/{username}")
     public Long getUserId(@PathVariable String username) {
         User user = userRepository.findByUsername(username)
