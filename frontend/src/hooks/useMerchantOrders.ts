@@ -1,9 +1,7 @@
-// src/hooks/useMerchantOrders.ts
 import { useEffect, useState } from "react";
 import axios from "axios";
 
 export function useMerchantOrders() {
-  const [restaurantInfo, setRestaurantInfo] = useState<any>(null);
   const [orders, setOrders] = useState<any[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -18,21 +16,11 @@ export function useMerchantOrders() {
       }
 
       try {
-        const me = await axios.get("/api/users/me", {
+        const res = await axios.get("/api/order/merchant/my-restaurant-orders", {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        const restaurant = await axios.get(`/api/restaurants/by-user/${me.data.username}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setRestaurantInfo(restaurant.data);
-
-        const orderRes = await axios.get(`/api/order/merchant/restaurant/${restaurant.data.id}`, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-
-        setOrders(orderRes.data);
+        setOrders(res.data);
       } catch (err: any) {
         setError(err.response?.data || "加载失败");
       } finally {
@@ -43,5 +31,5 @@ export function useMerchantOrders() {
     fetch();
   }, []);
 
-  return { restaurantInfo, orders, error, loading };
+  return { orders, error, loading };
 }

@@ -2,10 +2,10 @@
 
 export type CartItem = {
   id: string;
-  restaurantId: string;
-  restaurantName?: string;
   dishId: string;
-  dishName?: string;
-  price?: number;
+  dishName: string;
+  dishPrice: number; // ✅ 确保是 dishPrice，不是 price
+  restaurantId: string;
+  restaurantName: string;
   quantity: number;
 };

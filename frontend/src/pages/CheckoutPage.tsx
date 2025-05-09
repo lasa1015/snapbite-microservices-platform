@@ -1,33 +1,28 @@
 import { useCartData } from "../hooks/useCartData";
 import { useCartStore } from "../stores/cartStore";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/Toast"; // ✅ 新增
 
 export default function CheckoutPage() {
   const { reloadFlag } = useCartStore();
   const { cart } = useCartData(reloadFlag);
   const navigate = useNavigate();
-
+  const showToast = useToast(); // ✅ 使用 Toast
   const [recipient, setRecipient] = useState("");
   const [phone, setPhone] = useState("");
   const [address, setAddress] = useState("");
+const { closeCart } = useCartStore();
 
-  const grouped = cart.reduce((acc, c) => {
-    const key = c.restaurantId;
-    (acc[key] ||= {
-      name: c.restaurantName ?? `Restaurant ${key}`,
-      restaurantId: c.restaurantId,
-      items: [],
-    });
-    acc[key].items.push(c);
-    return acc;
-  }, {} as Record<string, { name: string; restaurantId: number; items: typeof cart }[number][]>);
 
-  const total = cart.reduce((s, c) => s + (c.price ?? 0) * c.quantity, 0);
+  const total = cart
+    .flatMap(group => group.items)
+    .reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
 
   const handleSubmit = async () => {
     if (!address || !recipient || !phone) {
-      alert("Please complete all delivery details");
+
+      showToast("Please complete all delivery details");
       return;
     }
 
@@ -44,48 +39,62 @@ export default function CheckoutPage() {
     });
 
     if (res.ok) {
-      alert("✅ Order placed successfully!");
-      navigate("/");
+
+      showToast("Order placed successfully!");
+       closeCart(); // ✅ 主动关闭购物车
+      navigate("/my-orders");
     } else {
-      alert("❌ Order failed: " + (await res.text()));
+      showToast("❌ Order failed: " + (await res.text()));
     }
   };
 
   return (
-    <div className="mx-auto px-20 py-10" style={{ minWidth: "900px" }}>
+    <div className="max-w-[850px] mx-auto px-6 py-4">
+      <h2 className="text-[28px] font-[500] font-outfit mb-8 underline underline-offset-4">
+        Confirm Your Order Details
+      </h2>
 
-
-      {Object.values(grouped).map((group) => (
+      {/* ✅ 直接遍历 cart，每项就是一个餐厅 */}
+      {cart.map((group) => (
         <div key={group.restaurantId} className="mb-6 border-b pb-4">
-          <h3 className="text-[24px] font-semibold mb-2 font-outfit">{group.name}</h3>
-          {group.items.map((item) => (
-            <div key={item.id} className="flex items-center justify-between mb-2">
-              <div className="flex items-center">
-                <img
-                  src={`/images/dish_images/${item.restaurantId}/${item.dishId}.jpg`}
-                  alt={item.dishName}
-                  className="w-12 h-12 rounded-md object-cover mr-3"
-                />
-                <div>
-                  <div className="text-[20px] font-outfit ">{item.dishName}</div>
-                  <div className="text-m text-gray-500">× {item.quantity}</div>
+          <h3 className="text-[24px] font-[500] mb-2 font-outfit">{group.restaurantName}</h3>
+          {group.items.map((item) => {
+            const imagePath = `/images/dish_images/${group.restaurantId}/${item.dishId}.jpg`;
+            return (
+              <div key={item.id} className="flex items-center justify-between mb-2">
+                <div className="flex items-center">
+                  <img
+                    src={imagePath}
+                    alt={item.dishName}
+                    className="w-24 h-24 rounded-md object-cover mr-3 mb-3"
+                    onError={(e) => {
+                      e.currentTarget.onerror = null;
+                      e.currentTarget.src = "/images/placeholder.jpg";
+                    }}
+                  />
+                  <div>
+                    <div className="text-[20px] font-outfit">{item.dishName}</div>
+                    <div className="text-m text-gray-500">× {item.quantity}</div>
+                  </div>
+                </div>
+                <div className="text-right font-medium">
+                  €{((item.price||  0) * item.quantity).toFixed(2)}
                 </div>
               </div>
-              <div className="text-right font-medium">
-                €{((item.price ?? 0) * item.quantity).toFixed(2)}
-              </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       ))}
 
-      <div className="flex justify-between  pb-4 font-[400] text-[24px] mb-6 font-outfit">
+      {/* ✅ 小计 */}
+      <div className="flex justify-between pb-4 font-[400] text-[24px] mb-6 font-outfit">
         <span>Subtotal</span>
         <span>€{total.toFixed(2)}</span>
       </div>
 
+      {/* ✅ 配送信息表单 */}
       <div className="space-y-4 mb-6">
-        <h3 className=" font-semibold font-outfit text-[24px]">Delivery details</h3>
+        <h3 className="font-semibold font-outfit text-[24px]">Delivery Details</h3>
         <div className="flex gap-4">
           <input
             value={recipient}
@@ -108,10 +117,11 @@ export default function CheckoutPage() {
         />
       </div>
 
+      {/* ✅ 提交按钮 */}
       <div className="text-right">
         <button
           onClick={handleSubmit}
-          className="bg-primary hover:bg-red-700 text-white font-semibold font-outfit py-2 px-10 rounded"
+          className="bg-primary hover:bg-red-700 text-white font-semibold font-outfit py-2 px-16 rounded "
         >
           CONFIRM ORDER
         </button>

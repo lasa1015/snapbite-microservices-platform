@@ -3,7 +3,7 @@ import { useMerchantOrders } from "../hooks/useMerchantOrders";
 import axios from "axios";
 
 export default function MerchantDashboard() {
-  const { restaurantInfo, orders, error, loading } = useMerchantOrders();
+  const { orders, error, loading } = useMerchantOrders();
 
   const handleShip = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -21,6 +21,14 @@ export default function MerchantDashboard() {
     window.location.reload();
   };
 
+  const handleAccept = async (id: string) => {
+    const token = localStorage.getItem("token");
+    await axios.patch(`/api/order/merchant/accept/${id}`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    window.location.reload();
+  };
+
   if (loading) return <p className="text-center mt-10 text-gray-600">Loading…</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
 
@@ -28,10 +36,12 @@ export default function MerchantDashboard() {
     <div className="max-w-screen-xl mx-auto px-4 py-10">
 
       {/* Restaurant Info */}
-      {restaurantInfo && (
+      {orders.length > 0 && (
         <div className="max-w-[800px] mx-auto px-4 mb-6">
-          <h2 className="text-[28px] font-[600] font-outfit mb-1">{restaurantInfo.name}</h2>
-          <p className="text-sm text-gray-600">{restaurantInfo.displayAddress}</p>
+          <h2 className="text-[28px] font-[600] font-outfit mb-1 underline underline-offset-2">
+           Restaurant:  {orders[0].restaurantName}
+          </h2>
+          <p className=" text-gray-900 text-[22px] font-outfit mt-4">You have {orders.length} orders.</p>
         </div>
       )}
 
@@ -46,6 +56,7 @@ export default function MerchantDashboard() {
               order={order}
               onShip={handleShip}
               onCancel={handleCancel}
+              onAccept={handleAccept} 
             />
           ))
         )}

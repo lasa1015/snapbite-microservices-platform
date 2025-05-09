@@ -112,7 +112,8 @@ public class OrderUserService {
             response.setStatus(order.getStatus().name());
             response.setTotalPrice(order.getTotalPrice());
             response.setCreatedAt(order.getCreatedAt());
-
+            response.setRestaurantId(order.getRestaurantId());
+            response.setRestaurantName(order.getRestaurantName());
 
             List<OrderItemResponse> itemResponses = new ArrayList<>();
 
@@ -124,6 +125,8 @@ public class OrderUserService {
                 i.setQuantity(item.getQuantity());
                 i.setRestaurantId(item.getRestaurantId());
                 i.setDishId(item.getDishId());
+                i.setSubtotal(item.getSubtotal());
+
                 itemResponses.add(i);
             }
 

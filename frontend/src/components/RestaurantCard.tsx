@@ -34,7 +34,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
       className="cursor-pointer group relative"
     >
       {/* 图片 */}
-      <div className="w-full h-[190px] overflow-hidden rounded-xl relative">
+      <div className="w-full h-[190px] overflow-hidden rounded-xl relative shadow-primary">
         <img
           src={restaurant.imgUrl}
           alt={restaurant.name}
@@ -42,7 +42,7 @@ const RestaurantCard: React.FC<Props> = ({ restaurant }) => {
         />
 
         {/* 悬浮遮罩层 */}
-        <div className="absolute inset-0 bg-red-900 bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl">
+        <div className="absolute inset-0 bg-primary bg-opacity-40 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center rounded-xl">
         <span className="text-white text-2xl font-light">View Details</span>
 
         </div>
