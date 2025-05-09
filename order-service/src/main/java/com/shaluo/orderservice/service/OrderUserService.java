@@ -112,7 +112,8 @@ public class OrderUserService {
             response.setStatus(order.getStatus().name());
             response.setTotalPrice(order.getTotalPrice());
             response.setCreatedAt(order.getCreatedAt());
-
+            response.setRestaurantId(order.getRestaurantId());
+            response.setRestaurantName(order.getRestaurantName());
 
             List<OrderItemResponse> itemResponses = new ArrayList<>();
 
@@ -124,6 +125,8 @@ public class OrderUserService {
                 i.setQuantity(item.getQuantity());
                 i.setRestaurantId(item.getRestaurantId());
                 i.setDishId(item.getDishId());
+                i.setSubtotal(item.getSubtotal());
+
                 itemResponses.add(i);
             }
 
@@ -135,7 +138,7 @@ public class OrderUserService {
 
     }
 
-    //  取消订单
+    //  用户取消订单
     public void cancelOrder(String username, UUID orderId) {
 
         // 调用 user-service 获取 userId
@@ -149,9 +152,9 @@ public class OrderUserService {
             throw new RuntimeException("无权限取消该订单");
         }
 
-        // 只有还是CREATED状态的订单，才能够取消
-        if (order.getStatus() != OrderStatus.CREATED) {
-            throw new RuntimeException("该订单无法取消");
+        // 只有还是CREATED 或 ACCEPTED 状态的订单，才能够取消
+        if (order.getStatus() != OrderStatus.CREATED && order.getStatus() != OrderStatus.ACCEPTED) {
+            throw new RuntimeException("该订单当前状态无法取消");
         }
 
         // 修改订单状态（改内存中的值）
@@ -160,6 +163,8 @@ public class OrderUserService {
         // 写入数据库
         orderRepository.save(order);
     }
+
+
 
     // 确认收货
     public void confirmOrder(String username, UUID orderId) {

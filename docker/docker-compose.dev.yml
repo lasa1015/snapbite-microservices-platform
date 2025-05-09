@@ -7,9 +7,26 @@ services:
     ports:
       - "27017:27017"
     volumes:
+      # 把 本机上的 mongo-data 文件夹映射为 Mongo 容器内的数据库目录。
       - ./mongo-data:/data/db
     networks:
       - snapbite-net
+
+
+  nginx:
+    image: nginx:latest
+    container_name: snapbite-nginx
+    ports:
+      - "80:80"
+    volumes:
+      # 把当前目录下的 /docker/nginx.conf 文件挂载到 Nginx 容器的配置路径 /etc/nginx/nginx.conf，并以只读方式挂载。
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - mongo
+    networks:
+      - snapbite-net
+
+
 
 networks:
   snapbite-net:

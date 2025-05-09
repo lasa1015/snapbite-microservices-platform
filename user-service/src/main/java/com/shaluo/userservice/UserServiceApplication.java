@@ -15,7 +15,7 @@ public class UserServiceApplication {
 			// 如果系统变量DB_HOST没有，说明是本地开发，需要手动加载 .env 文件
 			// 如果存在，是生产环境，依靠docker compose up文件注入
 			Dotenv dotenv = Dotenv.configure()
-					.directory("./backend") // 指定本地 .env 文件所在目录
+					.directory("./user-service") // 指定本地 .env 文件所在目录
 					.filename(".env.dev-local")
 					.load();
 

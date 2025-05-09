@@ -6,31 +6,41 @@ import {
   deleteCartItem,
   clearCartOnServer,
 } from "../services/cartService";
+import { useToast } from "../components/Toast";
+
 
 const LOCAL_KEY = "guest_cart";
 
+type CartGroup = {
+  restaurantId: string;
+  restaurantName: string;
+  items: CartItem[];
+};
+
 export function useCartData(reloadFlag: number) {
-  const [cart, setCart] = useState<CartItem[]>([]);
+  const [cart, setCart] = useState<CartGroup[]>([]);
   const [loading, setLoading] = useState(false);
   const token = localStorage.getItem("token");
+  const showToast = useToast();
 
-  const saveLocalCart = (items: CartItem[]) => {
-    localStorage.setItem(LOCAL_KEY, JSON.stringify(items));
-    setCart(items);
+  const saveLocalCart = (groups: CartGroup[]) => {
+    localStorage.setItem(LOCAL_KEY, JSON.stringify(groups));
+    setCart(groups);
   };
 
   const fetchCart = async () => {
     setLoading(true);
     try {
       if (token) {
-        const data = await fetchCartFromServer(token);
+        const data = await fetchCartFromServer(token); // 应该返回的是 grouped 格式
         setCart(data);
       } else {
         const local = localStorage.getItem(LOCAL_KEY);
         setCart(local ? JSON.parse(local) : []);
       }
     } catch {
-      alert("🛒 获取购物车失败");
+
+      showToast("Failed to load cart.");
     } finally {
       setLoading(false);
     }
@@ -42,14 +52,18 @@ export function useCartData(reloadFlag: number) {
 
   const updateQuantity = async (id: string, q: number) => {
     if (q < 1) return;
+
     if (token) {
       await updateItemQuantity(id, q, token);
       fetchCart();
     } else {
-      const newCart = cart.map(item =>
-        item.id === id ? { ...item, quantity: q } : item
-      );
-      saveLocalCart(newCart);
+      const updatedCart = cart.map(group => ({
+        ...group,
+        items: group.items.map(item =>
+          item.id === id ? { ...item, quantity: q } : item
+        ),
+      }));
+      saveLocalCart(updatedCart);
     }
   };
 
@@ -58,7 +72,13 @@ export function useCartData(reloadFlag: number) {
       await deleteCartItem(id, token);
       fetchCart();
     } else {
-      saveLocalCart(cart.filter(item => item.id !== id));
+      const updatedCart = cart
+        .map(group => ({
+          ...group,
+          items: group.items.filter(item => item.id !== id),
+        }))
+        .filter(group => group.items.length > 0); // 移除空组
+      saveLocalCart(updatedCart);
     }
   };
 

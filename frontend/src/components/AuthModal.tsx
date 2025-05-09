@@ -2,13 +2,17 @@ import { useState } from "react";
 import { Eye, EyeOff, X } from "lucide-react";
 import { useUserStore } from "../stores/userStore";
 import { useAuth } from "../hooks/useAuth";
+import { useCartSync } from "../hooks/useCartSync"; // 
+import { useNavigate } from "react-router-dom";
+import { useToast } from "../components/Toast"; // ✅ 新增
 
 type Props = {
   mode: "login" | "register";
   onClose: () => void;
-  onLoginSuccess: (username: string) => void;
+  onLoginSuccess: (username: string, role: string) => void; // ✅ 接收 role
   setMode: (mode: "login" | "register") => void;
 };
+
 
 export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Props) {
   const { setUsername, setRole } = useUserStore();
@@ -20,35 +24,44 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
   const [role, setLocalRole] = useState("USER");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
+  const showToast = useToast();
+const navigate = useNavigate();
+   const { syncCart } = useCartSync();
 
   const handleSubmit = async () => {
-    try {
-      if (mode === "login") {
-        const user = await login(username, password);
-        setUsername(user.username);
-        setRole(user.role);
-        onLoginSuccess(user.username);
+  try {
+    if (mode === "login") {
+      const user = await login(username, password);
+      setUsername(user.username);
+      setRole(user.role);
 
-        if (user.role === "MERCHANT") {
-          window.location.href = "/merchant";
-        }
-      } else {
-        await register({ username, password, email, role });
-        alert("注册成功，请登录");
-        setMode("login");
+      const token = localStorage.getItem("token");
+      if (token) {
+        await syncCart(token);
       }
-    } catch (err: any) {
-      const msg =
-        err.response?.data?.message ||
-        (typeof err.response?.data === "string" ? err.response.data : "") ||
-        "请求失败";
-      setError(msg);
+
+      // ✅ 把 role 一起传出去
+      onLoginSuccess(user.username, user.role);
+
+    } else {
+      await register({ username, password, email, role });
+
+      showToast("Registered successfully. Please log in.");
+      setMode("login");
     }
-  };
+  } catch (err: any) {
+    const msg =
+      err.response?.data?.message ||
+      (typeof err.response?.data === "string" ? err.response.data : "") ||
+      "请求失败";
+    setError(msg);
+  }
+};
+
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white rounded-md p-8 w-[360px] relative shadow-lg">
+      <div className="bg-white rounded-[20px] p-8 w-[360px] relative shadow-lg">
 
         {/* 关闭按钮 */}
         <button
@@ -68,7 +81,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
           value={username}
           onChange={(e) => setLocalUsername(e.target.value)}
           placeholder="Username *"
-          className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
+          className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm text-gray-900"
         />
 
         {/* 密码 */}
@@ -78,7 +91,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password *"
             type={showPassword ? "text" : "password"}
-            className="w-full border border-gray-300 rounded-[4px] px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm"
+            className="w-full border border-gray-300 rounded-[4px] px-4 py-2 pr-10 focus:outline-none focus:ring-2 focus:ring-red-300 text-sm text-gray-900"
           />
           <button
             onClick={() => setShowPassword((v) => !v)}
@@ -96,15 +109,15 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder="Email *"
-              className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 text-sm"
+              className="w-full border border-gray-300 text-gray-700 rounded-[4px] px-4 py-2 mb-6 text-sm"
             />
             <select
               value={role}
               onChange={(e) => setLocalRole(e.target.value)}
-              className="w-full border border-gray-300 rounded-[4px] px-4 py-2 mb-6 text-sm"
+              className="w-full text-gray-700 border border-gray-300 rounded-[4px] px-4 py-2 mb-6 text-sm"
             >
-              <option value="USER">普通用户</option>
-              <option value="MERCHANT">商户</option>
+           <option value="USER">User</option>
+<option value="MERCHANT">Merchant</option>
             </select>
           </>
         )}
@@ -115,7 +128,7 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
         {/* 提交按钮 */}
         <button
           onClick={handleSubmit}
-          className="w-full bg-primary hover:bg-red-700 text-white font-[500] font-outfit py-2 rounded-[4px] transition"
+          className="w-full bg-primary hover:bg-red-700 text-white font-[500] font-outfit py-2 rounded-[10px] transition"
         >
           {mode === "login" ? "LOGIN" : "SIGN UP"}
         </button>

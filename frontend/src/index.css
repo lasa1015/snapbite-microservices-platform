@@ -7,36 +7,35 @@
 /* Tailwind 工具类 */
 @tailwind utilities;
 
-
 @font-face {
-  font-family: 'CalSans';
-  src: url('/images/CalSans-Regular.ttf') format('truetype');
+  font-family: "CalSans";
+  src: url("/images/CalSans-Regular.ttf") format("truetype");
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'OpenSans';
-  src: url('/fonts/OpenSans-VariableFont_wdth,wght.ttf') format('truetype');
+  font-family: "OpenSans";
+  src: url("/fonts/OpenSans-VariableFont_wdth,wght.ttf") format("truetype");
   font-weight: 100 900; /* 支持从 Thin 到 Black 的粗细 */
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'OpenSans';
-  src: url('/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf') format('truetype');
+  font-family: "OpenSans";
+  src: url("/fonts/OpenSans-Italic-VariableFont_wdth,wght.ttf")
+    format("truetype");
   font-weight: 100 900;
   font-style: italic;
 }
 
 @font-face {
-  font-family: 'Outfit';
-  src: url('/fonts/Outfit-VariableFont_wght.ttf') format('truetype');
+  font-family: "Outfit";
+  src: url("/fonts/Outfit-VariableFont_wght.ttf") format("truetype");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
-
 
 /* 隐藏整个页面的滚动条，但仍保留滚动功能 */
 html {
@@ -45,9 +44,9 @@ html {
 }
 
 body {
-  -ms-overflow-style: none;  /* IE & Edge */
+  -ms-overflow-style: none; /* IE & Edge */
 }
 
 body::-webkit-scrollbar {
-  display: none;  /* Chrome, Safari */
+  display: none; /* Chrome, Safari */
 }

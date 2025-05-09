@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
 import { Order } from "../types/Order";
+import { useToast } from "../components/Toast";
 
 export default function MyOrdersPage() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
+  const showToast = useToast();
 
   useEffect(() => {
     fetchOrders();
@@ -43,7 +45,9 @@ export default function MyOrdersPage() {
     });
 
     if (res.ok) {
-      alert("✅ Order cancelled");
+
+      showToast(" Order cancelled");
+
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: "CANCELED" } : order
@@ -51,7 +55,8 @@ export default function MyOrdersPage() {
       );
     } else {
       const errMsg = await res.text();
-      alert("❌ Cancel failed: " + errMsg);
+
+      showToast("❌ Cancel failed: " + errMsg);
     }
   };
 
@@ -67,7 +72,8 @@ export default function MyOrdersPage() {
     });
 
     if (res.ok) {
-      alert("✅ Order confirmed");
+
+      showToast(" Order confirmed");
       setOrders(prev =>
         prev.map(order =>
           order.id === orderId ? { ...order, status: "COMPLETED" } : order
@@ -75,7 +81,7 @@ export default function MyOrdersPage() {
       );
     } else {
       const errMsg = await res.text();
-      alert("❌ Confirmation failed: " + errMsg);
+      showToast("❌ Confirmation failed: " + errMsg);
     }
   };
 
@@ -83,10 +89,11 @@ export default function MyOrdersPage() {
   if (orders.length === 0) return <p>You don’t have any orders yet.</p>;
 
   return (
-    <div className="max-w-screen-xl mx-auto px-4 py-10">
+    <div className="max-w-screen-xl mx-auto px-2 py-6">
 
-<div className="max-w-[800px] mx-auto px-4">
-  <h2 className="text-[28px] font-[600] font-outfit mb-4">My Orders</h2>
+<div className="max-w-[800px] mx-auto px-2">
+  <h2 className="text-[28px] font-[500] font-outfit mb-8 underline underline-offset-2">
+    My Orders</h2>
 </div>
 
 

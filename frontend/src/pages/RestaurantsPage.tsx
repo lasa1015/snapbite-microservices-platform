@@ -1,18 +1,16 @@
-// src/pages/HomePage.tsx
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+// src/pages/RestaurantsPage.tsx
+
 import RestaurantCard from "../components/RestaurantCard";
 import useRestaurants from "../hooks/useRestaurants";
-import { useUserStore } from "../stores/userStore";
 import { useFilterStore } from "../stores/filterStore";
+import { useEffect } from "react"; 
 
 const ALL_CATEGORIES = ["Burgers", "Pizza", "Thai", "Indian", "Chinese", "Japanese", "Korean", "Mexican", "Mediterranean", "Middle Eastern", "Vegan", "Vegetarian"];
 const ALL_PRICES = ["€", "€€", "€€€"];
 const ALL_MEALS = ["breakfast", "lunch", "dinner", "brunch"];
 
 export default function HomePage() {
-  const { username, setUsername } = useUserStore();
-  const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
+
 
   const {
     categories, setCategories,
@@ -22,22 +20,41 @@ export default function HomePage() {
     clear
   } = useFilterStore();
 
+
+ // ✅ 每当筛选条件变化时，打印到控制台
+  useEffect(() => {
+    console.log("当前筛选条件：", {
+      categories,
+      prices,
+      meals,
+      sortOrder
+    });
+  }, [categories, prices, meals, sortOrder]);
+
+
+
   const toggle = (value: string, arr: string[], setArr: (v: string[]) => void) => {
     setArr(arr.includes(value) ? arr.filter(v => v !== value) : [...arr, value]);
   };
 
+  // 调用自定义 Hook 获取餐厅数据
+  // 传入筛选条件：分类、价格、用餐时间和排序方式
   const restaurants = useRestaurants({ categories, prices, meals, sortOrder });
 
-  const buttonClass = (active: boolean) =>
-    `px-4 py-2 min-w-[80px] text-center rounded-full text-sm ${
-      active ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-700'
-    }`;
-  
-  
 
-  const tagClass = "bg-[#ffffff] text-red-700 font-[500] px-0 py-2.5 rounded-xl text-sm uppercase font-outfit";
+
+const buttonClass = (active: boolean) =>
+  `px-[10px] py-[7px] min-w-[80px] text-center rounded-full text-sm border-[1.7px] transition ${
+    active
+      ? 'bg-white text-primary border-primary hover:bg-red-50'
+      : 'bg-gray-100 text-gray-700 border-gray-100 hover:border-gray-300'
+  }`;
+
+
+  const tagClass = "bg-[#ffffff] text-gray-500 font-[600] pr-3 py-2.5 rounded-xl text-[13px] uppercase font-outfit";
 
   return (
+
     <div className="mx-auto px-0 py-6 max-w-screen-xl">
 
 
@@ -104,7 +121,7 @@ export default function HomePage() {
 
         <button
   onClick={clear}
-  className="w-16 h-9 rounded-full bg-gray-100  hover:bg-gray-400 flex items-center justify-center text-sm "
+  className="w-20 h-9 rounded-full bg-gray-100  hover:bg-gray-200 flex items-center justify-center font-[400]  text-[15px] text-gray-700"
 >
   Reset
 </button>
