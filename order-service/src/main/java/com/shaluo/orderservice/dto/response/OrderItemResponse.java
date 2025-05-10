@@ -6,7 +6,7 @@ import lombok.Data;
 public class OrderItemResponse {
     private String dishId;
     private String dishName;
-    private Double price;
+    private Double dishPrice;
     private Integer quantity;
     private String restaurantId;
     private Double subtotal;

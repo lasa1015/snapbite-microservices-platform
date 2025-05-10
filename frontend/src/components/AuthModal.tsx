@@ -3,15 +3,16 @@ import { Eye, EyeOff, X } from "lucide-react";
 import { useUserStore } from "../stores/userStore";
 import { useAuth } from "../hooks/useAuth";
 import { useCartSync } from "../hooks/useCartSync"; // 
-import { useNavigate } from "react-router-dom";
 import { useToast } from "../components/Toast"; // ✅ 新增
+import { Role } from "../types/user";
 
 type Props = {
   mode: "login" | "register";
   onClose: () => void;
-  onLoginSuccess: (username: string, role: string) => void; // ✅ 接收 role
+  onLoginSuccess: (username: string, role: Role) => void; // ✅ 正确类型
   setMode: (mode: "login" | "register") => void;
 };
+
 
 
 export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Props) {
@@ -25,7 +26,9 @@ export default function AuthModal({ mode, onClose, onLoginSuccess, setMode }: Pr
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState("");
   const showToast = useToast();
-const navigate = useNavigate();
+
+
+
    const { syncCart } = useCartSync();
 
   const handleSubmit = async () => {
@@ -44,7 +47,8 @@ const navigate = useNavigate();
       onLoginSuccess(user.username, user.role);
 
     } else {
-      await register({ username, password, email, role });
+      await register({ username, password, email, role: role as "USER" | "MERCHANT" });
+
 
       showToast("Registered successfully. Please log in.");
       setMode("login");

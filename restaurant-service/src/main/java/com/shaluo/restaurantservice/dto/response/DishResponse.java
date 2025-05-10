@@ -8,9 +8,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class DishResponse {
 
-    private String id;
+    private Long id;
     private String name;
-    private double price;
+    private double dishPrice;
     private String description;
 
 }

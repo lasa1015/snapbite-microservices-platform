@@ -4,8 +4,14 @@ export type CartItem = {
   id: string;
   dishId: string;
   dishName: string;
-  dishPrice: number; // ✅ 确保是 dishPrice，不是 price
+  dishPrice: number;
   restaurantId: string;
   restaurantName: string;
   quantity: number;
+};
+
+export type CartGroup = {
+  restaurantId: string;
+  restaurantName: string;
+  items: CartItem[];
 };

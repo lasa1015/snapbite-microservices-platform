@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import OrderCard from "../components/OrderCard";
-import { Order } from "../types/Order";
+import { Order } from "../types/order";
 import { useToast } from "../components/Toast";
 
 export default function MyOrdersPage() {

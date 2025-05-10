@@ -29,6 +29,14 @@ export default function MerchantDashboard() {
     window.location.reload();
   };
 
+  const handleConfirm = async (id: string) => {
+    const token = localStorage.getItem("token");
+    await axios.patch(`/api/order/merchant/confirm/${id}`, {}, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    window.location.reload();
+  };
+
   if (loading) return <p className="text-center mt-10 text-gray-600">Loading…</p>;
   if (error) return <p className="text-center mt-10 text-red-600">{error}</p>;
 
@@ -57,6 +65,7 @@ export default function MerchantDashboard() {
               onShip={handleShip}
               onCancel={handleCancel}
               onAccept={handleAccept} 
+              onConfirm={handleConfirm}
             />
           ))
         )}

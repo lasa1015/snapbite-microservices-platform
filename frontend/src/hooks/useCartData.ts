@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CartItem } from "../types/cart";
+import { CartGroup } from "../types/cart";
 import {
   fetchCartFromServer,
   updateItemQuantity,
@@ -10,12 +10,6 @@ import { useToast } from "../components/Toast";
 
 
 const LOCAL_KEY = "guest_cart";
-
-type CartGroup = {
-  restaurantId: string;
-  restaurantName: string;
-  items: CartItem[];
-};
 
 export function useCartData(reloadFlag: number) {
   const [cart, setCart] = useState<CartGroup[]>([]);

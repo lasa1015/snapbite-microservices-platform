@@ -1,4 +1,4 @@
-import { Order } from "../types/Order";
+import { Order } from "../types/order";
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -67,7 +67,7 @@ export default function OrderCard({ order, onCancel, onConfirm }: Props) {
               <div className="text-[14px] text-gray-500">× {item.quantity}</div>
             </div>
             <div className="text-[18px] text-gray-700 font-[400] font-outfit">
-              €{item.price.toFixed(2)}
+              €{item.dishPrice.toFixed(2)}
             </div>
           </div>
         ))}

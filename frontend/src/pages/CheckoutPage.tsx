@@ -17,7 +17,7 @@ const { closeCart } = useCartStore();
 
   const total = cart
     .flatMap(group => group.items)
-    .reduce((sum, item) => sum + (item.price || 0) * item.quantity, 0);
+    .reduce((sum, item) => sum + (item.dishPrice || 0) * item.quantity, 0);
 
   const handleSubmit = async () => {
     if (!address || !recipient || !phone) {
@@ -78,7 +78,7 @@ const { closeCart } = useCartStore();
                   </div>
                 </div>
                 <div className="text-right font-medium">
-                  €{((item.price||  0) * item.quantity).toFixed(2)}
+                  €{((item.dishPrice||  0) * item.quantity).toFixed(2)}
                 </div>
               </div>
             );

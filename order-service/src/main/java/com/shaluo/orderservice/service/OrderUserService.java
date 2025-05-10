@@ -64,9 +64,9 @@ public class OrderUserService {
                 orderItem.setRestaurantId(group.getRestaurantId());
                 orderItem.setDishId(item.getDishId());
                 orderItem.setDishName(item.getDishName());
-                orderItem.setPrice(item.getPrice());
+                orderItem.setDishPrice(item.getDishPrice());
                 orderItem.setQuantity(item.getQuantity());
-                orderItem.setSubtotal(item.getPrice() * item.getQuantity());
+                orderItem.setSubtotal(item.getDishPrice() * item.getQuantity());
 
                 return orderItem;
             }).collect(Collectors.toList());
@@ -83,7 +83,7 @@ public class OrderUserService {
 
     private double calculateTotalAmount(List<OrderItem> items) {
         return items.stream()
-                .mapToDouble(item -> item.getPrice() * item.getQuantity())
+                .mapToDouble(item -> item.getDishPrice() * item.getQuantity())
                 .sum();
     }
 
@@ -121,7 +121,7 @@ public class OrderUserService {
             for (OrderItem item : order.getItems()) {
                 OrderItemResponse i = new OrderItemResponse();
                 i.setDishName(item.getDishName());
-                i.setPrice(item.getPrice());
+                i.setDishPrice(item.getDishPrice());
                 i.setQuantity(item.getQuantity());
                 i.setRestaurantId(item.getRestaurantId());
                 i.setDishId(item.getDishId());

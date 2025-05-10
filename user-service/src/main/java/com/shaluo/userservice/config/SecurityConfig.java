@@ -56,7 +56,7 @@ public class SecurityConfig {
                     for (String pattern : PUBLIC_API) {
 
                         //  如果是 → 放行，不做任何身份验证
-                        if (new AntPathRequestMatcher(pattern).matches(req)) {
+                        if (new AntPathRequestMatcher(pattern, null).matches(req)) {
                             chain.doFilter(request, response);
                             return;
                         }

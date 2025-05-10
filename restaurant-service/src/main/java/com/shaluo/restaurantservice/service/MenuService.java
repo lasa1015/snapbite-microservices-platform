@@ -30,12 +30,12 @@ public class MenuService {
 
         // 遍历原始菜品，逐个转换为 DishResponse 并加入列表
         for (Dish dish : menu.getItems()) {
-            String id = dish.getId().toString();
+            Long id = dish.getId();
             String name = dish.getName();
-            Double price = dish.getPrice();
+            Double dishPrice = dish.getPrice();
             String description = dish.getDescription();
 
-            DishResponse dto = new DishResponse(id, name, price, description);
+            DishResponse dto = new DishResponse(id, name, dishPrice, description);
             dishes.add(dto);
         }
 
