@@ -1,4 +1,4 @@
-import { Order } from "../types/Order";
+import { Order } from "../types/order";
 import { useState } from "react";
 import ConfirmDialog from "./ConfirmDialog";
 
@@ -10,7 +10,7 @@ type Props = {
   onShip: (id: string) => void;
 };
 
-export default function MerchantOrderCard({ order, onCancel, onConfirm, onAccept, onShip }: Props) {
+export default function MerchantOrderCard({ order, onCancel,  onAccept, onShip }: Props) {
   const statusStyles = {
     CREATED: "bg-blue-100 text-blue-700",
     ACCEPTED: "bg-indigo-100 text-indigo-700",
@@ -53,7 +53,7 @@ export default function MerchantOrderCard({ order, onCancel, onConfirm, onAccept
               <div className="text-[19px] text-gray-900 font-outfit">{item.dishName}</div>
               <div className="text-[14px] text-gray-500">x {item.quantity}</div>
             </div>
-            <div className="text-[18px] text-gray-700 font-[400] font-outfit">€{item.price.toFixed(2)}</div>
+            <div className="text-[18px] text-gray-700 font-[400] font-outfit">€{item.dishPrice.toFixed(2)}</div>
           </div>
         ))}
       </div>

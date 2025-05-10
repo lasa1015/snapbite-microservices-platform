@@ -5,6 +5,9 @@ import { useCartStore } from "../stores/cartStore";
 import AuthModal from "./AuthModal";
 import { ShoppingCart, User } from "lucide-react";
 import { useRef, useEffect } from "react";
+import { Role } from "../types/user"; 
+
+
 
 export default function UserStatusBar() {
   const { openCart } = useCartStore();
@@ -125,22 +128,29 @@ export default function UserStatusBar() {
     mode={authMode}
     setMode={setAuthMode}
     onClose={() => setAuthMode(null)}
-    onLoginSuccess={(name, role) => {
-      setUsername(name);
-      setRole(role);
-      setAuthMode(null);
+
+
+   onLoginSuccess={(name: string, role: Role) => {
+  setUsername(name);
+  setRole(role);
+  setAuthMode(null);
 
   if (role === "MERCHANT") {
     navigate("/merchant");
   } else {
-    // 只有普通用户才同步购物车
-    const localCart = JSON.parse(localStorage.getItem("cart") || "[]");
-    if (Array.isArray(localCart)) {
-      useCartStore.getState().setCartItems(localCart);
-    }
-  }
+    // 只有普通用户才同步 guest_cart 数据
+    const localCart = JSON.parse(localStorage.getItem("guest_cart") || "[]");
 
-    }}
+    if (Array.isArray(localCart)) {
+useCartStore.getState().setCartItems(localCart);
+    }
+
+    navigate("/"); // ✅ 可选跳转回主页
+  }
+}}
+
+
+   
   />
 )}
 

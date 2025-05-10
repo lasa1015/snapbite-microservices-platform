@@ -37,6 +37,8 @@ public class RestaurantServiceApplication {
 			System.setProperty("MONGO_HOST", dotenv.get("MONGO_HOST"));
 			System.setProperty("MONGO_PORT", dotenv.get("MONGO_PORT"));
 			System.setProperty("MONGO_DB", dotenv.get("MONGO_DB"));
+
+			System.setProperty("USER_SERVICE_URL", dotenv.get("USER_SERVICE_URL"));
 		}
 
 		SpringApplication.run(RestaurantServiceApplication.class, args);

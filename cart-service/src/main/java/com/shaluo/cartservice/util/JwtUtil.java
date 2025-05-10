@@ -27,6 +27,9 @@ public class JwtUtil {
     // 生成jwt token
     public String generateToken(String username, String role) {
 
+        // 查看密钥！
+        System.out.println("[DEBUG] JWT_SECRET (for token generation): " + secret);
+
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
 
         // 通过 Jwts.builder() 构造 JWT 格式内容
@@ -54,6 +57,9 @@ public class JwtUtil {
 
     // 解析 JWT 并返回用户信息（username、role 等）
     public Claims parseToken(String token) {
+
+        // 打印密钥
+        System.out.println("[DEBUG] JWT_SECRET (for token parsing): " + secret);
 
         // 生成用于验证签名的密钥（要与生成 token 时的密钥保持一致）
         Key key = Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));

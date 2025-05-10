@@ -55,7 +55,7 @@ public class OrderMerchantService {
             for (OrderItem item : order.getItems()) {
                 OrderItemResponse itemResponse = new OrderItemResponse();
                 itemResponse.setDishName(item.getDishName());
-                itemResponse.setPrice(item.getPrice());
+                itemResponse.setDishPrice(item.getDishPrice());
                 itemResponse.setQuantity(item.getQuantity());
                 itemResponse.setRestaurantId(item.getRestaurantId());
                 itemResponse.setDishId(item.getDishId());

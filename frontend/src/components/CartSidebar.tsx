@@ -11,7 +11,7 @@ export default function CartSidebar() {
   const { closeCart } = useCartStore();
   const { reloadFlag, triggerReload } = useCartStore();
   const { username, setUsername } = useUserStore();
-  const { cart, loading, updateQuantity, deleteItem, clearCart } = useCartData(reloadFlag);
+  const { cart, loading, updateQuantity, deleteItem  } = useCartData(reloadFlag);
   const [authMode, setAuthMode] = useState<"login" | "register" | null>(null);
   const navigate = useNavigate();
 
@@ -61,7 +61,7 @@ export default function CartSidebar() {
   const total = cart
     .flatMap((group) => group.items)
     .reduce(
-      (sum, item) => sum + (item.price ||  0) * item.quantity,
+      (sum, item) => sum + (item.dishPrice ||  0) * item.quantity,
       0
     );
 
@@ -132,7 +132,7 @@ export default function CartSidebar() {
                         {item.dishName || "Unknown Dish"}
                       </div>
                       <div className="text-sm text-gray-500">
-                        €{(item.price || 0).toFixed(2)}
+                        €{(item.dishPrice || 0).toFixed(2)}
                       </div>
                     </div>
                     <div className="flex items-center space-x-2">
@@ -192,6 +192,7 @@ export default function CartSidebar() {
           mode={authMode}
           onClose={() => setAuthMode(null)}
           onLoginSuccess={onLoginSuccess}
+          setMode={setAuthMode}
         />
       )}
     </div>

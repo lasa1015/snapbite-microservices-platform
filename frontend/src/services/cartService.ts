@@ -1,7 +1,9 @@
 import axios from "axios";
-import { CartItem } from "../types/cart";
 
-export async function fetchCartFromServer(token: string): Promise<CartItem[]> {
+import { CartGroup } from "../types/cart"; // 别忘了这句
+
+
+export async function fetchCartFromServer(token: string): Promise<CartGroup[]> {
   const res = await axios.get("/api/cart", {
     headers: { Authorization: `Bearer ${token}` },
   });

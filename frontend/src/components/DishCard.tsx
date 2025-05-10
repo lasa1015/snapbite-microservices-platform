@@ -7,7 +7,7 @@ interface DishCardProps {
   dish: {
     id: number;
     name: string;
-    price: number;
+    dishPrice: number;
     description?: string;
   };
   restaurantId: number; // ✅ 传入
@@ -29,7 +29,7 @@ const handleClick = () => {
       restaurantName,
       dish.id.toString(),
       dish.name,
-      dish.price
+      dish.dishPrice
     );
     showToast("Added to cart");
     return;
@@ -65,7 +65,7 @@ const handleClick = () => {
 
         {/* ✅ 底部价格 + 添加按钮 */}
         <div className="flex justify-between items-end mt-4">
-          <p className="text-gray-900 text-[18px] font-outfit font-[300]">€{dish.price.toFixed(2)}</p>
+          <p className="text-gray-900 text-[18px] font-outfit font-[300]">€{dish.dishPrice.toFixed(2)}</p>
           <button
             onClick={handleClick}
             className="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center text-2xl hover:bg-red-700"

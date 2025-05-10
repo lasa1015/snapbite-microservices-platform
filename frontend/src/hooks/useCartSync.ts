@@ -1,4 +1,4 @@
-// src/hooks/useCartSync.ts
+import { CartGroup } from "../types/cart"; // ✅ 确保导入
 
 
 export function useCartSync() {
@@ -8,7 +8,7 @@ export function useCartSync() {
     const raw = localStorage.getItem(LOCAL_KEY);
     if (!raw) return;
 
-    const groupedCart = JSON.parse(raw); // 分组结构
+const groupedCart: CartGroup[] = JSON.parse(raw);
 
     for (const group of groupedCart) {
       for (const item of group.items) {

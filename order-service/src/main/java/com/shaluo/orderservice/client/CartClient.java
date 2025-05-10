@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 // Feign 客户端：声明式地调用 cart-service
-@FeignClient(name = "cart-service", url = "http://localhost:8083")
+// 使用环境变量，根据 local 和 docker中使用不同的url
+@FeignClient(name = "cart-service", contextId = "cartClient", url = "${CART_SERVICE_URL}")
 public interface CartClient {
 
     // 获取某个用户的分组购物车内容（按餐厅）

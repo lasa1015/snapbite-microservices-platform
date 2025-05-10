@@ -21,7 +21,7 @@ public class OrderItem {
 
     private String dishId;
     private String dishName;
-    private Double price;
+    private Double dishPrice;
     private Integer quantity;
 
     @Column(nullable = true)

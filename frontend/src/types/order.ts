@@ -1,24 +1,22 @@
-// src/types/order.ts
-
-// src/types/order.ts
+export type OrderStatus = "CREATED" | "ACCEPTED" | "SHIPPED" | "COMPLETED" | "CANCELED";
 
 export type OrderItem = {
-  dishId: string;           // ✅ 由 number 改为 string，和后端匹配
+  dishId: string;
   dishName: string;
-  price: number;
+  dishPrice: number; // ✅ 正确字段名
   quantity: number;
-  restaurantId: string;     // ✅ 添加或确保存在
-  subtotal?: number;        // ✅ 可选：从后端接受（如果你希望前端自己算，也可不加）
+  restaurantId: string;
+  subtotal?: number;
 };
 
 export type Order = {
   id: string;
   createdAt: string;
-  status: string;
+  status: OrderStatus; // ✅ 用联合类型限制 status
   recipient: string;
   phone: string;
   address: string;
   totalPrice: number;
-  restaurantName: string; // ✅ 加上这个字段
+  restaurantName: string;
   items: OrderItem[];
 };

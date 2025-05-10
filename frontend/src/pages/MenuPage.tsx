@@ -9,13 +9,14 @@ import { useCartStore } from "../stores/cartStore";
 import DishCard from "../components/DishCard";
 import RestaurantMap from "../components/RestaurantMap";
 import { useToast } from "../components/Toast";
+import { ArrowLeft } from "lucide-react"; 
 
 const LOCAL_KEY = "guest_cart";
 
 const MenuPage = () => {
   const { restaurantId } = useParams();
   const navigate = useNavigate();
-  const { reloadFlag, triggerReload } = useCartStore();
+  const {  triggerReload } = useCartStore();
   const showToast = useToast(); // ✅ 使用 Toast
   const [menu, setMenu] = useState<Menu | null>(null);
   const [restaurant, setRestaurant] = useState<Restaurant | null>(null);
@@ -49,14 +50,15 @@ const MenuPage = () => {
     loadRestaurant(restId);
   }, [restId]);
 
-  const addToCart = async (dishId: string) => {
+  const addToCart = async (dishId: number) => {
     if (!restId || !menu) return;
 
     const dish = menu.dishes.find((d) => d.id === dishId);
+    
     if (!dish) return;
 
     console.log("🎯 加入购物车的菜品：", dish); // ✅ 打印整个菜品对象
-    console.log("🎯 菜品价格：", dish.price);  // ✅ 明确输出价格
+    console.log("🎯 菜品价格：", dish.dishPrice);  // ✅ 明确输出价格
 
     if (token) {
       try {
@@ -67,7 +69,7 @@ const MenuPage = () => {
             restaurantId: restId.toString(),
             restaurantName: restaurant?.name || "",
             dishName: dish.name,
-            dishPrice: dish.price,
+            dishPrice: dish.dishPrice,
             quantity: 1,
           },
           {
@@ -103,7 +105,7 @@ const MenuPage = () => {
           restaurantId: restId.toString(),
           restaurantName: restaurant?.name || "",
           dishName: dish.name,
-          dishPrice: dish.price,
+          dishPrice: dish.dishPrice,
           quantity: 1,
         });
       }
@@ -119,13 +121,15 @@ const MenuPage = () => {
   if (!menu || !restaurant) return <p>加载中...</p>;
 
   return (
-    <div className="max-w-screen-xl mx-auto py-4 px-14 space-y-6">
-      <button
-        onClick={() => navigate(-1)}
-        className="text-2xl text-black mb-0 font-outfit"
-      >
-        ← back
-      </button>
+    <div className="max-w-screen-xl mx-auto py-0 px-20 space-y-6">
+
+<button
+  onClick={() => navigate(-1)}
+  className="fixed top-[85px] left-[110px] z-50 w-11 h-11 flex items-center justify-center rounded-full bg-white shadow-[0px_0px_2px_rgba(0,0,0,0.6)] hover:bg-primary transition group"
+>
+  <ArrowLeft className="w-6 h-6 text-primary group-hover:text-white transition" />
+</button>
+
 
       {/* 顶部：餐厅信息 */}
       <div className="max-w-screen-xl mx-auto">

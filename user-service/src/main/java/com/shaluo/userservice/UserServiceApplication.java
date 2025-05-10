@@ -38,6 +38,10 @@ public class UserServiceApplication {
 		}
 
 		SpringApplication.run(UserServiceApplication.class, args);
+
+		// 查看jwt secret是否正常加载
+		System.out.println("[DEBUG] JWT_SECRET from env = " + System.getenv("JWT_SECRET"));
+
 	}
 
 }
