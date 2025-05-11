@@ -2,7 +2,7 @@ project_notes/
 docs/ui_design/references
 docs/ui_design/
 .run/
-docker/nginx/frontend-dist/
+nginx/frontend-dist/
 *.iodraw
 
 
@@ -66,7 +66,7 @@ backend/*.env
 
 # ========== Docker / DB 数据卷 ==========
 
-docker/mongo-data/
+mongo/mongo-data/
 docker/postgres-data/
 docker/db-data/
 docker/redis-data/

@@ -16,7 +16,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: '../docker/nginx/frontend-dist', // 直接打包进 nginx 目录
+    outDir: '../nginx/frontend-dist', // 直接打包进 nginx 目录
     emptyOutDir: true, // 每次构建前清空目录（推荐）
   },
 });
