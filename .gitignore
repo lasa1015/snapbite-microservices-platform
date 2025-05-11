@@ -5,6 +5,8 @@ docs/ui_design/
 docker/nginx/frontend-dist/
 *.iodraw
 
+
+
 .git
 *.py
 .env

@@ -8,26 +8,15 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      '/api/users': {
-        target: 'http://localhost:8081', // user-service
-        changeOrigin: true,
-      },
-      '/api/restaurants': {
-        target: 'http://localhost:8082', // restaurant-service
-        changeOrigin: true,
-      },
-      '/api/menu': {
-        target: 'http://localhost:8082', // 也是 restaurant-service
-        changeOrigin: true,
-      },
-      '/api/cart': {
-        target: 'http://localhost:8083', // cart-service
-        changeOrigin: true,
-      },
-      '/api/order': {
-        target: 'http://localhost:8084', // order-service
-        changeOrigin: true,
-      },
+      '/api/users': { target: 'http://localhost:8081', changeOrigin: true },
+      '/api/restaurants': { target: 'http://localhost:8082', changeOrigin: true },
+      '/api/menu': { target: 'http://localhost:8082', changeOrigin: true },
+      '/api/cart': { target: 'http://localhost:8083', changeOrigin: true },
+      '/api/order': { target: 'http://localhost:8084', changeOrigin: true },
     },
+  },
+  build: {
+    outDir: '../docker/nginx/frontend-dist', // 直接打包进 nginx 目录
+    emptyOutDir: true, // 每次构建前清空目录（推荐）
   },
 });
