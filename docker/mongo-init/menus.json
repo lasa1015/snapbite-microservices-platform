@@ -1,0 +1,1569 @@
+[{
+  "_id": {
+    "$oid": "68150a63146a6501609edf74"
+  },
+  "restaurantId": 1,
+  "items": [
+    {
+      "name": "Chicken Tacos",
+      "price": 9.5,
+      "description": "Grilled chicken in soft corn tortillas with salsa verde",
+      "spicy": true,
+      "tags": [
+        "gluten-free",
+        "popular"
+      ],
+      "id": 1
+    },
+    {
+      "name": "Beef Burrito",
+      "price": 10,
+      "description": "Flour tortilla filled with rice, beans, and seasoned beef",
+      "id": 2
+    },
+    {
+      "name": "Vegetarian Quesadilla",
+      "price": 8.5,
+      "description": "Grilled tortilla with cheese, bell peppers, and mushrooms",
+      "vegetarian": true,
+      "id": 3
+    },
+    {
+      "name": "Nachos Supreme",
+      "price": 7,
+      "description": "Tortilla chips with melted cheese, jalapeños, and sour cream",
+      "shareable": true,
+      "id": 4
+    },
+    {
+      "name": "Churros",
+      "price": 5,
+      "description": "Cinnamon sugar fried dough with chocolate dipping sauce",
+      "category": "dessert",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150a89146a6501609edf76"
+  },
+  "restaurantId": 2,
+  "items": [
+    {
+      "name": "Classic Cheeseburger",
+      "price": 10.5,
+      "description": "100% Irish beef, cheddar cheese, lettuce, tomato, and onion",
+      "calories": 750,
+      "id": 1
+    },
+    {
+      "name": "Double Bacon Burger",
+      "price": 12,
+      "description": "Two beef patties with crispy bacon and BBQ sauce",
+      "tags": [
+        "bestseller",
+        "high-protein"
+      ],
+      "id": 2
+    },
+    {
+      "name": "Veggie Burger",
+      "price": 9,
+      "description": "Grilled plant-based patty with avocado and hummus",
+      "vegetarian": true,
+      "id": 3
+    },
+    {
+      "name": "Sweet Potato Fries",
+      "price": 4.5,
+      "description": "Crispy sweet potato fries served with garlic mayo",
+      "sideDish": true,
+      "id": 4
+    },
+    {
+      "name": "Milkshake (Vanilla)",
+      "price": 4,
+      "description": "Classic vanilla milkshake made with Irish dairy",
+      "category": "drink",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150aa5146a6501609edf78"
+  },
+  "restaurantId": 3,
+  "items": [
+    {
+      "name": "Bibimbap",
+      "price": 11.5,
+      "description": "Mixed rice bowl with vegetables, beef, and a fried egg",
+      "spicyLevel": "medium",
+      "id": 1
+    },
+    {
+      "name": "Kimchi Jjigae",
+      "price": 10,
+      "description": "Spicy kimchi stew with pork and tofu",
+      "spicyLevel": "high",
+      "id": 2
+    },
+    {
+      "name": "Japchae",
+      "price": 9.5,
+      "description": "Stir-fried sweet potato noodles with vegetables",
+      "glutenFree": true,
+      "id": 3
+    },
+    {
+      "name": "Tteokbokki",
+      "price": 8,
+      "description": "Spicy rice cakes in gochujang sauce",
+      "popular": true,
+      "spicyLevel": "very high",
+      "id": 4
+    },
+    {
+      "name": "Soju",
+      "price": 6,
+      "description": "Traditional Korean rice liquor (bottle)",
+      "category": "alcohol",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150aba146a6501609edf7a"
+  },
+  "restaurantId": 4,
+  "items": [
+    {
+      "name": "Pad Thai",
+      "price": 10.5,
+      "description": "Stir-fried rice noodles with shrimp, tofu, egg, and peanuts",
+      "spicyLevel": "low",
+      "glutenFree": false,
+      "id": 1
+    },
+    {
+      "name": "Green Curry Chicken",
+      "price": 11,
+      "description": "Thai green curry with coconut milk and chicken",
+      "spicyLevel": "medium",
+      "containsCoconut": true,
+      "id": 2
+    },
+    {
+      "name": "Tom Yum Soup",
+      "price": 8.5,
+      "description": "Hot and sour soup with shrimp and lemongrass",
+      "spicyLevel": "high",
+      "isSoup": true,
+      "id": 3
+    },
+    {
+      "name": "Sticky Rice with Mango",
+      "price": 6,
+      "description": "Sweet sticky rice with fresh mango and coconut cream",
+      "category": "dessert",
+      "id": 4
+    },
+    {
+      "name": "Thai Iced Tea",
+      "price": 3.5,
+      "description": "Strong brewed tea with milk and sugar over ice",
+      "cold": true,
+      "category": "drink",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150ace146a6501609edf7c"
+  },
+  "restaurantId": 5,
+  "items": [
+    {
+      "name": "Salmon Nigiri",
+      "price": 6,
+      "description": "Fresh salmon over seasoned rice",
+      "isSushi": true,
+      "fishType": "salmon",
+      "id": 1
+    },
+    {
+      "name": "Tonkotsu Ramen",
+      "price": 11.5,
+      "description": "Rich pork broth ramen with chashu and soft egg",
+      "noodleType": "ramen",
+      "containsPork": true,
+      "id": 2
+    },
+    {
+      "name": "Chicken Katsu Curry",
+      "price": 10,
+      "description": "Fried chicken cutlet with Japanese curry and rice",
+      "isCrispy": true,
+      "spicyLevel": "mild",
+      "id": 3
+    },
+    {
+      "name": "Vegetable Tempura",
+      "price": 7.5,
+      "description": "Lightly battered and deep-fried seasonal vegetables",
+      "vegetarian": true,
+      "deepFried": true,
+      "id": 4
+    },
+    {
+      "name": "Matcha Ice Cream",
+      "price": 4,
+      "description": "Green tea flavored ice cream",
+      "category": "dessert",
+      "cold": true,
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150ae4146a6501609edf7e"
+  },
+  "restaurantId": 6,
+  "items": [
+    {
+      "name": "Sashimi Platter",
+      "price": 14.5,
+      "description": "An assortment of fresh raw fish slices",
+      "includesWasabi": true,
+      "pieces": 12,
+      "id": 1
+    },
+    {
+      "name": "Chicken Teriyaki",
+      "price": 10,
+      "description": "Grilled chicken glazed with sweet teriyaki sauce",
+      "glutenFree": false,
+      "servedWith": "rice and salad",
+      "id": 2
+    },
+    {
+      "name": "Ebi Tempura Udon",
+      "price": 9.5,
+      "description": "Udon noodles in hot broth topped with shrimp tempura",
+      "shrimpCount": 2,
+      "hotSoup": true,
+      "id": 3
+    },
+    {
+      "name": "Spicy Tuna Roll",
+      "price": 7,
+      "description": "Sushi roll with spicy tuna, cucumber, and chili mayo",
+      "spicyLevel": "medium",
+      "isRaw": true,
+      "id": 4
+    },
+    {
+      "name": "Miso Soup",
+      "price": 2.5,
+      "description": "Traditional soybean paste soup with tofu and seaweed",
+      "vegetarian": true,
+      "soupBase": "miso",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150afb146a6501609edf80"
+  },
+  "restaurantId": 7,
+  "items": [
+    {
+      "name": "Sweet and Sour Chicken",
+      "price": 9.8,
+      "description": "Crispy chicken pieces tossed in sweet and tangy sauce",
+      "containsNuts": false,
+      "spicyLevel": "mild",
+      "id": 1
+    },
+    {
+      "name": "Beef Chow Mein",
+      "price": 10.5,
+      "description": "Stir-fried noodles with beef and mixed vegetables",
+      "noodleType": "egg noodles",
+      "vegetarian": false,
+      "id": 2
+    },
+    {
+      "name": "Mapo Tofu",
+      "price": 8.2,
+      "description": "Soft tofu in spicy Sichuan sauce with minced pork",
+      "spicyLevel": "high",
+      "containsMeat": true,
+      "id": 3
+    },
+    {
+      "name": "Spring Rolls",
+      "price": 4,
+      "description": "Crispy rolls stuffed with vegetables and glass noodles",
+      "pieces": 3,
+      "vegetarian": true,
+      "id": 4
+    },
+    {
+      "name": "Egg Fried Rice",
+      "price": 6.5,
+      "description": "Fried rice with egg, green onions, and soy sauce",
+      "glutenFree": false,
+      "addOns": [
+        "prawns",
+        "chicken"
+      ],
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150b13146a6501609edf82"
+  },
+  "restaurantId": 8,
+  "items": [
+    {
+      "name": "Vegan Shepherd's Pie",
+      "price": 11.5,
+      "description": "Lentils, carrots, and peas topped with mashed potatoes",
+      "glutenFree": true,
+      "calories": 480,
+      "id": 1
+    },
+    {
+      "name": "Tofu Buddha Bowl",
+      "price": 10,
+      "description": "Tofu with quinoa, chickpeas, avocado, and tahini dressing",
+      "proteinSource": "tofu",
+      "spicyLevel": "none",
+      "id": 2
+    },
+    {
+      "name": "Vegan Lasagna",
+      "price": 12.2,
+      "description": "Layered pasta with cashew cheese and veggie ragu",
+      "nutBasedCheese": true,
+      "portionSize": "large",
+      "id": 3
+    },
+    {
+      "name": "Vegan Chocolate Cake",
+      "price": 5.5,
+      "description": "Rich chocolate cake with coconut cream frosting",
+      "sugarFree": false,
+      "containsNuts": false,
+      "id": 4
+    },
+    {
+      "name": "Jackfruit Tacos",
+      "price": 9,
+      "description": "Pulled jackfruit with slaw and spicy vegan mayo",
+      "spicyLevel": "medium",
+      "glutenFree": true,
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150b2c146a6501609edf84"
+  },
+  "restaurantId": 9,
+  "items": [
+    {
+      "name": "Classic Beef Burger",
+      "price": 10.5,
+      "description": "Angus beef patty with cheddar, lettuce, tomato, and house sauce",
+      "isVegetarian": false,
+      "calories": 720,
+      "id": 1
+    },
+    {
+      "name": "Vegan Bean Burger",
+      "price": 9.8,
+      "description": "Black bean patty with vegan mayo and guacamole",
+      "isVegetarian": true,
+      "glutenFree": false,
+      "id": 2
+    },
+    {
+      "name": "Double Cheeseburger",
+      "price": 12,
+      "description": "Two beef patties, double cheese, caramelized onions, and pickles",
+      "spicyLevel": "low",
+      "protein": "beef",
+      "id": 3
+    },
+    {
+      "name": "Chicken Fillet Burger",
+      "price": 11,
+      "description": "Crispy chicken fillet with coleslaw and BBQ sauce",
+      "isHalal": true,
+      "fried": true,
+      "id": 4
+    },
+    {
+      "name": "Beyond Meat Burger",
+      "price": 11.2,
+      "description": "Plant-based patty with vegan cheese and sriracha aioli",
+      "isVegetarian": true,
+      "proteinSource": "pea protein",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "68150b48146a6501609edf86"
+  },
+  "restaurantId": 10,
+  "items": [
+    {
+      "name": "Chicken Shawarma Wrap",
+      "price": 9.5,
+      "description": "Grilled marinated chicken with garlic sauce, lettuce, and pickles in a flatbread",
+      "spicyLevel": "medium",
+      "calories": 650,
+      "id": 1
+    },
+    {
+      "name": "Falafel Plate",
+      "price": 8.2,
+      "description": "Crispy chickpea falafels served with hummus, tabbouleh, and pita bread",
+      "isVegetarian": true,
+      "isVegan": true,
+      "id": 2
+    },
+    {
+      "name": "Lamb Kofta Skewers",
+      "price": 11,
+      "description": "Seasoned minced lamb grilled on skewers, served with rice and salad",
+      "containsNuts": false,
+      "grilled": true,
+      "id": 3
+    },
+    {
+      "name": "Hummus with Pita",
+      "price": 5.5,
+      "description": "Creamy hummus made from chickpeas, tahini, and olive oil",
+      "isVegetarian": true,
+      "portionSize": "small",
+      "id": 4
+    },
+    {
+      "name": "Mixed Grill Platter",
+      "price": 14.5,
+      "description": "Assorted grilled meats including chicken, lamb, and beef with rice and sauces",
+      "serves": 2,
+      "spicyLevel": "mild",
+      "id": 5
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681735cf0517e98dc57445d9"
+  },
+  "restaurantId": 11,
+  "items": [
+    {
+      "id": 1,
+      "name": "Classic Beef Burger",
+      "price": 9.5,
+      "description": "Grilled beef patty with lettuce, tomato, onions, and house sauce on a brioche bun"
+    },
+    {
+      "id": 2,
+      "name": "Cheese Bacon Burger",
+      "price": 10.8,
+      "description": "Beef burger with melted cheddar, crispy bacon, and smoky BBQ sauce",
+      "calories": 850
+    },
+    {
+      "id": 3,
+      "name": "Veggie Bean Burger",
+      "price": 8.9,
+      "description": "Spiced black bean patty with avocado, lettuce, and vegan mayo",
+      "isVegetarian": true,
+      "isVegan": true
+    },
+    {
+      "id": 4,
+      "name": "Chicken Fillet Burger",
+      "price": 9.2,
+      "description": "Crispy breaded chicken fillet with coleslaw and garlic mayo",
+      "spicyLevel": "mild"
+    },
+    {
+      "id": 5,
+      "name": "Double Stack Burger",
+      "price": 12,
+      "description": "Two beef patties, cheese, onions, pickles, and special sauce",
+      "calories": 1000,
+      "containsNuts": false
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681735ff0517e98dc57445db"
+  },
+  "restaurantId": 12,
+  "items": [
+    {
+      "id": 1,
+      "name": "Grilled Halloumi Salad",
+      "price": 9.2,
+      "description": "Slices of grilled halloumi cheese served over mixed greens with olive oil and lemon dressing",
+      "isVegetarian": true
+    },
+    {
+      "id": 2,
+      "name": "Chicken Souvlaki",
+      "price": 11,
+      "description": "Skewered grilled chicken marinated in herbs, served with pita and tzatziki",
+      "grilled": true
+    },
+    {
+      "id": 3,
+      "name": "Lamb Moussaka",
+      "price": 12.5,
+      "description": "Baked layers of lamb, eggplant, and béchamel sauce",
+      "containsNuts": false
+    },
+    {
+      "id": 4,
+      "name": "Falafel Wrap",
+      "price": 8,
+      "description": "Crispy falafels wrapped in pita with hummus, lettuce, and tomato",
+      "isVegan": true
+    },
+    {
+      "id": 5,
+      "name": "Seafood Paella",
+      "price": 13.8,
+      "description": "Spanish-style saffron rice with shrimp, mussels, and squid",
+      "calories": 720
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6817360c0517e98dc57445dd"
+  },
+  "restaurantId": 13,
+  "items": [
+    {
+      "id": 1,
+      "name": "Butter Chicken",
+      "price": 11.5,
+      "description": "Tender chicken cooked in creamy tomato-based sauce with Indian spices",
+      "spicyLevel": "mild"
+    },
+    {
+      "id": 2,
+      "name": "Paneer Tikka Masala",
+      "price": 10,
+      "description": "Grilled paneer cubes in rich masala curry",
+      "isVegetarian": true
+    },
+    {
+      "id": 3,
+      "name": "Lamb Rogan Josh",
+      "price": 12.8,
+      "description": "Slow-cooked lamb curry with Kashmiri spices",
+      "calories": 680
+    },
+    {
+      "id": 4,
+      "name": "Vegetable Biryani",
+      "price": 9.5,
+      "description": "Spiced rice with mixed vegetables, served with raita",
+      "isVegetarian": true,
+      "isVegan": true
+    },
+    {
+      "id": 5,
+      "name": "Chicken Tikka",
+      "price": 10.5,
+      "description": "Marinated grilled chicken served with mint chutney",
+      "grilled": true,
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 6,
+      "name": "Garlic Naan",
+      "price": 3,
+      "description": "Leavened flatbread topped with garlic and coriander",
+      "isVegetarian": true
+    },
+    {
+      "id": 7,
+      "name": "Chana Masala",
+      "price": 8.5,
+      "description": "Chickpeas cooked in onion-tomato gravy with spices",
+      "isVegan": true,
+      "calories": 450
+    },
+    {
+      "id": 8,
+      "name": "Mango Lassi",
+      "price": 3.8,
+      "description": "Traditional yogurt-based mango drink",
+      "containsDairy": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6817361c0517e98dc57445df"
+  },
+  "restaurantId": 14,
+  "items": [
+    {
+      "id": 1,
+      "name": "Salmon Nigiri",
+      "price": 7.2,
+      "description": "Fresh slices of salmon over seasoned sushi rice"
+    },
+    {
+      "id": 2,
+      "name": "Chicken Katsu Curry",
+      "price": 11,
+      "description": "Breaded chicken cutlet served with Japanese curry sauce and rice",
+      "calories": 820
+    },
+    {
+      "id": 3,
+      "name": "Vegetable Tempura",
+      "price": 8,
+      "description": "Assorted vegetables lightly battered and deep fried",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Spicy Tuna Roll",
+      "price": 9,
+      "description": "Sushi roll with spicy tuna, cucumber, and sesame seeds",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 5,
+      "name": "Miso Soup",
+      "price": 3.2,
+      "description": "Traditional soybean paste soup with tofu, seaweed, and scallions",
+      "isVegetarian": true
+    },
+    {
+      "id": 6,
+      "name": "Beef Teriyaki",
+      "price": 12.5,
+      "description": "Grilled beef glazed with sweet soy teriyaki sauce",
+      "grilled": true
+    },
+    {
+      "id": 7,
+      "name": "Edamame",
+      "price": 4.5,
+      "description": "Boiled soybeans lightly salted in the pod",
+      "isVegan": true
+    },
+    {
+      "id": 8,
+      "name": "Green Tea Ice Cream",
+      "price": 3.8,
+      "description": "Matcha-flavored traditional Japanese dessert",
+      "containsDairy": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736300517e98dc57445e1"
+  },
+  "restaurantId": 15,
+  "items": [
+    {
+      "id": 1,
+      "name": "Margherita Pizza",
+      "price": 9,
+      "description": "Classic pizza with tomato sauce, mozzarella, and fresh basil",
+      "isVegetarian": true
+    },
+    {
+      "id": 2,
+      "name": "Pepperoni Pizza",
+      "price": 10.5,
+      "description": "Mozzarella cheese and spicy pepperoni on tomato base",
+      "spicyLevel": "mild"
+    },
+    {
+      "id": 3,
+      "name": "BBQ Chicken Pizza",
+      "price": 11.5,
+      "description": "Grilled chicken, BBQ sauce, red onions, and mozzarella",
+      "grilled": true
+    },
+    {
+      "id": 4,
+      "name": "Vegetarian Supreme",
+      "price": 10.2,
+      "description": "Loaded with bell peppers, olives, mushrooms, and onions",
+      "isVegetarian": true
+    },
+    {
+      "id": 5,
+      "name": "Four Cheese Pizza",
+      "price": 11,
+      "description": "Blend of mozzarella, cheddar, parmesan, and blue cheese",
+      "containsDairy": true
+    },
+    {
+      "id": 6,
+      "name": "Hawaiian Pizza",
+      "price": 10.8,
+      "description": "Ham and pineapple with mozzarella and tomato sauce"
+    },
+    {
+      "id": 7,
+      "name": "Spicy Meat Feast",
+      "price": 12.2,
+      "description": "Pepperoni, sausage, beef, and jalapeños on a spicy tomato base",
+      "spicyLevel": "high"
+    },
+    {
+      "id": 8,
+      "name": "Garlic Bread with Cheese",
+      "price": 5,
+      "description": "Oven-baked garlic bread topped with melted mozzarella",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6817364f0517e98dc57445e3"
+  },
+  "restaurantId": 16,
+  "items": [
+    {
+      "id": 1,
+      "name": "Smash Beef Burger",
+      "price": 9.8,
+      "description": "Double smashed beef patties with cheddar, lettuce, and house sauce on potato bun"
+    },
+    {
+      "id": 2,
+      "name": "Spicy Chicken Burger",
+      "price": 9.5,
+      "description": "Crispy fried chicken with spicy mayo and pickled slaw",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 3,
+      "name": "Vegan Beyond Burger",
+      "price": 10.2,
+      "description": "Plant-based patty with vegan cheese, lettuce, and tomato",
+      "isVegan": true
+    },
+    {
+      "id": 4,
+      "name": "BBQ Bacon Cheeseburger",
+      "price": 11.2,
+      "description": "Beef patty with bacon, cheddar cheese, and BBQ sauce",
+      "calories": 950
+    },
+    {
+      "id": 5,
+      "name": "Mushroom Swiss Burger",
+      "price": 10.5,
+      "description": "Grilled mushrooms, Swiss cheese, and caramelized onions",
+      "containsDairy": true
+    },
+    {
+      "id": 6,
+      "name": "Crispy Fish Burger",
+      "price": 9.7,
+      "description": "Battered fish fillet with tartar sauce and lettuce"
+    },
+    {
+      "id": 7,
+      "name": "Loaded Fries",
+      "price": 5.5,
+      "description": "Skin-on fries topped with cheese, bacon bits, and chipotle mayo"
+    },
+    {
+      "id": 8,
+      "name": "Coleslaw",
+      "price": 3.2,
+      "description": "Fresh cabbage slaw with creamy dressing",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736610517e98dc57445e5"
+  },
+  "restaurantId": 17,
+  "items": [
+    {
+      "id": 1,
+      "name": "Bibimbap",
+      "price": 10.5,
+      "description": "Mixed rice with vegetables, beef, and fried egg",
+      "containsDairy": false
+    },
+    {
+      "id": 2,
+      "name": "Kimchi Jjigae",
+      "price": 9.2,
+      "description": "Spicy kimchi stew with pork and tofu",
+      "spicyLevel": "high"
+    },
+    {
+      "id": 3,
+      "name": "Bulgogi Beef",
+      "price": 12.5,
+      "description": "Marinated grilled beef slices in sweet soy sauce",
+      "grilled": true
+    },
+    {
+      "id": 4,
+      "name": "Japchae",
+      "price": 9.8,
+      "description": "Stir-fried glass noodles with vegetables",
+      "isVegetarian": true
+    },
+    {
+      "id": 5,
+      "name": "Fried Chicken Bites",
+      "price": 8.9,
+      "description": "Crispy Korean-style fried chicken with soy garlic glaze"
+    },
+    {
+      "id": 6,
+      "name": "Seafood Pancake",
+      "price": 9.5,
+      "description": "Savory pancake with squid, shrimp, and scallions"
+    },
+    {
+      "id": 7,
+      "name": "Tteokbokki",
+      "price": 7.8,
+      "description": "Spicy rice cakes with fish cakes and gochujang sauce",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 8,
+      "name": "Steamed Egg",
+      "price": 4,
+      "description": "Fluffy Korean-style steamed egg in a hot stone bowl",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736690517e98dc57445e7"
+  },
+  "restaurantId": 18,
+  "items": [
+    {
+      "id": 1,
+      "name": "Pad Thai",
+      "price": 10.2,
+      "description": "Stir-fried rice noodles with shrimp, peanuts, and tamarind",
+      "containsNuts": true
+    },
+    {
+      "id": 2,
+      "name": "Green Curry Chicken",
+      "price": 11,
+      "description": "Spicy green curry with chicken, eggplant, and coconut milk",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 3,
+      "name": "Mango Sticky Rice",
+      "price": 5.5,
+      "description": "Sweet sticky rice with coconut milk and mango",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Tom Yum Soup",
+      "price": 8,
+      "description": "Hot and sour soup with shrimp, lemongrass, and chili",
+      "spicyLevel": "high"
+    },
+    {
+      "id": 5,
+      "name": "Thai Basil Beef",
+      "price": 10.8,
+      "description": "Minced beef stir-fried with chili and Thai basil"
+    },
+    {
+      "id": 6,
+      "name": "Spring Rolls",
+      "price": 6,
+      "description": "Crispy vegetarian rolls served with sweet chili sauce",
+      "isVegetarian": true
+    },
+    {
+      "id": 7,
+      "name": "Red Curry Tofu",
+      "price": 9,
+      "description": "Tofu in spicy red curry with vegetables",
+      "isVegan": true
+    },
+    {
+      "id": 8,
+      "name": "Papaya Salad",
+      "price": 7.2,
+      "description": "Fresh shredded papaya with lime, peanuts, and fish sauce",
+      "spicyLevel": "medium"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736700517e98dc57445e9"
+  },
+  "restaurantId": 19,
+  "items": [
+    {
+      "id": 1,
+      "name": "Greek Gyro",
+      "price": 10.5,
+      "description": "Sliced meat wrapped in pita with tzatziki, onions, and tomato"
+    },
+    {
+      "id": 2,
+      "name": "Baba Ganoush",
+      "price": 6,
+      "description": "Creamy eggplant dip served with pita bread",
+      "isVegan": true
+    },
+    {
+      "id": 3,
+      "name": "Stuffed Grape Leaves",
+      "price": 7.2,
+      "description": "Grape leaves filled with rice and herbs",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Chicken Shawarma Plate",
+      "price": 11.2,
+      "description": "Grilled chicken with rice, salad, and tahini",
+      "grilled": true
+    },
+    {
+      "id": 5,
+      "name": "Lentil Soup",
+      "price": 5,
+      "description": "Hearty lentil soup with olive oil and lemon",
+      "isVegan": true
+    },
+    {
+      "id": 6,
+      "name": "Fattoush Salad",
+      "price": 7,
+      "description": "Mixed greens with toasted pita chips and sumac dressing",
+      "isVegetarian": true
+    },
+    {
+      "id": 7,
+      "name": "Kofta Wrap",
+      "price": 9.8,
+      "description": "Ground meat skewers in wrap with hummus and parsley"
+    },
+    {
+      "id": 8,
+      "name": "Baklava",
+      "price": 4.5,
+      "description": "Sweet pastry with nuts and honey",
+      "containsNuts": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736780517e98dc57445eb"
+  },
+  "restaurantId": 20,
+  "items": [
+    {
+      "id": 1,
+      "name": "Chicken Tacos",
+      "price": 9,
+      "description": "Soft corn tortillas with grilled chicken, salsa, and guacamole"
+    },
+    {
+      "id": 2,
+      "name": "Beef Burrito",
+      "price": 10.2,
+      "description": "Flour tortilla stuffed with beef, rice, beans, and cheese",
+      "calories": 950
+    },
+    {
+      "id": 3,
+      "name": "Vegetarian Quesadilla",
+      "price": 8.5,
+      "description": "Grilled tortilla filled with cheese, peppers, and mushrooms",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Nachos Supreme",
+      "price": 9.8,
+      "description": "Tortilla chips loaded with beef, beans, cheese, jalapeños, and sour cream",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 5,
+      "name": "Churros with Chocolate",
+      "price": 4,
+      "description": "Fried dough sticks rolled in cinnamon sugar served with chocolate dip"
+    },
+    {
+      "id": 6,
+      "name": "Enchiladas Verde",
+      "price": 10.5,
+      "description": "Corn tortillas filled with chicken and topped with green salsa"
+    },
+    {
+      "id": 7,
+      "name": "Guacamole & Chips",
+      "price": 5.2,
+      "description": "Fresh avocado dip served with crispy tortilla chips",
+      "isVegan": true
+    },
+    {
+      "id": 8,
+      "name": "Mexican Rice",
+      "price": 3.5,
+      "description": "Fluffy rice cooked with tomato, onion, and spices",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6817368e0517e98dc57445ed"
+  },
+  "restaurantId": 21,
+  "items": [
+    {
+      "id": 1,
+      "name": "Grilled Veggie Sandwich",
+      "price": 8.2,
+      "description": "Zucchini, peppers, and aubergine with pesto on ciabatta",
+      "isVegetarian": true
+    },
+    {
+      "id": 2,
+      "name": "Lentil Burger",
+      "price": 9,
+      "description": "Homemade lentil patty with avocado and tomato",
+      "isVegan": true
+    },
+    {
+      "id": 3,
+      "name": "Stuffed Bell Peppers",
+      "price": 8.8,
+      "description": "Bell peppers filled with quinoa and mixed vegetables",
+      "isVegan": true
+    },
+    {
+      "id": 4,
+      "name": "Vegetable Curry",
+      "price": 9.5,
+      "description": "Mixed vegetables in coconut curry sauce",
+      "isVegetarian": true
+    },
+    {
+      "id": 5,
+      "name": "Spinach & Feta Pie",
+      "price": 7.8,
+      "description": "Flaky pastry filled with spinach and feta cheese",
+      "containsDairy": true
+    },
+    {
+      "id": 6,
+      "name": "Sweet Potato Fries",
+      "price": 4.5,
+      "description": "Baked sweet potato fries with herbs",
+      "isVegetarian": true
+    },
+    {
+      "id": 7,
+      "name": "Mushroom Risotto",
+      "price": 10.2,
+      "description": "Creamy risotto with wild mushrooms",
+      "isVegetarian": true
+    },
+    {
+      "id": 8,
+      "name": "Falafel Bowl",
+      "price": 9,
+      "description": "Falafel served with hummus, couscous, and greens",
+      "isVegan": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736970517e98dc57445ef"
+  },
+  "restaurantId": 22,
+  "items": [
+    {
+      "id": 1,
+      "name": "Pad See Ew",
+      "price": 10,
+      "description": "Flat noodles stir-fried with egg, broccoli, and soy sauce"
+    },
+    {
+      "id": 2,
+      "name": "Massaman Curry",
+      "price": 10.5,
+      "description": "Mild curry with potatoes, peanuts, and tender beef",
+      "containsNuts": true
+    },
+    {
+      "id": 3,
+      "name": "Thai Fried Rice",
+      "price": 9.2,
+      "description": "Fragrant rice stir-fried with vegetables and egg",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Chicken Satay",
+      "price": 8.5,
+      "description": "Grilled chicken skewers with peanut sauce",
+      "grilled": true
+    },
+    {
+      "id": 5,
+      "name": "Sticky Rice with Banana",
+      "price": 5.2,
+      "description": "Sweet sticky rice with banana in banana leaf",
+      "isVegan": true
+    },
+    {
+      "id": 6,
+      "name": "Spicy Papaya Salad",
+      "price": 7,
+      "description": "Green papaya tossed with chili, lime, and fish sauce",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 7,
+      "name": "Tofu Red Curry",
+      "price": 9.5,
+      "description": "Tofu cooked in red curry sauce with coconut milk",
+      "isVegan": true
+    },
+    {
+      "id": 8,
+      "name": "Thai Omelette",
+      "price": 6.8,
+      "description": "Crispy egg omelette with green onions",
+      "containsEgg": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "6817369d0517e98dc57445f1"
+  },
+  "restaurantId": 23,
+  "items": [
+    {
+      "id": 1,
+      "name": "Aloo Gobi",
+      "price": 8.5,
+      "description": "Cauliflower and potatoes cooked with spices",
+      "isVegan": true
+    },
+    {
+      "id": 2,
+      "name": "Chicken Korma",
+      "price": 11.2,
+      "description": "Creamy chicken curry with nuts and spices",
+      "containsNuts": true
+    },
+    {
+      "id": 3,
+      "name": "Palak Paneer",
+      "price": 10,
+      "description": "Spinach curry with paneer cheese",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Dal Tadka",
+      "price": 8,
+      "description": "Yellow lentils tempered with cumin and garlic",
+      "isVegan": true
+    },
+    {
+      "id": 5,
+      "name": "Lamb Biryani",
+      "price": 12.5,
+      "description": "Basmati rice cooked with spiced lamb and saffron"
+    },
+    {
+      "id": 6,
+      "name": "Puri with Chana",
+      "price": 7.2,
+      "description": "Deep-fried bread served with spiced chickpeas",
+      "isVegetarian": true
+    },
+    {
+      "id": 7,
+      "name": "Raita",
+      "price": 3,
+      "description": "Yogurt dip with cucumber and mint",
+      "containsDairy": true
+    },
+    {
+      "id": 8,
+      "name": "Kheer (Rice Pudding)",
+      "price": 4.2,
+      "description": "Sweet rice pudding with cardamom and raisins",
+      "containsDairy": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736a30517e98dc57445f3"
+  },
+  "restaurantId": 24,
+  "items": [
+    {
+      "id": 1,
+      "name": "Blue Cheese Burger",
+      "price": 11,
+      "description": "Beef patty with blue cheese, lettuce, and caramelized onions",
+      "containsDairy": true
+    },
+    {
+      "id": 2,
+      "name": "Spicy Bean Burger",
+      "price": 9.5,
+      "description": "Bean patty with jalapeños and sriracha mayo",
+      "isVegetarian": true,
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 3,
+      "name": "Bacon & Egg Burger",
+      "price": 10.8,
+      "description": "Beef burger with fried egg and crispy bacon"
+    },
+    {
+      "id": 4,
+      "name": "Cauliflower Burger",
+      "price": 9.2,
+      "description": "Roasted cauliflower steak in a soft bun",
+      "isVegan": true
+    },
+    {
+      "id": 5,
+      "name": "Mozzarella Sticks",
+      "price": 5,
+      "description": "Breaded and fried mozzarella served with marinara",
+      "containsDairy": true
+    },
+    {
+      "id": 6,
+      "name": "Chili Cheese Fries",
+      "price": 6.5,
+      "description": "Fries topped with beef chili and cheddar"
+    },
+    {
+      "id": 7,
+      "name": "Pickle Slaw",
+      "price": 3.2,
+      "description": "Tangy slaw with pickles and mustard dressing",
+      "isVegetarian": true
+    },
+    {
+      "id": 8,
+      "name": "Mini Slider Trio",
+      "price": 11.5,
+      "description": "Three mini burgers with different toppings"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736b40517e98dc57445f5"
+  },
+  "restaurantId": 25,
+  "items": [
+    {
+      "id": 1,
+      "name": "Quinoa Power Bowl",
+      "price": 9.5,
+      "description": "Quinoa with roasted vegetables, chickpeas, and tahini sauce",
+      "isVegan": true
+    },
+    {
+      "id": 2,
+      "name": "Vegan Lasagna",
+      "price": 10.5,
+      "description": "Layered pasta with tomato sauce, lentils, and dairy-free cheese",
+      "isVegan": true
+    },
+    {
+      "id": 3,
+      "name": "Stuffed Mushrooms",
+      "price": 8.2,
+      "description": "Mushrooms filled with herbs and cream cheese",
+      "containsDairy": true
+    },
+    {
+      "id": 4,
+      "name": "Zucchini Fritters",
+      "price": 7.8,
+      "description": "Crispy zucchini patties served with sour cream",
+      "isVegetarian": true
+    },
+    {
+      "id": 5,
+      "name": "Beetroot Salad",
+      "price": 6.5,
+      "description": "Roasted beets with arugula, feta, and walnuts",
+      "containsNuts": true
+    },
+    {
+      "id": 6,
+      "name": "Chickpea Stew",
+      "price": 9,
+      "description": "Hearty stew with chickpeas, carrots, and spices",
+      "isVegan": true
+    },
+    {
+      "id": 7,
+      "name": "Grilled Tofu Skewers",
+      "price": 9.3,
+      "description": "Marinated tofu grilled with vegetables",
+      "isVegan": true,
+      "grilled": true
+    },
+    {
+      "id": 8,
+      "name": "Pumpkin Soup",
+      "price": 5.2,
+      "description": "Creamy pumpkin soup with coconut milk",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736bb0517e98dc57445f7"
+  },
+  "restaurantId": 26,
+  "items": [
+    {
+      "id": 1,
+      "name": "Tonkotsu Ramen",
+      "price": 11.5,
+      "description": "Rich pork bone broth with noodles, egg, and chashu pork",
+      "calories": 950
+    },
+    {
+      "id": 2,
+      "name": "Ebi Tempura",
+      "price": 9,
+      "description": "Crispy deep-fried prawns in light batter",
+      "containsShellfish": true
+    },
+    {
+      "id": 3,
+      "name": "Avocado Maki",
+      "price": 6.2,
+      "description": "Simple sushi roll with fresh avocado",
+      "isVegetarian": true
+    },
+    {
+      "id": 4,
+      "name": "Unagi Don",
+      "price": 13.5,
+      "description": "Grilled eel glazed with sweet soy over steamed rice",
+      "grilled": true
+    },
+    {
+      "id": 5,
+      "name": "Gyoza Dumplings",
+      "price": 7.5,
+      "description": "Pan-fried pork dumplings served with dipping sauce"
+    },
+    {
+      "id": 6,
+      "name": "Chashu Pork Bun",
+      "price": 4.8,
+      "description": "Steamed bao bun with braised pork belly"
+    },
+    {
+      "id": 7,
+      "name": "Seaweed Salad",
+      "price": 4,
+      "description": "Chilled seaweed with sesame dressing",
+      "isVegan": true
+    },
+    {
+      "id": 8,
+      "name": "Mochi Ice Cream",
+      "price": 4.5,
+      "description": "Soft rice cake filled with flavored ice cream",
+      "containsDairy": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736c20517e98dc57445f9"
+  },
+  "restaurantId": 27,
+  "items": [
+    {
+      "id": 1,
+      "name": "Samgyeopsal",
+      "price": 13,
+      "description": "Grilled pork belly slices served with dipping sauces and lettuce wraps",
+      "grilled": true
+    },
+    {
+      "id": 2,
+      "name": "Kimchi Fried Rice",
+      "price": 9.2,
+      "description": "Stir-fried rice with kimchi, egg, and sesame oil",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 3,
+      "name": "Soft Tofu Stew",
+      "price": 8.5,
+      "description": "Silken tofu in spicy broth with vegetables and egg",
+      "spicyLevel": "high"
+    },
+    {
+      "id": 4,
+      "name": "Gimbap",
+      "price": 7.5,
+      "description": "Korean-style sushi rolls with vegetables and egg",
+      "isVegetarian": true
+    },
+    {
+      "id": 5,
+      "name": "Soy Garlic Wings",
+      "price": 10,
+      "description": "Crispy chicken wings coated in soy garlic glaze"
+    },
+    {
+      "id": 6,
+      "name": "Cold Noodles (Naengmyeon)",
+      "price": 9,
+      "description": "Buckwheat noodles served in chilled tangy broth",
+      "calories": 480
+    },
+    {
+      "id": 7,
+      "name": "Kimchi Pancake",
+      "price": 8,
+      "description": "Savory pancake with kimchi and scallions",
+      "spicyLevel": "mild"
+    },
+    {
+      "id": 8,
+      "name": "Steamed Dumplings",
+      "price": 6.8,
+      "description": "Soft dumplings filled with vegetables and tofu",
+      "isVegetarian": true
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "681736c90517e98dc57445fb"
+  },
+  "restaurantId": 28,
+  "items": [
+    {
+      "id": 1,
+      "name": "Tandoori Chicken",
+      "price": 11.5,
+      "description": "Chicken marinated in yogurt and spices, cooked in tandoor",
+      "grilled": true
+    },
+    {
+      "id": 2,
+      "name": "Rajma Masala",
+      "price": 8.5,
+      "description": "Red kidney beans in tomato gravy with Indian spices",
+      "isVegan": true
+    },
+    {
+      "id": 3,
+      "name": "Paneer Butter Masala",
+      "price": 10.8,
+      "description": "Paneer cubes in rich buttery tomato sauce",
+      "containsDairy": true
+    },
+    {
+      "id": 4,
+      "name": "Fish Curry",
+      "price": 12,
+      "description": "Spicy fish curry with coconut and mustard seeds",
+      "spicyLevel": "medium"
+    },
+    {
+      "id": 5,
+      "name": "Baingan Bharta",
+      "price": 9,
+      "description": "Roasted eggplant mashed and cooked with onions and spices",
+      "isVegetarian": true
+    },
+    {
+      "id": 6,
+      "name": "Butter Naan",
+      "price": 2.8,
+      "description": "Soft tandoor-baked flatbread brushed with butter",
+      "containsDairy": true
+    },
+    {
+      "id": 7,
+      "name": "Methi Paratha",
+      "price": 3.5,
+      "description": "Fenugreek-flavored layered flatbread",
+      "isVegetarian": true
+    },
+    {
+      "id": 8,
+      "name": "Gulab Jamun",
+      "price": 4,
+      "description": "Deep-fried milk balls soaked in sugar syrup",
+      "containsDairy": true
+    }
+  ]
+}]
