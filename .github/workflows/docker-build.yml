@@ -149,7 +149,7 @@ jobs:
       - name: Build and push Nginx container
         uses: docker/build-push-action@v5
         with:
-          context: ./docker/nginx
+          context: ./nginx
           platforms: linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-nginx:latest
