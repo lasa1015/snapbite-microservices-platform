@@ -1,8 +1,94 @@
 services:
 
-  grabber:
-    image: your-dockerhub/grabber:latest
-    container_name: grabber
+
+  snapbite-mongo:
+    image: mongo:latest
+    container_name: snapbite-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      # 在容器首次启动时初始化数据库,自动导入放在 mongo-init/ 下的 .json 或 .js 文件
+      - ./mongo-init:/docker-entrypoint-initdb.d
+
+      # 把 本机上的 mongo-data 文件夹映射为 Mongo 容器内的数据库目录。
+      - ./mongo-data:/data/db
+    networks:
+      - snapbite-net
+
+
+  snapbite-user-service:
+    image: ${DOCKER_USERNAME}/snapbite-user-service:latest
+    container_name: snapbite-user-service
+    ports:
+      - "8081:8081"
     env_file:
-      - ../../snapbite/grabber/.env.prod
-    command: ["python", "main.py"]
+      - ./user-service/.env.prod
+    depends_on:
+      - snapbite-mongo
+    networks:
+      - snapbite-net
+
+
+  snapbite-restaurant-service:
+    image: ${DOCKER_USERNAME}/snapbite-restaurant-service:latest
+    container_name: snapbite-restaurant-service
+    ports:
+      - "8082:8082"
+    env_file:
+      - ./restaurant-service/.env.prod
+    depends_on:
+      - snapbite-mongo
+    networks:
+      - snapbite-net
+
+  snapbite-cart-service:
+    image: ${DOCKER_USERNAME}/snapbite-cart-service:latest
+    container_name: snapbite-cart-service
+    ports:
+      - "8083:8083"
+    env_file:
+      - ./cart-service/.env.prod
+    depends_on:
+      - snapbite-mongo
+      - snapbite-restaurant-service
+      - snapbite-user-service
+    networks:
+      - snapbite-net
+
+
+  snapbite-order-service:
+    image: ${DOCKER_USERNAME}/snapbite-order-service:latest
+    container_name: snapbite-order-service
+    ports:
+      - "8084:8084"
+    env_file:
+      - ./order-service/.env.prod
+    depends_on:
+      - snapbite-mongo
+      - snapbite-cart-service
+      - snapbite-user-service
+    networks:
+      - snapbite-net
+
+
+  snapbite-nginx:
+    image: ${DOCKER_USERNAME}/snapbite-nginx:latest
+    container_name: snapbite-nginx
+    ports:
+      - "80:80"  # 把宿主机的 80 映射给 nginx 容器
+    depends_on:
+      - snapbite-mongo
+      - snapbite-user-service
+      - snapbite-restaurant-service
+      - snapbite-cart-service
+      - snapbite-order-service
+    networks:
+      - snapbite-net
+
+
+
+
+networks:
+  snapbite-net:
+    driver: bridge
