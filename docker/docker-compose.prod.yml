@@ -2,15 +2,12 @@ services:
 
 
   snapbite-mongo:
-    image: mongo:latest
+    image: ${DOCKER_USERNAME}/snapbite-mongo:latest
     container_name: snapbite-mongo
     restart: always
     ports:
       - "27017:27017"
     volumes:
-      # 在容器首次启动时初始化数据库,自动导入放在 mongo-init/ 下的 .json 或 .js 文件
-      - ./mongo-init:/docker-entrypoint-initdb.d
-
       # 把 本机上的 mongo-data 文件夹映射为 Mongo 容器内的数据库目录。
       - ./mongo-data:/data/db
     networks:
@@ -85,7 +82,6 @@ services:
       - snapbite-order-service
     networks:
       - snapbite-net
-
 
 
 
