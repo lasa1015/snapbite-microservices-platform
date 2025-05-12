@@ -39,7 +39,7 @@ jobs:
         with:
           # 到项目根目录下的 ./mongo/ 文件夹中寻找 Dockerfile，并以此为构建上下文执行 docker build
           context: ./mongo
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-mongo:latest
 
@@ -62,7 +62,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./user-service
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-user-service:latest
 
@@ -82,7 +82,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./cart-service
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-cart-service:latest
 
@@ -102,7 +102,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./order-service
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-order-service:latest
 
@@ -122,7 +122,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./restaurant-service
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-restaurant-service:latest
 
@@ -153,7 +153,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: ./nginx
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-nginx:latest
 
@@ -174,7 +174,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./eureka-server
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-eureka:latest
 
@@ -196,7 +196,7 @@ jobs:
       - uses: docker/build-push-action@v5
         with:
           context: ./gateway
-          platforms: linux/amd64
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-gateway:latest
 
