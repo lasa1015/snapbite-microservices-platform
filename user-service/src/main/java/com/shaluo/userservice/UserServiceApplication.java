@@ -37,6 +37,8 @@ public class UserServiceApplication {
 			System.setProperty("MONGO_HOST", dotenv.get("MONGO_HOST"));
 			System.setProperty("MONGO_PORT", dotenv.get("MONGO_PORT"));
 			System.setProperty("MONGO_DB", dotenv.get("MONGO_DB"));
+
+			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
 		}
 
 		SpringApplication.run(UserServiceApplication.class, args);

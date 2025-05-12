@@ -93,10 +93,12 @@ services:
 
   snapbite-gateway:
     image: snapbite-gateway
-    build: ../gateway-service
+    build: ../gateway
     container_name: snapbite-gateway
     ports:
       - "8080:8080"
+    env_file:
+      - /gateway/.env.dev-docker
     depends_on:
       - snapbite-eureka
       - snapbite-user-service

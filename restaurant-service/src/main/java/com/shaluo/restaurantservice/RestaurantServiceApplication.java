@@ -41,6 +41,8 @@ public class RestaurantServiceApplication {
 			System.setProperty("MONGO_DB", dotenv.get("MONGO_DB"));
 
 			System.setProperty("USER_SERVICE_URL", dotenv.get("USER_SERVICE_URL"));
+
+			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
 		}
 
 		SpringApplication.run(RestaurantServiceApplication.class, args);

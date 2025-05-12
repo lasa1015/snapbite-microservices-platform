@@ -44,6 +44,8 @@ public class OrderServiceApplication {
 			System.setProperty("RESTAURANT_SERVICE_URL", dotenv.get("RESTAURANT_SERVICE_URL"));
 			System.setProperty("CART_SERVICE_URL", dotenv.get("CART_SERVICE_URL"));
 
+			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
+
 		}
 
 		SpringApplication.run(OrderServiceApplication.class, args);
