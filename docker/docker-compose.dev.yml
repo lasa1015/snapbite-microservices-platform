@@ -15,6 +15,16 @@ services:
       - snapbite-net
 
 
+  snapbite-eureka:
+    image: snapbite-eureka
+    build: ../eureka-server
+    container_name: snapbite-eureka
+    ports:
+      - "8761:8761"
+    networks:
+      - snapbite-net
+
+
   snapbite-user-service:
     image: snapbite-user-service
     build: ../user-service
@@ -25,6 +35,7 @@ services:
       - /user-service/.env.dev-docker
     depends_on:
       - snapbite-mongo
+      - snapbite-eureka
     networks:
       - snapbite-net
 
@@ -39,6 +50,7 @@ services:
       - /restaurant-service/.env.dev-docker
     depends_on:
       - snapbite-mongo
+      - snapbite-eureka
     networks:
       - snapbite-net
 
@@ -54,6 +66,7 @@ services:
       - snapbite-mongo
       - snapbite-restaurant-service
       - snapbite-user-service
+      - snapbite-eureka
     networks:
       - snapbite-net
     environment:
@@ -72,6 +85,26 @@ services:
       - snapbite-mongo
       - snapbite-cart-service
       - snapbite-user-service
+      - snapbite-eureka
+    networks:
+      - snapbite-net
+
+
+
+  snapbite-gateway:
+    image: snapbite-gateway
+    build: ../gateway
+    container_name: snapbite-gateway
+    ports:
+      - "8080:8080"
+    env_file:
+      - /gateway/.env.dev-docker
+    depends_on:
+      - snapbite-eureka
+      - snapbite-user-service
+      - snapbite-restaurant-service
+      - snapbite-cart-service
+      - snapbite-order-service
     networks:
       - snapbite-net
 
@@ -83,13 +116,11 @@ services:
     ports:
       - "80:80"  # 把宿主机的 80 映射给 nginx 容器
     depends_on:
-      - snapbite-mongo
-      - snapbite-user-service
-      - snapbite-restaurant-service
-      - snapbite-cart-service
-      - snapbite-order-service
+      - snapbite-gateway
     networks:
       - snapbite-net
+
+
 
 
 

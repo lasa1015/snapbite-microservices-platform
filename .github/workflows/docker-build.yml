@@ -12,6 +12,8 @@ on:
       - 'frontend/**'
       - 'nginx/**'
       - 'mongo/**'
+      - 'gateway/**'
+      - 'eureka-server/**'
 
 jobs:
 
@@ -153,3 +155,47 @@ jobs:
           platforms: linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-nginx:latest
+
+
+  build-eureka-service:
+    name: Build Eureka Server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: ./eureka-server
+          platforms: linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-eureka:latest
+
+
+
+  build-gateway-service:
+    name: Build Gateway Service
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: docker/setup-buildx-action@v3
+
+      - uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - uses: docker/build-push-action@v5
+        with:
+          context: ./gateway
+          platforms: linux/arm64
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-gateway:latest
+

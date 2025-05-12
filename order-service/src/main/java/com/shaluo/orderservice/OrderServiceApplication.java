@@ -3,9 +3,10 @@ package com.shaluo.orderservice;
 import io.github.cdimascio.dotenv.Dotenv;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-
+@EnableDiscoveryClient
 @EnableFeignClients(basePackages = "com.shaluo.orderservice.client")
 @SpringBootApplication
 public class OrderServiceApplication {
@@ -42,6 +43,8 @@ public class OrderServiceApplication {
 			System.setProperty("USER_SERVICE_URL", dotenv.get("USER_SERVICE_URL"));
 			System.setProperty("RESTAURANT_SERVICE_URL", dotenv.get("RESTAURANT_SERVICE_URL"));
 			System.setProperty("CART_SERVICE_URL", dotenv.get("CART_SERVICE_URL"));
+
+			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
 
 		}
 

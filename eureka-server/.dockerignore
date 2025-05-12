@@ -1,0 +1,14 @@
+# 排除构建缓存和开发文件
+*/target
+**/.idea
+**/.vscode
+**/.DS_Store
+**/node_modules
+**/*.iml
+**/*.log
+**/.env
+**/.git
+**/.gitignore
+**/README.md
+**/Dockerfile
+**/docker-compose*
