@@ -12,7 +12,7 @@ public class GatewayServiceApplication {
 		if (System.getenv("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE") == null) {
 
 			Dotenv dotenv = Dotenv.configure()
-					.directory("./gateway-service") // 指定本地 .env 文件所在目录
+					.directory("./gateway") // 指定本地 .env 文件所在目录
 					.filename(".env.dev-local")
 					.load();
 
