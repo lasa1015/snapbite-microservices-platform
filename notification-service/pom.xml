@@ -33,6 +33,12 @@
 
 
 	<dependencies>
+<!--            发邮件-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+
 
 		<!-- JSON 序列化支持 -->
 		<dependency>
