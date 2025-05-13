@@ -126,9 +126,8 @@ services:
     ports:
       - "5672:5672"     # 主通信端口（服务用）
       - "15672:15672"   # 管理后台（你访问 http://localhost:15672）
-    environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin123
+    env_file:
+      - ./rabbitmq/.env.dev-docker
     networks:
       - snapbite-net
 
@@ -137,7 +136,7 @@ services:
     build: ../notification-service
     container_name: snapbite-notification-service
     env_file:
-      - /notification-service/.env.dev-docker
+      - ./notification-service/.env.dev-docker
     ports:
       - "8085:8085"  # 暴露端口
     depends_on:
