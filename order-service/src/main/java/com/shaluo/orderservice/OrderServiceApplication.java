@@ -46,6 +46,14 @@ public class OrderServiceApplication {
 
 			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
 
+			// RabbitMQ
+			System.setProperty("RABBITMQ_HOST", dotenv.get("RABBITMQ_HOST"));
+			System.setProperty("RABBITMQ_PORT", dotenv.get("RABBITMQ_PORT"));
+			System.setProperty("RABBITMQ_USER", dotenv.get("RABBITMQ_USER"));
+			System.setProperty("RABBITMQ_PASSWORD", dotenv.get("RABBITMQ_PASSWORD"));
+
+
+
 		}
 
 		SpringApplication.run(OrderServiceApplication.class, args);

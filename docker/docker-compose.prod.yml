@@ -108,6 +108,30 @@ services:
     networks:
       - snapbite-net
 
+  snapbite-rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: snapbite-rabbitmq
+    ports:
+      - "5672:5672"     # 主通信端口（服务用）
+      - "15672:15672"   # RabbitMQ 管理页面
+    env_file:
+      - ./rabbitmq/.env.dev-docker
+    networks:
+      - snapbite-net
+
+  snapbite-notification-service:
+    image: ${DOCKER_USERNAME}/snapbite-notification-service:latest
+    container_name: snapbite-notification-service
+    env_file:
+      - ./notification-service/.env.prod
+    ports:
+      - "8085:8085"
+    depends_on:
+      - snapbite-rabbitmq
+    networks:
+      - snapbite-net
+
+
 
 
 networks:

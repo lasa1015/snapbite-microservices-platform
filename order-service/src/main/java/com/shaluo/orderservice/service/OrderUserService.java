@@ -15,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import com.shaluo.orderservice.event.OrderCreatedEvent;
+
 
 @Service
 public class OrderUserService {
@@ -27,6 +30,9 @@ public class OrderUserService {
 
     @Autowired
     private UserClient userClient;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
     // 【用户下单】
     public void checkout(String username, CheckoutRequest request) {
@@ -74,7 +80,20 @@ public class OrderUserService {
             order.setItems(orderItems);
             order.setTotalPrice(calculateTotalAmount(orderItems));
 
+            // 保存订单
             orderRepository.save(order);
+
+            // 发送消息到 RabbitMQ
+            OrderCreatedEvent event = new OrderCreatedEvent(
+                    order.getId(),
+                    username,
+                    order.getRestaurantId(),
+                    order.getTotalPrice()
+            );
+
+            // 注意交换机名称和 routing key 和你定义的要一致
+            rabbitTemplate.convertAndSend("order.exchange", "order.created", event);
+
         }
 
         cartClient.clearCart(username);

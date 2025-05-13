@@ -13,6 +13,7 @@ IMAGES=(
   snapbite-eureka
   snapbite-gateway
   snapbite-mongo
+  snapbite-notification-service
 )
 
 # 拉取镜像
