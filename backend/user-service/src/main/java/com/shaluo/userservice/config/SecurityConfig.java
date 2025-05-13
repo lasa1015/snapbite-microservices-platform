@@ -37,7 +37,14 @@ public class SecurityConfig {
         String[] PUBLIC_API = {
                 "/api/users/register",
                 "/api/users/login",
-                "/api/users/id/**"
+                "/api/users/id/**",
+
+                // ✅ Swagger 相关路径（用于 API 文档界面和数据）
+                "/swagger-ui/**",
+                "/swagger-ui.html",
+                "/v3/api-docs/**",
+                "/swagger-resources/**",
+                "/webjars/**" // 如果你用的是旧版 swagger-ui，可能需要这项
 
         };
 

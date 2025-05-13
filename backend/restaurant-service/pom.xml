@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.3.4</version>
+		<version>3.2.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.shaluo</groupId>
@@ -45,7 +45,17 @@
 
 
 	<dependencies>
+
+<!--      swagger-->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+
+
 		<!-- Feign 注解处理器依赖，解决 factoryBeanObjectType 异常 -->
+
 
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
