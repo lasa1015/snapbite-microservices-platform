@@ -22,9 +22,9 @@ rabbitmq-data/*
 
 
 # 忽略 mongo 数据目录中所有内容
-mongo-data/*
+mongo/mongo-data/*
 # 但保留 .gitkeep 文件
-!mongo-data/.gitkeep
+!mongo/mongo-data/.gitkeep
 
 
 

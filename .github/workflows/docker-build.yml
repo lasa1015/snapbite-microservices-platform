@@ -62,7 +62,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./user-service
+          context: ./backend/user-service
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-user-service:latest
@@ -82,7 +82,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./cart-service
+          context: ./backend/cart-service
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-cart-service:latest
@@ -102,7 +102,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./order-service
+          context: ./backend/order-service
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-order-service:latest
@@ -122,7 +122,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./restaurant-service
+          context: ./backend/restaurant-service
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-restaurant-service:latest
@@ -174,7 +174,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./eureka-server
+          context: ./backend/eureka-server
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-eureka:latest
@@ -216,7 +216,7 @@ jobs:
 
       - uses: docker/build-push-action@v5
         with:
-          context: ./notification-service
+          context: ./backend/notification-service
           platforms: linux/amd64
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/snapbite-notification-service:latest
