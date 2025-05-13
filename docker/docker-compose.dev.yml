@@ -128,6 +128,8 @@ services:
       - "15672:15672"   # 管理后台（你访问 http://localhost:15672）
     env_file:
       - ./rabbitmq/.env.dev-docker
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 

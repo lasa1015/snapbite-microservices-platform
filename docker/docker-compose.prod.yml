@@ -115,7 +115,9 @@ services:
       - "5672:5672"     # 主通信端口（服务用）
       - "15672:15672"   # RabbitMQ 管理页面
     env_file:
-      - ./rabbitmq/.env.dev-docker
+      - ./rabbitmq/.env.prod
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 
