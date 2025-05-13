@@ -133,18 +133,22 @@ services:
     networks:
       - snapbite-net
 
+
   watchtower:
     image: containrrr/watchtower
     container_name: watchtower
     restart: always
     volumes:
-      #  挂载 Docker 的 socket：允许 Watchtower 监控其他容器
       - /var/run/docker.sock:/var/run/docker.sock
-      # 挂载日志目录到宿主机的 ./watchtower-logs
-      - ./watchtower-logs:/watchtower-logs
-    command: --interval 60 --log-level info --log-file /watchtower-logs/watchtower.log
+    command: --interval 60 --log-level info
     networks:
       - snapbite-net
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
 
 
 networks:
