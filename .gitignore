@@ -6,7 +6,6 @@ nginx/frontend-dist/
 *.iodraw
 
 
-
 .git
 *.py
 .env
