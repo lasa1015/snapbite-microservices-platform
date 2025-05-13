@@ -27,15 +27,6 @@ sudo systemctl enable docker
 sudo systemctl start docker
 sudo usermod -aG docker $USER
 
-echo "📦 拉取并启动 Watchtower 容器..."
-docker pull containrrr/watchtower
-docker run -d \
-  --name watchtower \
-  --restart always \
-  -v /var/run/docker.sock:/var/run/docker.sock \
-  containrrr/watchtower \
-  --interval 300
-
 echo "🔐 登录 Docker Hub（请手动输入用户名密码）"
 docker login
 

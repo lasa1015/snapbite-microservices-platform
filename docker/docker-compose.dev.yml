@@ -17,7 +17,7 @@ services:
 
   snapbite-eureka:
     image: snapbite-eureka
-    build: ../eureka-server
+    build: ../backend/eureka-server
     container_name: snapbite-eureka
     ports:
       - "8761:8761"
@@ -27,7 +27,7 @@ services:
 
   snapbite-user-service:
     image: snapbite-user-service
-    build: ../user-service
+    build: ../backend/user-service
     container_name: snapbite-user-service
     ports:
       - "8081:8081"
@@ -42,7 +42,7 @@ services:
 
   snapbite-restaurant-service:
     image: snapbite-restaurant-service
-    build: ../restaurant-service
+    build: ../backend/restaurant-service
     container_name: snapbite-restaurant-service
     ports:
       - "8082:8082"
@@ -56,7 +56,7 @@ services:
 
   snapbite-cart-service:
     image: snapbite-cart-service
-    build: ../cart-service
+    build: ../backend/cart-service
     container_name: snapbite-cart-service
     ports:
       - "8083:8083"
@@ -75,7 +75,7 @@ services:
 
   snapbite-order-service:
     image: snapbite-order-service
-    build: ../order-service
+    build: ../backend/order-service
     container_name: snapbite-order-service
     ports:
       - "8084:8084"
@@ -129,13 +129,13 @@ services:
     env_file:
       - ./rabbitmq/.env.dev-docker
     volumes:
-      - ./rabbitmq-data:/var/lib/rabbitmq
+      - ../rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 
   snapbite-notification-service:
     image: snapbite-notification-service
-    build: ../notification-service
+    build: ../backend/notification-service
     container_name: snapbite-notification-service
     env_file:
       - ./notification-service/.env.dev-docker
