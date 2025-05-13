@@ -14,7 +14,24 @@ nginx/frontend-dist/
 .env.dev-docker
 .env.prod
 
+
+# 忽略 rabbitmq-data 中所有文件
+rabbitmq-data/*
+# 但保留 .gitkeep 文件
+!rabbitmq-data/.gitkeep
+
+
+# 忽略 mongo 数据目录中所有内容
+mongo/mongo-data/*
+# 但保留 .gitkeep 文件
+!mongo/mongo-data/.gitkeep
+
+
+
 venv/
+
+
+
 
 # ========== Global ==========
 

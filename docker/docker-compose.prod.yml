@@ -115,7 +115,9 @@ services:
       - "5672:5672"     # 主通信端口（服务用）
       - "15672:15672"   # RabbitMQ 管理页面
     env_file:
-      - ./rabbitmq/.env.dev-docker
+      - ./rabbitmq/.env.prod
+    volumes:
+      - ./rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 
@@ -131,7 +133,18 @@ services:
     networks:
       - snapbite-net
 
-
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    restart: always
+    volumes:
+      #  挂载 Docker 的 socket：允许 Watchtower 监控其他容器
+      - /var/run/docker.sock:/var/run/docker.sock
+      # 挂载日志目录到宿主机的 ./watchtower-logs
+      - ./watchtower-logs:/watchtower-logs
+    command: --interval 60 --log-level info --log-file /watchtower-logs/watchtower.log
+    networks:
+      - snapbite-net
 
 
 networks:
