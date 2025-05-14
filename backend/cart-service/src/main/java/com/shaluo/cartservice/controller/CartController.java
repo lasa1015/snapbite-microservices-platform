@@ -4,6 +4,8 @@ import com.shaluo.cartservice.dto.response.RestaurantCartGroup;
 import com.shaluo.cartservice.model.mongo.CartItem;
 import com.shaluo.cartservice.service.CartService;
 import com.shaluo.cartservice.dto.request.AddCartItemRequest;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/cart")
+@Tag(name = "购物车接口", description = "提供购物车的增删查改等操作")
 public class CartController {
 
     @Autowired
@@ -19,6 +22,7 @@ public class CartController {
 
     // 【获取当前登录用户的购物车内容】
     @GetMapping
+    @Operation(summary = "获取当前用户的购物车", description = "返回按餐厅分组的购物车项")
     public List<RestaurantCartGroup> getCart(Authentication auth) {
         // Authentication auth 是 Spring Security 自动注入的参数，用于表示当前请求的认证信息（如果用户已登录）
 

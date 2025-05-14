@@ -24,6 +24,11 @@ public class NotificationServiceApplication {
 			System.setProperty("RABBITMQ_USER", dotenv.get("RABBITMQ_USER"));
 			System.setProperty("RABBITMQ_PASSWORD", dotenv.get("RABBITMQ_PASSWORD"));
 
+			// 邮箱配置
+			System.setProperty("MAIL_HOST", dotenv.get("MAIL_HOST"));
+			System.setProperty("MAIL_PORT", dotenv.get("MAIL_PORT"));
+			System.setProperty("MAIL_USERNAME", dotenv.get("MAIL_USERNAME"));
+			System.setProperty("MAIL_PASSWORD", dotenv.get("MAIL_PASSWORD"));
 
 
 		}

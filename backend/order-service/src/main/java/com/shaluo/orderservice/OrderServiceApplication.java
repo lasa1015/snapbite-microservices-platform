@@ -52,8 +52,6 @@ public class OrderServiceApplication {
 			System.setProperty("RABBITMQ_USER", dotenv.get("RABBITMQ_USER"));
 			System.setProperty("RABBITMQ_PASSWORD", dotenv.get("RABBITMQ_PASSWORD"));
 
-
-
 		}
 
 		SpringApplication.run(OrderServiceApplication.class, args);
