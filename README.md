@@ -26,9 +26,7 @@ The system adopts a microservices architecture, with each service independently 
 
 ###  System Architecture
 
-
-
-![image-20250514131804053](docs/images/image-20250514131804053.png)
+![image-20250514132741550](docs/images/image-20250514132741550.png)
 
 The **SnapBite** system is a distributed food ordering platform built using a microservices architecture. It consists of a React-based frontend, multiple Spring Boot backend services, and supporting middleware for communication and deployment.
 
