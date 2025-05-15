@@ -22,17 +22,24 @@ import com.shaluo.orderservice.event.OrderCreatedEvent;
 @Service
 public class OrderUserService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final CartClient cartClient;
+    private final UserClient userClient;
+    private final RabbitTemplate rabbitTemplate;
 
     @Autowired
-    private CartClient cartClient;
+    public OrderUserService(OrderRepository orderRepository,
+                            CartClient cartClient,
+                            UserClient userClient,
+                            RabbitTemplate rabbitTemplate) {
+        this.orderRepository = orderRepository;
+        this.cartClient = cartClient;
+        this.userClient = userClient;
+        this.rabbitTemplate = rabbitTemplate;
+    }
 
-    @Autowired
-    private UserClient userClient;
 
-    @Autowired
-    private RabbitTemplate rabbitTemplate;
+
 
     // 【用户下单】
     public void checkout(String username, CheckoutRequest request) {
