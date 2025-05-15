@@ -16,8 +16,12 @@ import java.util.stream.Collectors;
 @Service
 public class RestaurantService {
 
+    private final RestaurantRepository restaurantRepository;
+
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    public RestaurantService(RestaurantRepository restaurantRepository) {
+        this.restaurantRepository = restaurantRepository;
+    }
 
 
     // 实体 转 DTO
@@ -96,6 +100,9 @@ public class RestaurantService {
                 .orElseThrow(() -> new RuntimeException("未找到该商户对应的餐厅"));
         return toResponse(r);
     }
+
+
+
 
 
 }

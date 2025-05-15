@@ -15,11 +15,15 @@ import java.util.*;
 @Service
 public class OrderMerchantService {
 
-    @Autowired
-    private OrderRepository orderRepository;
+    private final OrderRepository orderRepository;
+    private final RestaurantClient restaurantClient;
 
     @Autowired
-    private RestaurantClient restaurantClient;
+    public OrderMerchantService(OrderRepository orderRepository,
+                                RestaurantClient restaurantClient) {
+        this.orderRepository = orderRepository;
+        this.restaurantClient = restaurantClient;
+    }
 
     // 获取该商户username下对应餐厅的所有订单
     public List<OrderResponse> getMyRestaurantOrders(String merchantUsername) {

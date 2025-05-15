@@ -10,9 +10,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class OrderCreatedListener {
 
-    @Autowired
-    private JavaMailSender mailSender;
+    private final JavaMailSender mailSender;
 
+    @Autowired
+    public OrderCreatedListener(JavaMailSender mailSender) {
+        this.mailSender = mailSender;
+    }
     @RabbitListener(queues = "order.created.queue")
     public void handleOrderCreated(OrderCreatedEvent event) {
         System.out.println("📨 Received order event: " + event.getOrderId()

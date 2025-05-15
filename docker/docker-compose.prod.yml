@@ -9,7 +9,7 @@ services:
       - "27017:27017"
     volumes:
       # 把 本机上的 mongo-data 文件夹映射为 Mongo 容器内的数据库目录。
-      - ./mongo-data:/data/db
+      - ./data/mongo-data:/data/db
     networks:
       - snapbite-net
 
@@ -117,7 +117,7 @@ services:
     env_file:
       - ./rabbitmq/.env.prod
     volumes:
-      - ./rabbitmq-data:/var/lib/rabbitmq
+      - ./data/rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 
