@@ -97,38 +97,60 @@ class UserServiceTest {
     // 当用户名存在且密码正确时，是否成功生成 JWT token
     @Test
     void login_shouldReturnToken_whenPasswordCorrect() {
+
+        // 创建一个模拟的 User 对象（模拟数据库中查到的用户）
         User user = new User();
         user.setUsername("bob");
-        user.setPassword("encoded123");
+        user.setPassword("encoded123"); // 模拟数据库中保存的是加密后的密码
         user.setRole(Role.USER);
 
+        // 模拟数据库查询：当调用 findByUsername("bob") 时，返回上面的 user
         when(userRepository.findByUsername("bob")).thenReturn(Optional.of(user));
+
+        // 模拟密码校验逻辑：用户输入的 raw123 加密后刚好匹配数据库的 encoded123
         when(passwordEncoder.matches("raw123", "encoded123")).thenReturn(true);
+
+        // 模拟 token 生成逻辑：用户登录成功后，生成一个假的 token
         when(jwtUtil.generateToken("bob", "USER")).thenReturn("mocked-token");
 
+        // 执行登录逻辑
+        // 【 userService.login(...) 是真的。 mock 的 userRepository、passwordEncoder、jwtUtil 是假的】
         String token = userService.login("bob", "raw123");
 
+        // 断言返回的 token 应该等于我们预期的 "mocked-token"
         assertEquals("mocked-token", token);
     }
+
 
     // 如果密码不对，系统是否能正确抛出异常
     @Test
     void login_shouldThrowException_whenPasswordIncorrect() {
+
+        // 创建一个模拟用户，假设这是数据库里查到的用户
         User user = new User();
         user.setUsername("bob");
-        user.setPassword("encoded123");
+        user.setPassword("encoded123"); // 模拟数据库中存储的是加密后的密码
 
+        // 模拟查询用户：用户名为 bob 时，能查到这个用户（模拟数据库返回）
         when(userRepository.findByUsername("bob")).thenReturn(Optional.of(user));
+
+        // 模拟密码验证失败：用户输入的是 wrong，而数据库存的是 encoded123，加密后不匹配
         when(passwordEncoder.matches("wrong", "encoded123")).thenReturn(false);
 
+        // 调用登录逻辑，预期会抛出 RuntimeException（因为密码验证失败）
         Exception ex = assertThrows(RuntimeException.class, () -> userService.login("bob", "wrong"));
+
+        // 断言异常消息是否正确（确保抛出的不是其他错误，而是“密码错误”）
         assertEquals("密码错误", ex.getMessage());
     }
+
 
 
     // 用户存在时，是否能正确转换为 UserResponse 并返回
     @Test
     void getUserProfile_shouldReturnResponse_whenUserExists() {
+
+        // 创建一个模拟的用户对象（模拟数据库中的记录）
         User user = new User();
         user.setId(1L);
         user.setUsername("bob");
@@ -136,12 +158,48 @@ class UserServiceTest {
         user.setRole(Role.USER);
         user.setCreatedAt(LocalDateTime.now());
 
+        // 模拟 userRepository 查找用户名时返回这个用户
         when(userRepository.findByUsername("bob")).thenReturn(Optional.of(user));
 
+        // 调用实际的 getUserProfile 方法
         UserResponse response = userService.getUserProfile("bob");
 
+        // 断言返回结果中各字段是否与用户对象匹配（DTO 映射是否正确）
         assertEquals("bob", response.getUsername());
         assertEquals("bob@example.com", response.getEmail());
         assertEquals("USER", response.getRole());
     }
+
+    @Test
+    void register_shouldThrowException_whenUsernameExists() {
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("alice");
+        request.setEmail("alice@example.com");
+        request.setPassword("pass");
+        request.setRole("USER");
+
+        when(userRepository.existsByUsername("alice")).thenReturn(true);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> userService.register(request));
+        assertEquals("用户名已存在", ex.getMessage());
+    }
+
+
+    @Test
+    void register_shouldThrowException_whenEmailExists() {
+        RegisterRequest request = new RegisterRequest();
+        request.setUsername("alice");
+        request.setEmail("alice@example.com");
+        request.setPassword("pass");
+        request.setRole("USER");
+
+        when(userRepository.existsByUsername("alice")).thenReturn(false);
+        when(userRepository.existsByEmail("alice@example.com")).thenReturn(true);
+
+        Exception ex = assertThrows(RuntimeException.class, () -> userService.register(request));
+        assertEquals("邮箱已存在", ex.getMessage());
+    }
+
+
+
 }

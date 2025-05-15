@@ -15,11 +15,15 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
+    private final String secret;
+
+    // 构造注入（Spring 会自动用 @Value 注入 secret）
     // 只有拥有这个密钥的服务才能生成或验证 token。别人伪造不了。
     // SECRET_KEY（签名密钥）是 JWT 加密和验证的核心，务必保证机密。
     // @Value("${JWT_SECRET}") 从 Spring 的配置环境中读取
-    @Value("${JWT_SECRET}")
-    private String secret;
+    public JwtUtil(@Value("${JWT_SECRET}") String secret) {
+        this.secret = secret;
+    }
 
     // Token 过期时间（单位：毫秒）例如 24 小时
     private final long EXPIRATION_TIME = 1000 * 60 * 60 * 24;
