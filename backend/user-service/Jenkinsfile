@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = "lasa1015/snapbite-user-service:latest"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                deleteDir()
+                git branch: 'main',
+                    url: 'https://github.com/lasa1015/snapbite-microservices-platform.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                sh 'docker build -t $IMAGE_NAME .'  // 👈 当前目录就是 user-service，无需再切
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-username',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DUMMY'
+                    ),
+                    string(credentialsId: 'docker-password',
+                           variable: 'DOCKER_TOKEN')
+                ]) {
+                    sh '''
+                        echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $IMAGE_NAME
+                    '''
+                }
+            }
+        }
+    }
+}
