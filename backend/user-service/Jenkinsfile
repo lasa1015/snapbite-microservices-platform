@@ -17,9 +17,12 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t $IMAGE_NAME .'  // 👈 当前目录就是 user-service，无需再切
+                dir('backend/user-service') {        // ✅ 进入正确目录
+                    sh 'docker build -t $IMAGE_NAME .'
+                }
             }
         }
+
 
         stage('Push Docker Image') {
             steps {
