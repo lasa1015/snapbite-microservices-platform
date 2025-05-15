@@ -15,9 +15,14 @@ import java.util.List;
 @Service
 public class MenuService {
 
-    @Autowired
-    private MenuRepository menuRepository;
 
+    private final MenuRepository menuRepository;
+
+    // 推荐构造器注入（只有一个构造方法就行）
+    @Autowired
+    public MenuService(MenuRepository menuRepository) {
+        this.menuRepository = menuRepository;
+    }
 
     // 根据餐厅id，返回餐厅的 MenuResponse 给前端
     public MenuResponse getMenuResponseByRestaurantId(Integer restaurantId) {
