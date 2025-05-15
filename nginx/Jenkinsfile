@@ -1,0 +1,63 @@
+pipeline {
+    agent any
+
+    environment {
+
+        IMAGE_NAME = "lasa1015/snapbite-nginx:latest"
+    }
+
+    tools {
+        nodejs "nodejs"  // 你在 Jenkins 安装的 NodeJS 名称
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                deleteDir() //  清空工作区，防止冲突
+                git branch: 'main',
+                    url: 'https://github.com/lasa1015/snapbite-microservices-platform.git'
+            }
+        }
+
+
+        stage('Build Frontend') {
+            steps {
+                dir('frontend') {
+                    sh 'npm install'
+                    sh 'npm run build' // 输出到 ../nginx/frontend-dist
+                }
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+
+                dir('nginx') {
+                    sh 'docker build -t $IMAGE_NAME .'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-username',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DUMMY'
+                    ),
+                    string(
+                        credentialsId: 'docker-password',
+                        variable: 'DOCKER_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $IMAGE_NAME
+                    '''
+                }
+            }
+        }
+    }
+}
