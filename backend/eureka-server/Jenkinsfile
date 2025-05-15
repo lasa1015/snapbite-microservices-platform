@@ -1,0 +1,49 @@
+pipeline {
+    agent any
+
+    environment {
+
+        IMAGE_NAME = "lasa1015/snapbite-eureka:latest"
+    }
+
+    stages {
+
+        stage('Checkout Code') {
+            steps {
+                deleteDir() //  清空工作区，防止冲突
+                git branch: 'main',
+                    url: 'https://github.com/lasa1015/snapbite-microservices-platform.git'
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+
+                dir('backend/snapbite-eureka') {
+                    sh 'docker build -t $IMAGE_NAME .'
+                }
+            }
+        }
+
+        stage('Push Docker Image') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-username',
+                        usernameVariable: 'DOCKER_USER',
+                        passwordVariable: 'DUMMY'
+                    ),
+                    string(
+                        credentialsId: 'docker-password',
+                        variable: 'DOCKER_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_TOKEN" | docker login -u "$DOCKER_USER" --password-stdin
+                        docker push $IMAGE_NAME
+                    '''
+                }
+            }
+        }
+    }
+}
