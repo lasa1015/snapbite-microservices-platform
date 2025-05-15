@@ -21,8 +21,12 @@ import java.util.Optional;
 @Service
 public class CartService {
 
+    private final CartItemRepository cartItemRepository;
+
     @Autowired
-    private CartItemRepository cartItemRepository;
+    public CartService(CartItemRepository cartItemRepository) {
+        this.cartItemRepository = cartItemRepository;
+    }
 
 
     // 获取当前登录用户的购物车，每一项都带有“菜品名”和“餐厅名”等展示信息。
