@@ -1,7 +1,8 @@
 
 services:
   jenkins:
-    image: jenkins/jenkins:lts
+    build:
+      context: ./jenkins  # 你放 Dockerfile 的路径
     container_name: snapbite-jenkins
     ports:
       #  宿主机用 8090
