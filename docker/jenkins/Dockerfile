@@ -5,6 +5,6 @@ USER root
 # 安装 docker CLI
 RUN apt-get update && \
     apt-get install -y docker.io && \
-    apt-get clean
+    usermod -aG docker jenkins
 
 USER jenkins
