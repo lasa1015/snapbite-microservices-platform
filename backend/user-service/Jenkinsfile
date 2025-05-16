@@ -8,6 +8,19 @@ pipeline {
 
     stages {
 
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD | grep '^backend/user-service/' || true", returnStdout: true).trim()
+                    if (!changes) {
+                        echo "🔁 No changes in user-service, skipping build..."
+                        currentBuild.result = 'NOT_BUILT'
+                        error('No changes detected, aborting build.')
+                    }
+                }
+            }
+        }
+
         stage('Checkout Code') {
             steps {
                 deleteDir()

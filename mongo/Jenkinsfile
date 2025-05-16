@@ -9,6 +9,20 @@ pipeline {
 
     stages {
 
+        stage('Check Changes') {
+            steps {
+                script {
+                    def changes = sh(script: "git diff --name-only HEAD~1 HEAD | grep '^mongo/' || true", returnStdout: true).trim()
+                    if (!changes) {
+                        echo "🔁 No changes in mongo, skipping build..."
+                        currentBuild.result = 'NOT_BUILT'
+                        error('No changes detected, aborting build.')
+                    }
+                }
+            }
+        }
+
+
         stage('Checkout Code') {
             steps {
                 // ✅ 清空 Jenkins 工作区，防止构建冲突
