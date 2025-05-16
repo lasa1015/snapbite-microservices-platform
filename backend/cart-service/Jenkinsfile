@@ -2,15 +2,18 @@ pipeline {
     agent any
 
     environment {
-
+        // ✅ 设置镜像名和容器名（注意这里是 cart-service）
         IMAGE_NAME = "lasa1015/snapbite-cart-service:latest"
+        CONTAINER_NAME = "snapbite-cart-service"
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                deleteDir() //  清空工作区，防止冲突
+                // ✅ 清空 Jenkins 工作区，避免旧文件干扰构建
+                deleteDir()
+                // ✅ 克隆 GitHub 仓库 main 分支的最新代码
                 git branch: 'main',
                     url: 'https://github.com/lasa1015/snapbite-microservices-platform.git'
             }
@@ -18,7 +21,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-
+                // ✅ 进入 cart-service 目录，构建镜像
                 dir('backend/cart-service') {
                     sh 'docker build -t $IMAGE_NAME .'
                 }
@@ -27,6 +30,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+                // ✅ 使用 Jenkins 中配置的 Docker Hub 凭据推送镜像
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'docker-username',
@@ -44,6 +48,23 @@ pipeline {
                     '''
                 }
             }
+        }
+
+        stage('Clean Up Dangling Images') {
+            steps {
+                // ✅ 清理无标签的悬空镜像，释放磁盘空间
+                sh '''
+                    echo "🧼 清理悬空旧镜像..."
+                    docker image prune -f
+                '''
+            }
+        }
+    }
+
+    post {
+        success {
+            // ✅ 构建成功后自动触发部署任务，执行统一的 docker compose up
+            build job: 'deploy-snapbite-services'
         }
     }
 }

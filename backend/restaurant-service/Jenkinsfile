@@ -2,15 +2,18 @@ pipeline {
     agent any
 
     environment {
-
+        // ✅ 设置镜像名和容器名（注意这里是 restaurant-service）
         IMAGE_NAME = "lasa1015/snapbite-restaurant-service:latest"
+        CONTAINER_NAME = "snapbite-restaurant-service"
     }
 
     stages {
 
         stage('Checkout Code') {
             steps {
-                deleteDir() //  清空工作区，防止冲突
+                // ✅ 清空工作区，避免残留代码干扰构建
+                deleteDir()
+                // ✅ 拉取 GitHub 仓库中的主分支代码
                 git branch: 'main',
                     url: 'https://github.com/lasa1015/snapbite-microservices-platform.git'
             }
@@ -18,7 +21,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-
+                // ✅ 进入 restaurant-service 模块目录，构建镜像
                 dir('backend/restaurant-service') {
                     sh 'docker build -t $IMAGE_NAME .'
                 }
@@ -27,6 +30,7 @@ pipeline {
 
         stage('Push Docker Image') {
             steps {
+                // ✅ 使用 Jenkins 中配置的 Docker Hub 凭据推送镜像
                 withCredentials([
                     usernamePassword(
                         credentialsId: 'docker-username',
@@ -44,6 +48,24 @@ pipeline {
                     '''
                 }
             }
+        }
+
+        stage('Clean Up Dangling Images') {
+            steps {
+                // ✅ 清理本地无用镜像，节省空间
+                sh '''
+                    echo "🧼 清理悬空旧镜像..."
+                    docker image prune -f
+                '''
+            }
+        }
+
+    }
+
+    post {
+        success {
+            // ✅ 构建成功后自动触发部署服务的 Job
+            build job: 'deploy-snapbite-services'
         }
     }
 }
