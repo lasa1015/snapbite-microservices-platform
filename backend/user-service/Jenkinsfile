@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         IMAGE_NAME = "lasa1015/snapbite-user-service:latest"
+        CONTAINER_NAME = "snapbite-user-service"
     }
 
     stages {
@@ -42,5 +43,36 @@ pipeline {
                 }
             }
         }
+
+        //  新增的部署阶段
+        stage('Deploy Container') {
+            steps {
+                sh '''
+                    echo "🚀 Restarting user-service container..."
+
+                    # 停止并删除旧容器（如果存在）
+                    docker stop snapbite-user-service || true
+                    docker rm snapbite-user-service || true
+
+                    # 启动新容器
+                    docker run -d --name snapbite-user-service \
+                      -p 8081:8081 \
+                      --restart unless-stopped \
+                      $IMAGE_NAME
+                '''
+            }
+        }
+
+        stage('Clean Up Dangling Images') {
+            steps {
+                sh '''
+                    echo "🧼 清理悬空旧镜像..."
+                    docker image prune -f
+                '''
+            }
+        }
+
+
+
     }
 }
