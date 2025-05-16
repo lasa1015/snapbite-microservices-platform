@@ -16,6 +16,7 @@ public class OrderServiceApplication {
 		// 检查系统环境变量DB_HOST 是否存在
 		if (System.getenv("DB_HOST") == null) {
 
+
 			// 如果系统变量DB_HOST没有，说明是本地开发，需要手动加载 .env 文件
 			// 如果存在，是生产环境，依靠docker compose up文件注入
 			Dotenv dotenv = Dotenv.configure()

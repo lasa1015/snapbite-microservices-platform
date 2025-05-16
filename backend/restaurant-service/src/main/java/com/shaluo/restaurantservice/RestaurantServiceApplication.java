@@ -13,6 +13,7 @@ public class RestaurantServiceApplication {
 
 	public static void main(String[] args) {
 
+
 		// 检查系统环境变量DB_HOST 是否存在
 		if (System.getenv("DB_HOST") == null) {
 

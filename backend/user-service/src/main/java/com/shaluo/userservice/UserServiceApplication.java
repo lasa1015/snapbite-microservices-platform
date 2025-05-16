@@ -38,6 +38,7 @@ public class UserServiceApplication {
 			System.setProperty("MONGO_PORT", dotenv.get("MONGO_PORT"));
 			System.setProperty("MONGO_DB", dotenv.get("MONGO_DB"));
 
+
 			// eureka
 			System.setProperty("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE", dotenv.get("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE"));
 		}
