@@ -15,6 +15,7 @@ nginx/frontend-dist/
 .env.dev-local
 .env.dev-docker
 .env.prod
+.deploy.env
 
 
 # 忽略 rabbitmq-data 中所有文件
