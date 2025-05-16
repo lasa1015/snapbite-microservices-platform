@@ -72,7 +72,18 @@ pipeline {
             }
         }
 
-
-
     }
+
+
+
+    post {
+        success {
+            build job: 'deploy-snapbite-services'
+        }
+    }
+
+
+
+
+
 }
