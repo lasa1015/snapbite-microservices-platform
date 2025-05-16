@@ -13,6 +13,7 @@ public class NotificationServiceApplication {
 		// 检查系统环境变量 是否存在
 		if (System.getenv("RABBITMQ_HOST") == null) {
 
+
 			Dotenv dotenv = Dotenv.configure()
 					.directory("backend/notification-service") // 指定本地 .env 文件所在目录
 					.filename(".env.dev-local")
