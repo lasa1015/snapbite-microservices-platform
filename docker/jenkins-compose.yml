@@ -11,7 +11,8 @@ services:
     volumes:
       - ./data/jenkins_home:/var/jenkins_home              # ✅ 数据持久化
       - /var/run/docker.sock:/var/run/docker.sock   #  让 Jenkins 控制宿主机 Docker
-      - ./data/maven-repo:/root/.m2
+      - ./jenkins/.deploy.env:/var/jenkins_home/.deploy.env:ro
+
 
     privileged: true
     # Jenkins 容器 有权限访问宿主机的 Docker 服务
