@@ -77,7 +77,7 @@ pipeline {
     post {
         success {
             // ✅ 构建成功后触发统一部署任务（执行 docker compose up）
-            build job: 'deploy-snapbite-services'
+            build job: 'deploy-snapbite-services', wait: false
         }
     }
 }
