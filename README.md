@@ -10,38 +10,74 @@
 
 SnapBite is a cloud-based online food ordering system designed to streamline the ordering experience for both users and restaurant owners. The platform enables core functionalities such as restaurant browsing, dish selection, shopping cart management, order placement, and merchant-side order fulfillment.
 
-The system adopts a microservices architecture, with each service independently deployed via Docker. Services communicate through REST APIs and RabbitMQ, while service discovery and API routing are handled using Eureka and Spring Cloud Gateway. SnapBite utilizes PostgreSQL for managing structured data like user accounts and orders, and MongoDB for handling unstructured data such as restaurant menus and shopping carts. Real-time email notifications are integrated to enhance system responsiveness and user engagement.
+The **SnapBite** system is a distributed food ordering platform built using a microservices architecture. It features a React + TypeScript frontend served by Nginx, multiple Spring Boot backend services secured with Spring Security and JWT authentication, exposed via Spring Cloud Gateway, and discovered via Eureka. Services communicate via REST and RabbitMQ, and persist data using PostgreSQL (structured) and MongoDB (unstructured). All services are containerized with Docker, deployed using Docker Compose on a Contabo VPS, and continuously delivered via a Jenkins-powered CI/CD pipeline.
 
 ------
 
 ### Tech Stack
 
-- **Frontend**: React, TypeScript, Tailwind CSS, Zustand, React Router, Axios
-- **Backend**: Spring Boot, Spring Security, JWT (Json Web Token), Spring Cloud (Eureka, Gateway), RabbitMQ, Swagger (OpenAPI Docs)
-- **Databases**: PostgreSQL (structured), MongoDB (unstructured)
-- **Deployment & DevOps**: Docker, Docker Compose, GitHub Actions, Nginx, Watchtower
+- **Frontend**: React, TypeScript, Tailwind CSS, Zustand, React Router, Axios  
+- **Backend**: Spring Boot, Spring Security, JWT (Json Web Token), Spring Cloud (Eureka, Gateway, Feign), RabbitMQ, Swagger (OpenAPI Docs)
+- **Databases**: PostgreSQL (structured), MongoDB (unstructured)  
+- **Deployment**: Docker, Docker Compose, Nginx  
+- **CI/CD & DevOps**: Jenkins
 - **Infrastructure & Domain**: Contabo VPS (Cloud VPS 10 SSD), Namecheap (custom domain)
 
 ------
 
 ###  System Architecture
 
-![image-20250514132741550](docs/images/image-20250514132741550.png)
+![image-20250516161318820](docs/images/image-20250516161318820.png)
 
-The **SnapBite** system is a distributed food ordering platform built using a microservices architecture. It consists of a React-based frontend, multiple Spring Boot backend services, and supporting middleware for communication and deployment.
+The **SnapBite** system is a distributed food ordering platform built using a microservices architecture. It features a React + TypeScript frontend served by Nginx, multiple Spring Boot backend services secured with Spring Security and JWT authentication, exposed via Spring Cloud Gateway, and discovered via Eureka. Services communicate via REST and RabbitMQ, and persist data using PostgreSQL (structured) and MongoDB (unstructured). All services are containerized with Docker, deployed using Docker Compose on a Contabo VPS, and continuously delivered via a Jenkins-powered CI/CD pipeline.
 
-- **Client requests** are routed through **Nginx**, which serves the static React frontend and forwards API requests to the **Spring Cloud Gateway**.
-- The **API Gateway** handles routing to backend services and integrates with **Eureka Server** for service discovery and load balancing.
-- Core services include:
-  - `user-service`: Manages user registration, login, and authentication.
-  - `restaurant-service`: Manages restaurant info and menus.
-  - `cart-service`: Handles cart grouping and item operations.
-  - `order-service`: Processes order creation and status updates.
-  - `notification-service`: Sends email alerts upon order placement.
-- **RabbitMQ** enables asynchronous communication between `order-service` and `notification-service` through message publishing and consumption.
-- **MongoDB** stores unstructured data such as menus and shopping carts, while **PostgreSQL (RDS)** is used for structured data including users and orders.
-- The entire system is deployed on a **Contabo VPS** using **Docker** and orchestrated via **Docker Compose**.
-- **Watchtower** is used for automated image updates and container restarts during deployment.
+#### Frontend
+
+- Built with **React + TypeScript** using Tailwind CSS and Zustand
+- Served as static assets by **Nginx**
+- Communicates with backend services via REST APIs
+
+#### API Gateway & Service Discovery
+
+- **Spring Cloud Gateway** routes incoming requests to appropriate backend services
+- **Eureka Server** provides service registration and discovery for dynamic routing
+- All backend services register themselves with Eureka for load-balanced API calls
+
+#### Backend Microservices
+
+- Each service is independently developed and deployed using Spring Boot, and communicates with others via Spring Cloud OpenFeign for declarative REST calls across containers. 
+
+- All backend services expose interactive API documentation via **Swagger UI**, which assists in endpoint testing and system debugging.
+
+  | Service                | Responsibility                                          |
+  | ---------------------- | ------------------------------------------------------- |
+  | `user-service`         | Handles user registration, login, JWT auth              |
+  | `restaurant-service`   | Manages restaurant details and menus                    |
+  | `cart-service`         | Groups cart items by restaurant and manages updates     |
+  | `order-service`        | Creates orders, tracks status changes                   |
+  | `notification-service` | Sends email alerts to merchants when an order is placed |
+
+#### Asynchronous Messaging (RabbitMQ)
+
+- **`order-service`** publishes messages when new orders are placed
+- **`notification-service`** consumes these messages and sends email alerts to merchants
+
+#### Data Persistence
+
+- **PostgreSQL** is used to store structured data (users, orders)
+- **MongoDB** stores unstructured documents like menus and cart contents
+
+#### Deployment & Infrastructure
+
+- All services are containerized using **Docker**
+- Orchestrated using **Docker Compose**
+- Deployed on a **Contabo VPS** running Ubuntu 24.04.2
+
+#### CI/CD Workflow
+
+- CI/CD is powered by **Jenkins** and **Docker**, with modular pipelines for each microservice
+- Updated services are automatically built and pushed on GitHub commits
+- A centralized deployment job updates running containers on the production server
 
 ------
 
