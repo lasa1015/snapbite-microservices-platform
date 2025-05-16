@@ -9,6 +9,19 @@ pipeline {
 
     stages {
 
+                stage('Check Changes') {
+                    steps {
+                        script {
+                            def changes = sh(script: "git diff --name-only HEAD~1 HEAD | grep '^backend/notification-service/' || true", returnStdout: true).trim()
+                            if (!changes) {
+                                echo "🔁 No changes in notification-service, skipping build..."
+                                currentBuild.result = 'NOT_BUILT'
+                                error('No changes detected, aborting build.')
+                            }
+                        }
+                    }
+                }
+
         stage('Checkout Code') {
             steps {
                 // ✅ 清空 Jenkins 工作区，避免旧文件影响构建
