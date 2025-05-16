@@ -64,8 +64,8 @@ The **SnapBite** system is a distributed food ordering platform built using a mi
 
 #### Data Persistence
 
-- **PostgreSQL** is used to store structured data (users, orders)
-- **MongoDB** stores unstructured documents like menus and cart contents
+- **PostgreSQL** is used to store structured data (users, orders, restaurants)
+- **MongoDB** is used to store unstructured data (menus, carts)
 
 #### Deployment & Infrastructure
 
