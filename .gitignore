@@ -90,9 +90,10 @@ deployment/docker/redis-data/
 **/docker-compose.override.yml
 /docs/restaurant_category_map.json
 
-/ runtime-data/mongo-data/
+
 / runtime-data/rabbitmq-data/
+/ runtime-data/mongo-data/
 !/ runtime-data/rabbitmq-data/.gitkeep
 !/ runtime-data/mongo-data/.gitkeep
 /deployment/k8s/
-/mongo/mongo-data/
+
