@@ -12,7 +12,7 @@ services:
       - ./data/jenkins_home:/var/jenkins_home              #  数据持久化
       - /var/run/docker.sock:/var/run/docker.sock   #  让 Jenkins 控制宿主机 Docker
       - ./jenkins/.deploy.env:/var/jenkins_home/workspace/deploy-snapbite-services/.deploy.env:ro
-
+      - /root/docker:/workspace  # 把宿主机的部署目录映射进来
     privileged: true
     # Jenkins 容器 有权限访问宿主机的 Docker 服务
     user: root               #  用 root 用户运行 Jenkins
