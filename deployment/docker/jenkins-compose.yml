@@ -2,21 +2,20 @@
 services:
   jenkins:
     build:
-      context: ./jenkins  # 你放 Dockerfile 的路径
+      context: jenkins  # 你放 Dockerfile 的路径
     container_name: snapbite-jenkins
     ports:
       #  宿主机用 8090
       # 容器内部还是跑在 8080（Jenkins 默认端口）
       - "8090:8080"
     volumes:
-      - ./data/jenkins_home:/var/jenkins_home              # ✅ 数据持久化
+      - ./data/jenkins_home:/var/jenkins_home              #  数据持久化
       - /var/run/docker.sock:/var/run/docker.sock   #  让 Jenkins 控制宿主机 Docker
       - ./jenkins/.deploy.env:/var/jenkins_home/.deploy.env:ro
 
-
     privileged: true
     # Jenkins 容器 有权限访问宿主机的 Docker 服务
-    user: root               # ✅ 用 root 用户运行 Jenkins
+    user: root               #  用 root 用户运行 Jenkins
     restart: unless-stopped
 
 

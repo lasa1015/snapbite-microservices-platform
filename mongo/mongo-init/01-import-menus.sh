@@ -6,4 +6,5 @@ mongoimport \
   --collection menus \
   --file /docker-entrypoint-initdb.d/menus.json \
   --jsonArray
+
 echo "=== menus.json imported ==="

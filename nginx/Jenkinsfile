@@ -41,7 +41,7 @@ pipeline {
 
         stage('Build Frontend') {
             steps {
-                // ✅ 进入 frontend 目录，安装依赖并构建前端，输出至 nginx/frontend-dist
+                //  进入 frontend 目录，安装依赖并构建前端，输出至 nginx/frontend-dist
                 dir('frontend') {
                     sh 'npm install'
                     sh 'npm run build'

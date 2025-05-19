@@ -11,6 +11,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 public class RestaurantServiceApplication {
 
+
 	public static void main(String[] args) {
 
 

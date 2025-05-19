@@ -2,22 +2,20 @@ services:
 
 
   snapbite-mongo:
-    image: snapbite-mongo
-    build: ../mongo
+    image: ${DOCKER_USERNAME}/snapbite-mongo:latest
     container_name: snapbite-mongo
     restart: always
     ports:
       - "27017:27017"
     volumes:
       # 把 本机上的 mongo-data 文件夹映射为 Mongo 容器内的数据库目录。
-      - ../mongo/mongo-data:/data/db
+      - ./data/mongo-data:/data/db
     networks:
       - snapbite-net
 
 
   snapbite-eureka:
-    image: snapbite-eureka
-    build: ../backend/eureka-server
+    image: ${DOCKER_USERNAME}/snapbite-eureka:latest
     container_name: snapbite-eureka
     ports:
       - "8761:8761"
@@ -26,13 +24,12 @@ services:
 
 
   snapbite-user-service:
-    image: snapbite-user-service
-    build: ../backend/user-service
+    image: ${DOCKER_USERNAME}/snapbite-user-service:latest
     container_name: snapbite-user-service
     ports:
       - "8081:8081"
     env_file:
-      - /user-service/.env.dev-docker
+      - user-service/.env.prod
     depends_on:
       - snapbite-mongo
       - snapbite-eureka
@@ -41,13 +38,12 @@ services:
 
 
   snapbite-restaurant-service:
-    image: snapbite-restaurant-service
-    build: ../backend/restaurant-service
+    image: ${DOCKER_USERNAME}/snapbite-restaurant-service:latest
     container_name: snapbite-restaurant-service
     ports:
       - "8082:8082"
     env_file:
-      - /restaurant-service/.env.dev-docker
+      - restaurant-service/.env.prod
     depends_on:
       - snapbite-mongo
       - snapbite-eureka
@@ -55,13 +51,12 @@ services:
       - snapbite-net
 
   snapbite-cart-service:
-    image: snapbite-cart-service
-    build: ../backend/cart-service
+    image: ${DOCKER_USERNAME}/snapbite-cart-service:latest
     container_name: snapbite-cart-service
     ports:
       - "8083:8083"
     env_file:
-      - /cart-service/.env.dev-docker
+      - cart-service/.env.prod
     depends_on:
       - snapbite-mongo
       - snapbite-restaurant-service
@@ -69,18 +64,15 @@ services:
       - snapbite-eureka
     networks:
       - snapbite-net
-    environment:
-      - LOGGING_LEVEL_ORG_SPRINGFRAMEWORK_SECURITY=DEBUG
 
 
   snapbite-order-service:
-    image: snapbite-order-service
-    build: ../backend/order-service
+    image: ${DOCKER_USERNAME}/snapbite-order-service:latest
     container_name: snapbite-order-service
     ports:
       - "8084:8084"
     env_file:
-      - /order-service/.env.dev-docker
+      - order-service/.env.prod
     depends_on:
       - snapbite-mongo
       - snapbite-cart-service
@@ -90,28 +82,24 @@ services:
       - snapbite-net
 
 
-
   snapbite-gateway:
-    image: snapbite-gateway
-    build: ../gateway
+    image: ${DOCKER_USERNAME}/snapbite-gateway:latest
     container_name: snapbite-gateway
     ports:
       - "8080:8080"
     env_file:
-      - /gateway/.env.dev-docker
+      - gateway/.env.prod
     depends_on:
-      - snapbite-eureka
       - snapbite-user-service
       - snapbite-restaurant-service
       - snapbite-cart-service
       - snapbite-order-service
+      - snapbite-eureka
     networks:
       - snapbite-net
 
-
   snapbite-nginx:
-    image: snapbite-nginx
-    build: ../nginx
+    image: ${DOCKER_USERNAME}/snapbite-nginx:latest
     container_name: snapbite-nginx
     ports:
       - "80:80"  # 把宿主机的 80 映射给 nginx 容器
@@ -125,27 +113,25 @@ services:
     container_name: snapbite-rabbitmq
     ports:
       - "5672:5672"     # 主通信端口（服务用）
-      - "15672:15672"   # 管理后台（你访问 http://localhost:15672）
+      - "15672:15672"   # RabbitMQ 管理页面
     env_file:
-      - ./rabbitmq/.env.dev-docker
+      - rabbitmq/.env.prod
     volumes:
-      - ../rabbitmq-data:/var/lib/rabbitmq
+      - ./data/rabbitmq-data:/var/lib/rabbitmq
     networks:
       - snapbite-net
 
   snapbite-notification-service:
-    image: snapbite-notification-service
-    build: ../backend/notification-service
+    image: ${DOCKER_USERNAME}/snapbite-notification-service:latest
     container_name: snapbite-notification-service
     env_file:
-      - ./notification-service/.env.dev-docker
+      - notification-service/.env.prod
     ports:
-      - "8085:8085"  # 暴露端口
+      - "8085:8085"
     depends_on:
       - snapbite-rabbitmq
     networks:
       - snapbite-net
-
 
 
 networks:
