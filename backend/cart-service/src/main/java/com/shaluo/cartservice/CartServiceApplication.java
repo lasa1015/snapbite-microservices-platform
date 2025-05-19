@@ -12,7 +12,10 @@ public class CartServiceApplication {
 	public static void main(String[] args) {
 
 		// 检查系统环境变量DB_HOST 是否存在
+		// System.getenv("DB_HOST") 会返回当前 操作系统级别的环境变量，不管你是不是在用 Docker。
+		// 如果刚好本地windows有这个环境变量，会导致判定出问题。但是一般来说不会有。
 		if (System.getenv("DB_HOST") == null) {
+
 
 			// 如果系统变量DB_HOST没有，说明是本地开发，需要手动加载 .env 文件
 			// 如果存在，是生产环境，依靠docker compose up文件注入

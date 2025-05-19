@@ -9,6 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 @SpringBootApplication
 public class UserServiceApplication {
 
+
 	public static void main(String[] args) {
 
 		// 检查系统环境变量DB_HOST 是否存在

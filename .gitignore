@@ -1,3 +1,9 @@
+
+regcred-secret.yaml
+
+/deployment/k8s/k0s-node-init/worker-token.txt
+
+
 project_notes/
 docs/ui_design/references
 docs/ui_design/
@@ -16,18 +22,6 @@ nginx/frontend-dist/
 .env.dev-docker
 .env.prod
 .deploy.env
-
-
-# 忽略 rabbitmq-data 中所有文件
-rabbitmq-data/*
-# 但保留 .gitkeep 文件
-!rabbitmq-data/.gitkeep
-
-
-# 忽略 mongo 数据目录中所有内容
-mongo/mongo-data/*
-# 但保留 .gitkeep 文件
-!mongo/mongo-data/.gitkeep
 
 
 
@@ -85,10 +79,9 @@ backend/*.env
 
 # ========== Docker / DB 数据卷 ==========
 
-mongo/mongo-data/
-docker/postgres-data/
-docker/db-data/
-docker/redis-data/
+deployment/docker/postgres-data/
+deployment/docker/db-data/
+deployment/docker/redis-data/
 
 # 不提交 Docker 构建中间产物
 **/*.pid
@@ -96,3 +89,10 @@ docker/redis-data/
 **/*.jar
 **/docker-compose.override.yml
 /docs/restaurant_category_map.json
+
+/ runtime-data/mongo-data/
+/ runtime-data/rabbitmq-data/
+!/ runtime-data/rabbitmq-data/.gitkeep
+!/ runtime-data/mongo-data/.gitkeep
+/deployment/k8s/
+/mongo/mongo-data/

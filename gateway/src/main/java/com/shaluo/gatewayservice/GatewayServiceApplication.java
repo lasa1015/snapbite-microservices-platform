@@ -9,6 +9,7 @@ public class GatewayServiceApplication {
 
 	public static void main(String[] args) {
 
+
 		if (System.getenv("EUREKA_CLIENT_SERVICEURL_DEFAULTZONE") == null) {
 
 			Dotenv dotenv = Dotenv.configure()

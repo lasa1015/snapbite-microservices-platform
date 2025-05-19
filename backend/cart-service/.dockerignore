@@ -1,3 +1,7 @@
 target/
 .env*
 .iml
+Jenkinsfile
+.mvn/
+mvnw
+mvnw.cmd
